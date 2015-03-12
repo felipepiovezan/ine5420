@@ -7,7 +7,7 @@ OBJ=GObject.o Point.o
 	$(CC) -c $< -I $(INCLUDES) $(CFLAGS)
 
 all: $(OBJ)
-	$(CC) $(OBJ) src/main.cpp -o cg -I $(INCLUDES) $(CFLAGS)
+	$(CC) $(OBJ) src/*.cpp -o cg -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`
 
 test:
 	echo "Nothing yet to do"

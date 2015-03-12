@@ -1,11 +1,10 @@
-#include <iostream>
-#include "GObject.h"
+#include "MainWindow.h"
+//#include "GObject.h"
 
 int main(int argc, char **argv) {
-  GObject test;
-  test.name = "Carlos Bonetti";
-  std::cout << test.name << " " << test.test() << std::endl;
-  std::cout << "Call Qt or GTK+ here! Yet to decide..." << std::endl;
+  Glib::RefPtr<Gtk::Application> app = Gtk::Application::create(argc, argv,
+      "org.gtkmm.examples.base");
 
-  return 0;
+  MainWindow window;
+  return app->run(window);
 }
