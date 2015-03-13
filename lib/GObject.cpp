@@ -1,5 +1,13 @@
 #include "GObject.h"
 
-int GObject::test() {
-  return 1;
+namespace CG {
+
+  GObject::GObject() {
+
+  }
+
+  void GObject::addPoint(Point p) {
+    points.push_back(p);
+  }
+
 }
