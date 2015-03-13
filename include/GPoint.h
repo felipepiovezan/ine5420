@@ -8,7 +8,7 @@ namespace CG {
 
   class GPoint : public CG::GObject {
   public:
-    GPoint(std::string name, int x, int y);
+    GPoint(int x, int y);
   };
 
 }

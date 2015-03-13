@@ -8,7 +8,7 @@ namespace CG {
 
   class GLine : public CG::GObject {
   public:
-    GLine(std::string name, int x1, int y1, int x2, int y2);
+    GLine(int x1, int y1, int x2, int y2);
   };
 
 }

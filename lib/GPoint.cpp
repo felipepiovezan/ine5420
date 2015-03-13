@@ -2,8 +2,7 @@
 
 namespace CG {
 
-  GPoint::GPoint(std::string name, int x, int y) {
-    this->name = name;
+  GPoint::GPoint(int x, int y) {
     addPoint(Point(x, y));
   }
 

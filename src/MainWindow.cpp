@@ -12,8 +12,8 @@ MainWindow::MainWindow() {
   CG::Window window(-5, -5, 5, 5);
   CG::DisplayFile displayFile;
 
-  CG::GPoint p1("P1", 3, 2);
-  CG::GLine line1("Line1", -2, -4, 5, 3);
+  CG::GPoint p1(3, 2);
+  CG::GLine line1(-2, -4, 5, 3);
   displayFile.add("P1", p1);
   displayFile.add("Line1", line1);
 

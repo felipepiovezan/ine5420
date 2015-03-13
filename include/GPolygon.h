@@ -8,7 +8,6 @@ namespace CG {
 
   class GPolygon : public CG::GObject {
   public:
-    GPolygon(std::string name);
   };
 
 }
