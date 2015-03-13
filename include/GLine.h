@@ -1,5 +1,5 @@
-#ifndef GLINE_H_
-#define GLINE_H_
+#ifndef CG_GLINE_H_
+#define CG_GLINE_H_
 
 #include <string>
 #include "GObject.h"

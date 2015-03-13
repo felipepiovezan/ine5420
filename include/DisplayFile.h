@@ -1,5 +1,5 @@
-#ifndef DISPLAY_FILE_H_
-#define DISPLAY_FILE_H_
+#ifndef CG_DISPLAY_FILE_H_
+#define CG_DISPLAY_FILE_H_
 
 #include <map>
 #include <string>

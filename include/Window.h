@@ -1,5 +1,5 @@
-#ifndef WINDOW_H_
-#define WINDOW_H_
+#ifndef CG_WINDOW_H_
+#define CG_WINDOW_H_
 
 namespace CG {
 

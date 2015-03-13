@@ -1,5 +1,5 @@
-#ifndef GPOLYGON_H_
-#define GPOLYGON_H_
+#ifndef CG_GPOLYGON_H_
+#define CG_GPOLYGON_H_
 
 #include <string>
 #include "GObject.h"

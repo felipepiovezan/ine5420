@@ -1,5 +1,5 @@
-#ifndef GPOINT_H_
-#define GPOINT_H_
+#ifndef CG_GPOINT_H_
+#define CG_GPOINT_H_
 
 #include <string>
 #include "GObject.h"
