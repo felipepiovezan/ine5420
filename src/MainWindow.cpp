@@ -2,8 +2,7 @@
 #include "Window.h"
 #include "DisplayFile.h"
 
-#include "GPoint.h"
-#include "GLine.h"
+#include "geometrics.h"
 
 MainWindow::MainWindow() {
   set_default_size(600, 480);
