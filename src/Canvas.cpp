@@ -1,6 +1,8 @@
 #include "Canvas.h"
 #include <cairomm/context.h>
 
+Canvas::Canvas(CG::Window *window, CG::DisplayFile *dfile) {}
+
 bool Canvas::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
   Gtk::Allocation allocation = get_allocation();
   const int width = allocation.get_width();

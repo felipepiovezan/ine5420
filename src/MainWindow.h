@@ -4,6 +4,7 @@
 class MainWindow : public Gtk::Window {
 public:
   MainWindow();
+  ~MainWindow();
 
-  Canvas canvas;
+  Canvas *canvas;
 };
