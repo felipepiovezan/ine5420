@@ -9,10 +9,20 @@ namespace CG {
 
   class DisplayFile {
   public:
-    void add(std::string name, GObject object);
+    void add(std::string name, GObject *object);
+
+    typedef std::map<std::string, GObject *>::iterator Iterator;
+
+    Iterator begin() {
+      return objects.begin();
+    }
+
+    Iterator end() {
+      return objects.end();
+    }
 
   protected:
-    std::map<std::string, GObject> objects;
+    std::map<std::string, GObject *> objects;
   };
 
 }

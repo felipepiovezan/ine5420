@@ -2,7 +2,7 @@
 
 namespace CG {
 
-  void DisplayFile::add(std::string name, GObject object) {
+  void DisplayFile::add(std::string name, GObject *object) {
     objects[name] = object;
   }
 
