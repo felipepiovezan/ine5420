@@ -1,8 +1,6 @@
 #ifndef CG_POINT_H_
 #define CG_POINT_H_
 
-#include "GObject.h"
-
 namespace CG {
 
   class Point {
