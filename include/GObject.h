@@ -2,7 +2,7 @@
 #define CG_GOBJECT_H_
 
 #include <vector>
-#include "Point.h"
+#include "Coordinate.h"
 
 namespace CG {
 
@@ -11,20 +11,20 @@ namespace CG {
    */
   class GObject {
   public:
-    void addPoint(Point p);
+    void addCoordinate(Coordinate p);
 
-    typedef std::vector<Point>::iterator PointIterator;
+    typedef std::vector<Coordinate>::iterator CoordinateIterator;
 
-    PointIterator begin() {
-      return points.begin();
+    CoordinateIterator begin() {
+      return coordinates.begin();
     }
 
-    PointIterator end() {
-      return points.end();
+    CoordinateIterator end() {
+      return coordinates.end();
     }
 
   protected:
-    std::vector<Point> points;
+    std::vector<Coordinate> coordinates;
   };
 
 }

@@ -1,7 +1,7 @@
 CC=g++
 INCLUDES=include/
 CFLAGS=-Wall
-OBJ=GObject.o Point.o GPoint.o GLine.o GPolygon.o Window.o DisplayFile.o
+OBJ=GObject.o Coordinate.o GPoint.o GLine.o GPolygon.o Window.o DisplayFile.o
 
 %.o: lib/%.cpp
 	$(CC) -c $< -I $(INCLUDES) $(CFLAGS)

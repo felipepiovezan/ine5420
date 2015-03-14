@@ -52,7 +52,7 @@ void Canvas::drawObject(CG::GObject *obj, const Cairo::RefPtr<Cairo::Context>& c
   // TODO: viewport transform
   // TODO: Point not visible
 
-  CG::GObject::PointIterator it = obj->begin();
+  CG::GObject::CoordinateIterator it = obj->begin();
   ctx->move_to(it->x, it->y);
 
   for(it = obj->begin(); it != obj->end(); it++) {

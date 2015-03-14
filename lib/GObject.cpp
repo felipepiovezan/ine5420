@@ -2,8 +2,8 @@
 
 namespace CG {
 
-  void GObject::addPoint(Point p) {
-    points.push_back(p);
+  void GObject::addCoordinate(Coordinate c) {
+    coordinates.push_back(c);
   }
 
 }

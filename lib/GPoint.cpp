@@ -3,7 +3,7 @@
 namespace CG {
 
   GPoint::GPoint(int x, int y) {
-    addPoint(Point(x, y));
+    addCoordinate(Coordinate(x, y));
   }
 
 }
