@@ -2,7 +2,7 @@
 
 namespace CG {
 
-  Window::Window(int xmin, int ymin, int xmax, int ymax)
+  Window::Window(float xmin, float ymin, float xmax, float ymax)
     : xmin(xmin), ymin(ymin), xmax(xmax), ymax(ymax) {
 
   }

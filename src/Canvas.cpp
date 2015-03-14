@@ -53,11 +53,23 @@ void Canvas::drawObject(CG::GObject *obj, const Cairo::RefPtr<Cairo::Context>& c
   // TODO: Point not visible
 
   CG::GObject::CoordinateIterator it = obj->begin();
-  ctx->move_to(it->x, it->y);
+  ctx->move_to(transformX(it->x), transformY(it->y));
 
   for(it = obj->begin(); it != obj->end(); it++) {
-    ctx->line_to(it->x, it->y);
+    ctx->line_to(transformX(it->x), transformY(it->y));
   }
 
   ctx->stroke();
+}
+
+int Canvas::transformX(int x) {
+  Gtk::Allocation allocation = get_allocation();
+  const int width = allocation.get_width();
+  return width * (x - window->xmin) / (window->xmax - window->xmin);
+}
+
+int Canvas::transformY(int y) {
+  Gtk::Allocation allocation = get_allocation();
+  const int height = allocation.get_height();
+  return height * (1 - ((y - window->ymin) / (window->ymax - window->ymin)));
 }

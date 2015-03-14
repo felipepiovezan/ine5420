@@ -5,8 +5,8 @@ namespace CG {
 
   class Window {
   public:
-    Window(int, int, int, int);
-    int xmin, ymin, xmax, ymax;
+    Window(float, float, float, float);
+    float xmin, ymin, xmax, ymax;
   };
 
 }
