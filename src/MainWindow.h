@@ -1,10 +1,10 @@
 #include <gtkmm.h>
-#include "Canvas.h"
+#include "Viewport.h"
 
 class MainWindow : public Gtk::Window {
 public:
   MainWindow();
   ~MainWindow();
 
-  Canvas *canvas;
+  Viewport *viewport;
 };

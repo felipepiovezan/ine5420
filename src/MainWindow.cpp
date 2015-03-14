@@ -19,12 +19,12 @@ MainWindow::MainWindow() {
   displayFile->add("Line1", line1);
   displayFile->add("Line2", line2);
 
-  canvas = new Canvas(window, displayFile);
+  viewport = new Viewport(window, displayFile);
 
-  add(*canvas);
-  canvas->show();
+  add(*viewport);
+  viewport->show();
 }
 
 MainWindow::~MainWindow() {
-  delete canvas;
+  delete viewport;
 }

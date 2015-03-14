@@ -3,10 +3,10 @@
 #include "DisplayFile.h"
 #include "Coordinate.h"
 
-class Canvas : public Gtk::DrawingArea {
+class Viewport : public Gtk::DrawingArea {
 public:
-  Canvas(CG::Window *window, CG::DisplayFile *dfile);
-  ~Canvas();
+  Viewport(CG::Window *window, CG::DisplayFile *dfile);
+  ~Viewport();
 
 protected:
   virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& ctx);
