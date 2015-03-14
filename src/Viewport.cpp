@@ -3,72 +3,42 @@
 #include <map>
 #include <iostream>
 
-Viewport::Viewport(CG::Window *window, CG::DisplayFile *dfile)
-  : window(window), displayFile(dfile) {}
-
-  Viewport::~Viewport() {
-  delete window;
-  delete displayFile;
-}
+Viewport::Viewport(CG::Window window, CG::DisplayFile dfile)
+  : _window(window), _displayFile(dfile) {}
 
 bool Viewport::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
-  Gtk::Allocation allocation = get_allocation();
-  const int width = allocation.get_width();
-  const int height = allocation.get_height();
-
-  // coordinates for the center of the window
-  int xc, yc;
-  xc = width / 2;
-  yc = height / 2;
-
-  ctx->set_line_width(0.5);
-
-  // Drawing x axis TODO: send axis to the real world (it should move with the window)
-  ctx->set_source_rgb(1, 0, 0);
-  ctx->move_to(0, yc);
-  ctx->line_to(width, yc);
-  ctx->stroke();
-
-  // Drawing y axis TODO: send axis to the real world (it should move with the window)
-  ctx->set_source_rgb(0, 1, 0);
-  ctx->move_to(xc, 0);
-  ctx->line_to(xc, height);
-  ctx->stroke();
-
-  ctx->set_source_rgb(0, 0, 0);
-  ctx->set_line_width(5);
-
-  for(CG::DisplayFile::Iterator it = displayFile->begin(); it != displayFile->end(); it++) {
-    drawObject(it->second, ctx);
-  }
-
-  return true;
+	for(const auto &it : displayFile().objects()){
+		drawObject(it.second, ctx);
+	}
+	return true;
 }
 
-void Viewport::drawObject(CG::GObject *obj, const Cairo::RefPtr<Cairo::Context>& ctx) {
-  if (obj->begin() == obj->end())
+void Viewport::drawObject(const CG::GObject &obj, const Cairo::RefPtr<Cairo::Context>& ctx) {
+  if (obj.numPoints() == 0)
     return;
 
-  // TODO: Point not visible
+  const CG::GObject::Coordinates& coordinates = obj.coordinates();
 
-  CG::GObject::CoordinateIterator it = obj->begin();
-  ctx->move_to(transformX(it->x), transformY(it->y));
+  const CG::Coordinate& firstCoord = coordinates[0];
+  ctx->move_to(transformX(firstCoord.x), transformY(firstCoord.y));
 
-  for(it = obj->begin(); it != obj->end(); it++) {
-    ctx->line_to(transformX(it->x), transformY(it->y));
+  for(const auto &it : coordinates) {
+    ctx->line_to(transformX(it.x), transformY(it.y));
   }
 
   ctx->stroke();
 }
 
+
+//Transforms the coordinates of the World into a coordinate of the visible area.
 int Viewport::transformX(int x) {
-  Gtk::Allocation allocation = get_allocation();
-  const int width = allocation.get_width();
-  return width * (x - window->xmin) / (window->xmax - window->xmin);
+	Gtk::Allocation allocation = get_allocation();
+	int width = allocation.get_height();
+	return width * (x - _window.xmin) / (_window.xmax - _window.xmin);
 }
 
 int Viewport::transformY(int y) {
   Gtk::Allocation allocation = get_allocation();
   const int height = allocation.get_height();
-  return height * (1 - ((y - window->ymin) / (window->ymax - window->ymin)));
+  return height * (1 - ((y - _window.ymin) / (_window.ymax - _window.ymin)));
 }

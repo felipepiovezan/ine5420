@@ -2,30 +2,55 @@
 #define CG_GOBJECT_H_
 
 #include <vector>
-#include "Coordinate.h"
+
+/*	CONTENTS:
+ *	1- Coordinate
+ *	2- GObject (general class)
+ *	3- GPoint
+ *	4- GLine
+ *	5- GPolygon
+ */
+
 
 namespace CG {
 
-  /**
-   * Geometrical Object
-   */
-  class GObject {
-  public:
-    void addCoordinate(Coordinate p);
+	class Coordinate {
+		public:
+			Coordinate(int x, int y) : x(x), y(y) {}
+			int x, y;
+	};
+  
+	class GObject {
+		public:
+			typedef std::vector<Coordinate> Coordinates;
 
-    typedef std::vector<Coordinate>::iterator CoordinateIterator;
+			void addCoordinate(int x, int y) {_coordinates.emplace_back(x,y);}
+			void addCoordinate(const Coordinate& p) {_coordinates.push_back(p);}
+			void addCoordinate(Coordinate&& p) {_coordinates.push_back(p);}
+			int numPoints() const {return _coordinates.size();}
 
-    CoordinateIterator begin() {
-      return coordinates.begin();
-    }
+			const Coordinates& coordinates() const {return _coordinates;}
+		private:
+			Coordinates _coordinates;
+	};
 
-    CoordinateIterator end() {
-      return coordinates.end();
-    }
+	class GPoint : public CG::GObject {
+		public:
+			GPoint(int x, int y) {addCoordinate(x,y);}
+			GPoint(const Coordinate& p) {addCoordinate(p);}
+			GPoint(Coordinate&& p) {addCoordinate(p);}
+	};
 
-  protected:
-    std::vector<Coordinate> coordinates;
-  };
+	class GLine : public CG::GObject {
+		public:
+			GLine(int x1, int y1, int x2, int y2) {addCoordinate(x1,y1); addCoordinate(x2,y2);}
+			GLine(const Coordinate& p1, const Coordinate& p2) {addCoordinate(p1); addCoordinate(p2);}
+			GLine(Coordinate&& p1, Coordinate&& p2) {addCoordinate(p1); addCoordinate(p2);}
+	};
+
+	class GPolygon : public CG::GObject {
+		public:
+	};
 
 }
 

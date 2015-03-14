@@ -4,9 +4,11 @@
 namespace CG {
 
   class Window {
-  public:
-    Window(float, float, float, float);
-    float xmin, ymin, xmax, ymax;
+	  public:
+		  Window(float, float, float, float);
+		  Window() = default;
+
+		  float xmin, ymin, xmax, ymax;
   };
 
 }

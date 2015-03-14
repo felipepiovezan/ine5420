@@ -7,22 +7,16 @@
 
 namespace CG {
 
-  class DisplayFile {
-  public:
-    void add(std::string name, GObject *object);
+	class DisplayFile {
+		private:
+			typedef std::map<std::string, GObject> mapGObjects;
+			mapGObjects _objects;
+		
+		public:
+			void add(std::string name, GObject object);
 
-    typedef std::map<std::string, GObject *>::iterator Iterator;
-
-    Iterator begin() {
-      return objects.begin();
-    }
-
-    Iterator end() {
-      return objects.end();
-    }
-
-  protected:
-    std::map<std::string, GObject *> objects;
+			//getter
+			const mapGObjects& objects() const{ return _objects;}
   };
 
 }
