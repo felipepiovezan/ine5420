@@ -3,17 +3,19 @@
 
 #include <gtkmm.h>
 #include "Viewport.h"
+#include "Toolbox.h"
 
 class MainWindow : public Gtk::Window {
 	private:
+		Gtk::Box _mainBox;
 		Viewport _viewport;
-	
+		Toolbox _toolbox;
+
 	public:
 		MainWindow();
 
 	private:
 		//init functions
-		void init_buttons_and_sliders();
 		void init_viewport();
 
 		//signal handlers
