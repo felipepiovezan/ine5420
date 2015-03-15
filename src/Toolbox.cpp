@@ -2,9 +2,10 @@
 
 #define TOOLBOX_SPACING 5
 
-Toolbox::Toolbox() : Gtk::Box(Gtk::ORIENTATION_VERTICAL, TOOLBOX_SPACING) {
+Toolbox::Toolbox() :
+  Gtk::Box(Gtk::ORIENTATION_VERTICAL, TOOLBOX_SPACING) {
   init_create_widgets();
-  init_zoom_widgets();
+  init_control_widgets();
   init_object_list_widgets();
 }
 
@@ -37,16 +38,27 @@ void Toolbox::init_create_widgets() {
   _createFrame.show();
 }
 
-void Toolbox::init_zoom_widgets() {
-  // Adjustment: value, lower, upper, step_incr, page_incr, page_size
-  _zoomScale.set_adjustment(Gtk::Adjustment::create(1, 0.1, 10, 0.1, 0, 0));
-  _zoomFrame.set_label("Zoom");
+void Toolbox::init_control_widgets() {
+  _controlFrame.set_label("Controls");
+  _zoomInBtn.set_label("Zoom In");
+  _zoomOutBtn.set_label("Zoom Out");
 
-  pack_start(_zoomFrame, Gtk::PACK_SHRINK);
-  _zoomFrame.add(_zoomScale);
+  pack_start(_controlFrame, Gtk::PACK_SHRINK);
+  _controlFrame.add(_controlBox);
+  _controlBox.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  _controlBox.set_spacing(TOOLBOX_SPACING);
+  _controlBox.set_border_width(TOOLBOX_SPACING);
 
-  _zoomScale.show();
-  _zoomFrame.show();
+  _controlBox.pack_start(_zoomInBtn, Gtk::PACK_EXPAND_WIDGET);
+  _controlBox.pack_start(_zoomOutBtn, Gtk::PACK_EXPAND_WIDGET);
+
+  _zoomInBtn.signal_clicked().connect(sigc::mem_fun(*this, &Toolbox::on_zoomIn_clicked));
+  _zoomOutBtn.signal_clicked().connect(sigc::mem_fun(*this, &Toolbox::on_zoomOut_clicked));
+
+  _controlFrame.show();
+  _controlBox.show();
+  _zoomInBtn.show();
+  _zoomOutBtn.show();
 }
 
 void Toolbox::init_object_list_widgets() {
@@ -91,4 +103,12 @@ void Toolbox::on_newLine_clicked() {
 
 void Toolbox::on_newPolygon_clicked() {
   std::cout << "new polygon" << std::endl;
+}
+
+void Toolbox::on_zoomIn_clicked() {
+  std::cout << "zoom in" << std::endl;
+}
+
+void Toolbox::on_zoomOut_clicked() {
+  std::cout << "zoom out" << std::endl;
 }

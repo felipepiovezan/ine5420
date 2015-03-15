@@ -14,7 +14,7 @@ MainWindow::MainWindow() {
   _mainBox.show();
 
   _mainBox.pack_start(_toolbox, Gtk::PACK_SHRINK);
-  _toolbox.set_size_request(200,0);
+  _toolbox.set_size_request(200, 0);
   _mainBox.pack_end(_viewport, Gtk::PACK_EXPAND_WIDGET);
   _viewport.set_size_request(550, 550);
 
@@ -34,11 +34,4 @@ void MainWindow::init_viewport(){
   displayFile.add("Line1", CG::GLine(-20, -4, 5, 3));
   displayFile.add("Line2", CG::GLine(-5, 5, 5, -5));
   _viewport.displayFile(displayFile);
-}
-
-//TODO: essa funcao recebe algum sinal da GUI quando o zoom slider mudar
-void MainWindow::on_Zoom_Changed(){
-	float f = 2; //pegar o float do zoom slider aqui
-	_viewport.setWindowZoom(f);
-	//redraw everything
 }
