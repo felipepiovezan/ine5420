@@ -2,6 +2,7 @@
 #define CG_GOBJECT_H_
 
 #include <vector>
+#include "Transformations.h"
 
 /*	CONTENTS:
  *	1- Coordinate
@@ -17,38 +18,43 @@ namespace CG {
 	class Coordinate {
 		public:
 			Coordinate(int x, int y) : x(x), y(y) {}
-			int x, y;
+
+			void applyTransformation(const Transformation& t);
+
+			int x, y, z = 1;
 	};
   
 	class GObject {
 		public:
 			typedef std::vector<Coordinate> Coordinates;
 
+			int numPoints() const {return _coordinates.size();}
+			const Coordinates& coordinates() const {return _coordinates;}
+
+			void applyTransformation(const Transformation& t);
+		protected:
 			void addCoordinate(int x, int y) {_coordinates.emplace_back(x,y);}
 			void addCoordinate(const Coordinate& p) {_coordinates.push_back(p);}
 			void addCoordinate(Coordinate&& p) {_coordinates.push_back(p);}
-			int numPoints() const {return _coordinates.size();}
-
-			const Coordinates& coordinates() const {return _coordinates;}
 		private:
 			Coordinates _coordinates;
 	};
 
-	class GPoint : public CG::GObject {
+	class GPoint : public GObject {
 		public:
 			GPoint(int x, int y) {addCoordinate(x,y);}
 			GPoint(const Coordinate& p) {addCoordinate(p);}
 			GPoint(Coordinate&& p) {addCoordinate(p);}
 	};
 
-	class GLine : public CG::GObject {
+	class GLine : public GObject {
 		public:
 			GLine(int x1, int y1, int x2, int y2) {addCoordinate(x1,y1); addCoordinate(x2,y2);}
 			GLine(const Coordinate& p1, const Coordinate& p2) {addCoordinate(p1); addCoordinate(p2);}
 			GLine(Coordinate&& p1, Coordinate&& p2) {addCoordinate(p1); addCoordinate(p2);}
 	};
 
-	class GPolygon : public CG::GObject {
+	class GPolygon : public GObject {
 		public:
 	};
 
