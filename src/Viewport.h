@@ -1,3 +1,6 @@
+#ifndef __VIEWPORT
+#define __VIEWPORT
+
 #include <gtkmm/drawingarea.h>
 #include "Window.h"
 #include "DisplayFile.h"
@@ -18,7 +21,12 @@ class Viewport : public Gtk::DrawingArea {
 		//constructors
 		Viewport() = default;
 		Viewport(CG::Window window, CG::DisplayFile dfile);
-		
+	
+		//Window methods
+		void setWindowZoom(float factor) {_window.scaleFactor(factor);}
+		void setWindowDx(float dx) {_window.dx(dx);}
+		void setWindowDy(float dy) {_window.dy(dy);}
+
 		//getters
 		const CG::Window& window() const {return _window;}
 		const CG::DisplayFile& displayFile() const {return _displayFile;}
@@ -27,3 +35,5 @@ class Viewport : public Gtk::DrawingArea {
 		void window(const CG::Window& newWindow){ _window = newWindow;}
 		void displayFile(const CG::DisplayFile& newDisplayFile){ _displayFile = newDisplayFile;}
 };
+
+#endif
