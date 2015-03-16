@@ -37,20 +37,40 @@ void Toolbox::init_control_widgets() {
   _controlFrame.set_label("Controls");
   _zoomInBtn.set_label("Zoom In");
   _zoomOutBtn.set_label("Zoom Out");
+  _leftBtn.set_label("Left");
+  _rightBtn.set_label("Right");
+  _downBtn.set_label("Down");
+  _upBtn.set_label("Up");
 
   pack_start(_controlFrame, Gtk::PACK_SHRINK);
   _controlFrame.add(_controlBox);
-  _controlBox.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  _controlBox.set_orientation(Gtk::ORIENTATION_VERTICAL);
   _controlBox.set_spacing(TOOLBOX_SPACING);
   _controlBox.set_border_width(TOOLBOX_SPACING);
 
-  _controlBox.pack_start(_zoomInBtn, Gtk::PACK_EXPAND_WIDGET);
-  _controlBox.pack_start(_zoomOutBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox1.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  _cBox2.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  _controlBox.pack_start(_cBox1, Gtk::PACK_SHRINK);
+  _controlBox.pack_start(_cBox2, Gtk::PACK_SHRINK);
+
+  _cBox1.pack_start(_zoomInBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox1.pack_start(_zoomOutBtn, Gtk::PACK_EXPAND_WIDGET);
+
+  _cBox2.pack_start(_leftBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox2.pack_start(_downBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox2.pack_start(_upBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox2.pack_start(_rightBtn, Gtk::PACK_EXPAND_WIDGET);
 
   _controlFrame.show();
   _controlBox.show();
+  _cBox1.show();
+  _cBox2.show();
   _zoomInBtn.show();
   _zoomOutBtn.show();
+  _leftBtn.show();
+  _rightBtn.show();
+  _downBtn.show();
+  _upBtn.show();
 }
 
 void Toolbox::init_object_list_widgets() {

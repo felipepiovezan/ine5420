@@ -25,10 +25,12 @@ class Viewport : public Gtk::DrawingArea {
 		void redraw() { queue_draw(); }
 
 		//Window methods
-		void zoomIn();
-		void zoomOut();
-		void setWindowDx(float dx) {_window.dx(dx);}
-		void setWindowDy(float dy) {_window.dy(dy);}
+		void zoomIn()  { _window.zoom(1.0);  redraw(); }
+		void zoomOut() { _window.zoom(-1.0); redraw(); }
+		void left()    { _window.dx(-1); redraw(); }
+		void right()   { _window.dx(1);  redraw(); }
+		void up()      { _window.dy(1);  redraw(); }
+		void down()    { _window.dy(-1); redraw(); }
 
 		//getters
 		const CG::Window& window() const {return _window;}

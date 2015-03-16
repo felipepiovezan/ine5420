@@ -20,8 +20,8 @@ class Toolbox : public Gtk::Box {
 
     // Control widgets
     Gtk::Frame _controlFrame;
-    Gtk::Box _controlBox;
-    Gtk::Button _zoomInBtn, _zoomOutBtn;
+    Gtk::Box _controlBox, _cBox1, _cBox2;
+    Gtk::Button _zoomInBtn, _zoomOutBtn, _leftBtn, _downBtn, _upBtn, _rightBtn;
 
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {

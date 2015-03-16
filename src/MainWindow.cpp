@@ -44,6 +44,10 @@ void MainWindow::init_handlers() {
 
   _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_zoomIn));
   _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_zoomOut));
+  _toolbox._leftBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_left));
+  _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_right));
+  _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_up));
+  _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_down));
 }
 
 // TODO: remove after tests
@@ -59,12 +63,4 @@ void MainWindow::on_newLine() {
 
 void MainWindow::on_newPolygon() {
   std::cout << "new polygon" << std::endl;
-}
-
-void MainWindow::on_zoomIn() {
-  _viewport.zoomIn();
-}
-
-void MainWindow::on_zoomOut() {
-  _viewport.zoomOut();
 }

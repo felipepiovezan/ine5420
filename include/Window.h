@@ -8,20 +8,17 @@ namespace CG {
 		  Window(float, float, float, float);
 		  Window() = default;
 
-		  float xmin() { return (_xmin + _dx); }
-		  float ymin() { return (_ymin + _dy); }
-		  float xmax() { return (_xmax + _dx); }
-		  float ymax() { return (_ymax + _dy); }
+		  float xmin() { return _xmin; }
+		  float ymin() { return _ymin; }
+		  float xmax() { return _xmax; }
+		  float ymax() { return _ymax; }
 
-		  void dx(float d) {_dx = d;}
-		  void dy(float d) {_dy = d;}
-
+		  void dx(float d) { _xmin += d; _xmax += d; }
+		  void dy(float d) { _ymin += d; _ymax += d; }
       void zoom(float step);
 
 	  private:
 		  float _xmin, _ymin, _xmax, _ymax;
-		  float _scaleFactor = 1;
-		  float _dx = 0, _dy = 0;
   };
 
 }
