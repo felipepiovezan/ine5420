@@ -26,11 +26,6 @@ void Toolbox::init_create_widgets() {
   _createBox.pack_start(_newLine, Gtk::PACK_EXPAND_WIDGET);
   _createBox.pack_start(_newPolygon, Gtk::PACK_EXPAND_WIDGET);
 
-  // Event handlers
-  _newPoint.signal_clicked().connect(sigc::mem_fun(*this, &Toolbox::on_newPoint_clicked));
-  _newLine.signal_clicked().connect(sigc::mem_fun(*this, &Toolbox::on_newLine_clicked));
-  _newPolygon.signal_clicked().connect(sigc::mem_fun(*this, &Toolbox::on_newPolygon_clicked));
-
   _createBox.show();
   _newPoint.show();
   _newLine.show();
@@ -51,9 +46,6 @@ void Toolbox::init_control_widgets() {
 
   _controlBox.pack_start(_zoomInBtn, Gtk::PACK_EXPAND_WIDGET);
   _controlBox.pack_start(_zoomOutBtn, Gtk::PACK_EXPAND_WIDGET);
-
-  _zoomInBtn.signal_clicked().connect(sigc::mem_fun(*this, &Toolbox::on_zoomIn_clicked));
-  _zoomOutBtn.signal_clicked().connect(sigc::mem_fun(*this, &Toolbox::on_zoomOut_clicked));
 
   _controlFrame.show();
   _controlBox.show();
@@ -88,27 +80,4 @@ void Toolbox::init_object_list_widgets() {
   _objectsFrame.add(_objectsTree);
   _objectsTree.show();
   _objectsFrame.show();
-}
-
-// TODO: remove after tests
-#include <iostream>
-
-void Toolbox::on_newPoint_clicked() {
-  std::cout << "new point" << std::endl;
-}
-
-void Toolbox::on_newLine_clicked() {
-  std::cout << "new line" << std::endl;
-}
-
-void Toolbox::on_newPolygon_clicked() {
-  std::cout << "new polygon" << std::endl;
-}
-
-void Toolbox::on_zoomIn_clicked() {
-  std::cout << "zoom in" << std::endl;
-}
-
-void Toolbox::on_zoomOut_clicked() {
-  std::cout << "zoom out" << std::endl;
 }

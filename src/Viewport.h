@@ -13,17 +13,20 @@ class Viewport : public Gtk::DrawingArea {
 
 		int transformX(int x);
 		int transformY(int y);
-		
+
 		CG::Window _window;
 		CG::DisplayFile _displayFile;
-	
+
 	public:
 		//constructors
 		Viewport() = default;
 		Viewport(CG::Window window, CG::DisplayFile dfile);
-	
+
+		void redraw() { queue_draw(); }
+
 		//Window methods
-		void setWindowZoom(float factor) {_window.scaleFactor(factor);}
+		void zoomIn();
+		void zoomOut();
 		void setWindowDx(float dx) {_window.dx(dx);}
 		void setWindowDy(float dy) {_window.dy(dy);}
 

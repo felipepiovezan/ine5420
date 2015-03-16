@@ -8,14 +8,15 @@ namespace CG {
 		  Window(float, float, float, float);
 		  Window() = default;
 
-		  void scaleFactor(float factor = 1) { _scaleFactor = factor;}
+		  float xmin() { return (_xmin + _dx); }
+		  float ymin() { return (_ymin + _dy); }
+		  float xmax() { return (_xmax + _dx); }
+		  float ymax() { return (_ymax + _dy); }
+
 		  void dx(float d) {_dx = d;}
 		  void dy(float d) {_dy = d;}
 
-		  float xmin(){return (_xmin + _dx) * _scaleFactor;}
-		  float ymin(){return (_ymin + _dy) * _scaleFactor;}
-		  float xmax(){return (_xmax + _dx) * _scaleFactor;}
-		  float ymax(){return (_ymax + _dy) * _scaleFactor;}
+      void zoom(float step);
 
 	  private:
 		  float _xmin, _ymin, _xmax, _ymax;

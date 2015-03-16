@@ -42,3 +42,13 @@ int Viewport::transformY(int y) {
   const int height = allocation.get_height();
   return height * (1 - ((y - _window.ymin()) / (_window.ymax() - _window.ymin())));
 }
+
+void Viewport::zoomIn() {
+  _window.zoom(1.0);
+  redraw();
+}
+
+void Viewport::zoomOut() {
+  _window.zoom(-1.0);
+  redraw();
+}

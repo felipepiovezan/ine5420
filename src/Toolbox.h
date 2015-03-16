@@ -5,22 +5,13 @@
 #include "Viewport.h"
 
 class Toolbox : public Gtk::Box {
-  public:
-    Toolbox();
-    
   protected:
-    Viewport _viewport;
-
     void init_create_widgets();
     void init_control_widgets();
     void init_object_list_widgets();
 
-    // Event handlers
-    void on_newPoint_clicked();
-    void on_newLine_clicked();
-    void on_newPolygon_clicked();
-    void on_zoomIn_clicked();
-    void on_zoomOut_clicked();
+  public:
+    Toolbox();
 
     // Create widgets
     Gtk::Frame _createFrame;

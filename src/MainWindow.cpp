@@ -4,6 +4,7 @@
 
 MainWindow::MainWindow() {
   init_viewport();
+  init_handlers();
 
   // Layouting
   set_title("Computer Graphics Interative System");
@@ -22,7 +23,7 @@ MainWindow::MainWindow() {
   _viewport.show();
 }
 
-void MainWindow::init_viewport(){
+void MainWindow::init_viewport() {
   CG::Window window(-10, -10, 10, 10);
   _viewport.window(window);
 
@@ -34,4 +35,36 @@ void MainWindow::init_viewport(){
   displayFile.add("Line1", CG::GLine(-20, -4, 5, 3));
   displayFile.add("Line2", CG::GLine(-5, 5, 5, -5));
   _viewport.displayFile(displayFile);
+}
+
+void MainWindow::init_handlers() {
+  _toolbox._newPoint.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPoint));
+  _toolbox._newLine.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newLine));
+  _toolbox._newPolygon.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPolygon));
+
+  _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_zoomIn));
+  _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_zoomOut));
+}
+
+// TODO: remove after tests
+#include <iostream>
+
+void MainWindow::on_newPoint() {
+  std::cout << "new point" << std::endl;
+}
+
+void MainWindow::on_newLine() {
+  std::cout << "new line" << std::endl;
+}
+
+void MainWindow::on_newPolygon() {
+  std::cout << "new polygon" << std::endl;
+}
+
+void MainWindow::on_zoomIn() {
+  _viewport.zoomIn();
+}
+
+void MainWindow::on_zoomOut() {
+  _viewport.zoomOut();
 }

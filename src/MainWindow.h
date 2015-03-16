@@ -14,12 +14,16 @@ class MainWindow : public Gtk::Window {
 	public:
 		MainWindow();
 
-	private:
-		//init functions
+	protected:
 		void init_viewport();
+		void init_handlers();
 
-		//signal handlers
-		void on_Zoom_Changed();
+    // Event handlers
+    void on_newPoint();
+    void on_newLine();
+    void on_newPolygon();
+    void on_zoomIn();
+    void on_zoomOut();
 };
 
 #endif

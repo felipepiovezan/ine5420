@@ -7,4 +7,16 @@ namespace CG {
 
   }
 
+  void Window::zoom(float step) {
+    if (_xmin + step >= _xmax - step || _ymin + step >= _ymax - step) {
+      // Maximum zoom reached
+      return;
+    }
+
+    _xmin += step;
+    _ymin += step;
+    _xmax -= step;
+    _ymax -= step;
+  }
+
 }
