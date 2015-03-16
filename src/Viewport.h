@@ -39,6 +39,8 @@ class Viewport : public Gtk::DrawingArea {
 		//setters
 		void window(const CG::Window& newWindow){ _window = newWindow;}
 		void displayFile(const CG::DisplayFile& newDisplayFile){ _displayFile = newDisplayFile;}
+
+		void addObject(std::string name, CG::GObject& object) { _displayFile.add(name, object); }
 };
 
 #endif

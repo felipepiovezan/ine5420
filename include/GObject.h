@@ -18,11 +18,11 @@ namespace CG {
 
 	class Coordinate {
 		public:
-			Coordinate(int x, int y) : x(x), y(y) {}
+			Coordinate(float x, float y) : x(x), y(y) {}
 
 			void applyTransformation(const Transformation& t);
 
-			int x, y, z = 1;
+			float x, y, z = 1;
 	};
 
 	class GObject {

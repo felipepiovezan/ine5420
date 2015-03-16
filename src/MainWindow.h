@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 #include "Viewport.h"
 #include "Toolbox.h"
+#include "dialogs.h"
 
 class MainWindow : public Gtk::Window {
 	private:
@@ -13,6 +14,7 @@ class MainWindow : public Gtk::Window {
 
 	public:
 		MainWindow();
+		void createPoint(CG::Coordinate c, std::string name);
 
 	protected:
 		void init_viewport();

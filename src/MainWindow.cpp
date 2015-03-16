@@ -2,6 +2,8 @@
 #include "Window.h"
 #include "DisplayFile.h"
 
+using namespace std::placeholders;
+
 MainWindow::MainWindow() {
   init_viewport();
   init_handlers();
@@ -31,6 +33,7 @@ void MainWindow::init_viewport() {
   CG::DisplayFile displayFile;
   displayFile.add("P1",	CG::GPoint(3, 2));
   displayFile.add("P2",	CG::GPoint(2, 2));
+  displayFile.add("P3",	CG::GPoint(1, 2));
   displayFile.add("Xaxis", CG::GLine(-1000, 0, 1000, 0));
   displayFile.add("Yaxis", CG::GLine(0, -1000, 0, 1000));
   displayFile.add("Line1", CG::GLine(-20, -4, 5, 3));
@@ -51,17 +54,19 @@ void MainWindow::init_handlers() {
   _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_down));
 }
 
-// TODO: remove after tests
-#include <iostream>
-
 void MainWindow::on_newPoint() {
-  std::cout << "new point" << std::endl;
+  PointDialog pointDialog(std::bind(&MainWindow::createPoint, this, _1, _2));
+  pointDialog.run();
 }
 
 void MainWindow::on_newLine() {
-  std::cout << "new line" << std::endl;
 }
 
 void MainWindow::on_newPolygon() {
-  std::cout << "new polygon" << std::endl;
+}
+
+void MainWindow::createPoint(CG::Coordinate c, std::string name) {
+  CG::GPoint point(c);
+  _viewport.addObject(name, point);
+  _toolbox.refreshObjectList(_viewport.displayFile());  
 }
