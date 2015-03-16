@@ -2,6 +2,7 @@
 #define CG_GOBJECT_H_
 
 #include <vector>
+#include <string>
 #include "Transformations.h"
 
 /*	CONTENTS:
@@ -23,7 +24,7 @@ namespace CG {
 
 			int x, y, z = 1;
 	};
-  
+
 	class GObject {
 		public:
 			typedef std::vector<Coordinate> Coordinates;

@@ -101,3 +101,14 @@ void Toolbox::init_object_list_widgets() {
   _objectsTree.show();
   _objectsFrame.show();
 }
+
+void Toolbox::refreshObjectList(const CG::DisplayFile& dfile) {
+  _refObjectsTreeModel->clear();
+
+  Gtk::TreeModel::Row row;
+  for(const auto &it : dfile.objects()){
+    row = *(_refObjectsTreeModel->append());
+		row[_objectsModelColumns.colName] = it.first;
+		row[_objectsModelColumns.colType] = "TODO";
+	}
+}

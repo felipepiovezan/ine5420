@@ -11,7 +11,7 @@ namespace CG {
 		private:
 			typedef std::map<std::string, GObject> mapGObjects;
 			mapGObjects _objects;
-		
+
 		public:
 			void add(std::string name, GObject object);
 

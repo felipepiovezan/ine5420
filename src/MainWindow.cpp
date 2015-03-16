@@ -5,6 +5,7 @@
 MainWindow::MainWindow() {
   init_viewport();
   init_handlers();
+  _toolbox.refreshObjectList(_viewport.displayFile());
 
   // Layouting
   set_title("Computer Graphics Interative System");

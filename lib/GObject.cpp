@@ -8,7 +8,7 @@ namespace CG {
 		this->y = x*m[0][1] + y*m[1][1] + z*m[2][1];
 		this->z = x*m[0][2] + y*m[1][2] + z*m[2][2];
 	}
-	
+
 	void GObject::applyTransformation(const Transformation& t){
 		for(auto &p : _coordinates){
 			p.applyTransformation(t);

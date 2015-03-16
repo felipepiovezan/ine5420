@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 #include "Viewport.h"
+#include "DisplayFile.h"
 
 class Toolbox : public Gtk::Box {
   protected:
@@ -12,6 +13,7 @@ class Toolbox : public Gtk::Box {
 
   public:
     Toolbox();
+    void refreshObjectList(const CG::DisplayFile& dfile);
 
     // Create widgets
     Gtk::Frame _createFrame;
