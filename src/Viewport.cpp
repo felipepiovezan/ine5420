@@ -18,9 +18,16 @@ void Viewport::drawObject(const CG::GObject &obj, const Cairo::RefPtr<Cairo::Con
     return;
 
   const CG::GObject::Coordinates& coordinates = obj.coordinates();
-
   const CG::Coordinate& firstCoord = coordinates[0];
+
   ctx->move_to(transformX(firstCoord.x), transformY(firstCoord.y));
+
+  if (obj.numPoints() == 1) {
+    ctx->arc(transformX(firstCoord.x), transformY(firstCoord.y), 1.0, 0.0, 2.0 * M_PI);
+    ctx->fill_preserve();
+    ctx->stroke();
+    return;
+  }
 
   for(const auto &it : coordinates) {
     ctx->line_to(transformX(it.x), transformY(it.y));
