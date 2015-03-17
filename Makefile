@@ -1,7 +1,7 @@
 CC=g++
 INCLUDES=include/
 CFLAGS=-Wall
-OBJ=GObject.o Window.o DisplayFile.o
+OBJ=GObject.o Window.o DisplayFile.o Transformations.o
 
 %.o: lib/%.cpp
 	$(CC) -std=c++11 -c $< -I $(INCLUDES) $(CFLAGS)

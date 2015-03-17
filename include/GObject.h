@@ -37,6 +37,7 @@ namespace CG {
 			void addCoordinate(int x, int y) {_coordinates.emplace_back(x,y);}
 			void addCoordinate(const Coordinate& p) {_coordinates.push_back(p);}
 			void addCoordinate(Coordinate&& p) {_coordinates.push_back(p);}
+			void addCoordinate(const Coordinates& coords){_coordinates.insert(_coordinates.end(), coords.begin(), coords.end());}
 		private:
 			Coordinates _coordinates;
 	};
@@ -57,6 +58,7 @@ namespace CG {
 
 	class GPolygon : public GObject {
 		public:
+			GPolygon(const Coordinates& coords) {addCoordinate(coords);}
 	};
 
 }
