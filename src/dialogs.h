@@ -45,13 +45,15 @@ class PointDialog : public Gtk::Dialog {
 /**
  * Dialog window to request a coordinate and the point name
  */
-class NamedPointDialog : public PointDialog {
+class NamedPointDialog : public Gtk::Dialog {
   public:
     NamedPointDialog();
     std::string getName() { return nameBox.getName(); }
+    CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
 
   protected:
     ObjectNameBox nameBox;
+    CoordinateBox coordBox;
 };
 
 /**
