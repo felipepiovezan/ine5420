@@ -33,6 +33,10 @@ void Viewport::drawObject(const CG::GObject &obj, const Cairo::RefPtr<Cairo::Con
     ctx->line_to(transformX(it.x), transformY(it.y));
   }
 
+  // If object is a polygon, connect the last point with the first one
+  if (obj.numPoints() > 2)
+    ctx->line_to(transformX(firstCoord.x), transformY(firstCoord.y));
+
   ctx->stroke();
 }
 
