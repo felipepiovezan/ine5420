@@ -109,6 +109,6 @@ void Toolbox::refreshObjectList(const CG::DisplayFile& dfile) {
   for(const auto &it : dfile.objects()){
     row = *(_refObjectsTreeModel->append());
 		row[_objectsModelColumns.colName] = it.first;
-		row[_objectsModelColumns.colType] = "TODO";
+		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];
 	}
 }

@@ -15,4 +15,6 @@ namespace CG {
 			p.applyTransformation(t);
 		}
 	}
+
+	const std::string GObject::TypeNames[] = {"Object", "Point", "Line", "Polygon"};
 }
