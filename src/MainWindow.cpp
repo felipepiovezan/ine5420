@@ -33,7 +33,11 @@ void MainWindow::init_viewport() {
   CG::DisplayFile displayFile;
   displayFile.add("P1",	CG::GPoint(3, 2));
   displayFile.add("P2",	CG::GPoint(2, 2));
-  displayFile.add("P3",	CG::GPoint(1, 2));
+  CG::GObject::Coordinates coords;
+  coords.push_back(CG::Coordinate(5, -4));
+  coords.push_back(CG::Coordinate(3, -1));
+  coords.push_back(CG::Coordinate(6, 3));
+  displayFile.add("Quadrado",	CG::GPolygon(coords));
   displayFile.add("Xaxis", CG::GLine(-1000, 0, 1000, 0));
   displayFile.add("Yaxis", CG::GLine(0, -1000, 0, 1000));
   displayFile.add("Line1", CG::GLine(-20, -4, 5, 3));
@@ -55,18 +59,40 @@ void MainWindow::init_handlers() {
 }
 
 void MainWindow::on_newPoint() {
-  PointDialog pointDialog(std::bind(&MainWindow::createPoint, this, _1, _2));
-  pointDialog.run();
+  NamedPointDialog pointDialog;
+  if (pointDialog.run() == Gtk::RESPONSE_OK) {
+    createPoint(pointDialog.getName(), pointDialog.getCoordinate());
+  }
 }
 
 void MainWindow::on_newLine() {
+  LineDialog lineDialog;
+  if (lineDialog.run() == Gtk::RESPONSE_OK) {
+    createLine(lineDialog.getName(), lineDialog.getCoordinate1(), lineDialog.getCoordinate2());
+  }
 }
 
 void MainWindow::on_newPolygon() {
+  PolygonDialog polygonDialog;
+  if (polygonDialog.run() == Gtk::RESPONSE_OK) {
+    createPolygon(polygonDialog.getName(), polygonDialog.getCoordinates());
+  }
 }
 
-void MainWindow::createPoint(CG::Coordinate c, std::string name) {
+void MainWindow::createPoint(std::string name, CG::Coordinate c) {
   CG::GPoint point(c);
   _viewport.addObject(name, point);
-  _toolbox.refreshObjectList(_viewport.displayFile());  
+  _toolbox.refreshObjectList(_viewport.displayFile());
+}
+
+void MainWindow::createLine(std::string name, CG::Coordinate c1, CG::Coordinate c2) {
+  CG::GLine line(c1, c2);
+  _viewport.addObject(name, line);
+  _toolbox.refreshObjectList(_viewport.displayFile());
+}
+
+void MainWindow::createPolygon(std::string name, CG::GObject::Coordinates coordinates) {
+  CG::GPolygon polygon(coordinates);
+  _viewport.addObject(name, polygon);
+  _toolbox.refreshObjectList(_viewport.displayFile());
 }

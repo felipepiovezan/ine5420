@@ -2,6 +2,11 @@
 
 #define SPACING 5
 
+using namespace std::placeholders;
+
+// ==========================================================
+// ObjectNameBox
+
 ObjectNameBox::ObjectNameBox() {
   set_orientation(Gtk::ORIENTATION_HORIZONTAL);
   set_spacing(SPACING);
@@ -16,6 +21,9 @@ ObjectNameBox::ObjectNameBox() {
 std::string ObjectNameBox::getName() {
   return name.get_text();
 }
+
+// ==========================================================
+// CoordinateBox
 
 CoordinateBox::CoordinateBox() {
   set_orientation(Gtk::ORIENTATION_HORIZONTAL);
@@ -49,14 +57,31 @@ CG::Coordinate CoordinateBox::getCoordinate() {
   return CG::Coordinate(x, y);
 }
 
-PointDialog::PointDialog(Callback callback) : callback(callback) {
+// ==========================================================
+// PointDialog
+
+PointDialog::PointDialog() {
   set_title("Point");
   set_border_width(10);
   get_vbox()->set_spacing(SPACING);
 
   add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
 	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-  signal_response().connect(sigc::mem_fun(*this, &PointDialog::on_response));
+
+  get_vbox()->pack_start(coordBox);
+  coordBox.show();
+}
+
+// ==========================================================
+// NamedPointDialog
+
+NamedPointDialog::NamedPointDialog() {
+  set_title("Point");
+  set_border_width(10);
+  get_vbox()->set_spacing(SPACING);
+
+  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
   get_vbox()->pack_start(nameBox);
   get_vbox()->pack_start(coordBox);
@@ -65,8 +90,65 @@ PointDialog::PointDialog(Callback callback) : callback(callback) {
   coordBox.show();
 }
 
-void PointDialog::on_response(int response) {
-  if(response == Gtk::RESPONSE_OK) {
-    callback(coordBox.getCoordinate(), nameBox.getName());
+// ==========================================================
+// LineDialog
+
+LineDialog::LineDialog() {
+  set_title("Line");
+  set_border_width(10);
+  get_vbox()->set_spacing(SPACING);
+
+  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+
+  get_vbox()->pack_start(nameBox);
+  get_vbox()->pack_start(coordBox1);
+  get_vbox()->pack_start(coordBox2);
+
+  nameBox.show();
+  coordBox1.show();
+  coordBox2.show();
+}
+
+// ==========================================================
+// PolygonDialog
+
+PolygonDialog::PolygonDialog() {
+  set_title("Polygon");
+  set_border_width(10);
+  get_vbox()->set_spacing(SPACING);
+
+  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+
+  addCoordBtn.set_label("Add coordinate");
+  addCoordBtn.signal_clicked().connect(sigc::mem_fun(*this, &PolygonDialog::on_addCord_clicked));
+
+  pointsModel = Gtk::ListStore::create(pointsColumns);
+	pointsTree.set_model(pointsModel);
+  pointsTree.append_column("x", pointsColumns.x);
+  pointsTree.append_column("y", pointsColumns.y);
+  pointsTree.set_size_request(0, 150);
+
+  get_vbox()->pack_start(nameBox);
+  get_vbox()->pack_start(pointsTree);
+  get_vbox()->pack_start(addCoordBtn);
+
+  addCoordBtn.show();
+  nameBox.show();
+  pointsTree.show();
+}
+
+void PolygonDialog::on_addCord_clicked() {
+  PointDialog pointDialog;
+  if (pointDialog.run() == Gtk::RESPONSE_OK) {
+    addCoordinate(pointDialog.getCoordinate());
   }
+}
+
+void PolygonDialog::addCoordinate(CG::Coordinate c) {
+  coordinates.push_back(c);
+  Gtk::TreeModel::Row row = *(pointsModel->append());
+	row[pointsColumns.x] = c.x;
+	row[pointsColumns.y] = c.y;
 }

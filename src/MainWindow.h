@@ -14,7 +14,9 @@ class MainWindow : public Gtk::Window {
 
 	public:
 		MainWindow();
-		void createPoint(CG::Coordinate c, std::string name);
+		void createPoint(std::string name, CG::Coordinate c);
+		void createLine(std::string name, CG::Coordinate c1, CG::Coordinate c2);
+		void createPolygon(std::string name, CG::GObject::Coordinates coordinates);
 
 	protected:
 		void init_viewport();
