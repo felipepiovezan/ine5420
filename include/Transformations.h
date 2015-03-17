@@ -2,7 +2,7 @@
 #define TRANSFORMATIONS__
 
 #include <array>
-#include <cmath>
+#include <ctgmath>
 
 namespace CG{
 	class Transformation{
@@ -20,6 +20,8 @@ namespace CG{
 			static Transformation newTranslation(float dx, float dy);
 			static Transformation newScaling(float sx, float sy);
 			static Transformation newRotation(float theta);
+
+			Transformation& operator*=(const Transformation& rhs);
 
 	};
 }

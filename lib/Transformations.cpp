@@ -18,15 +18,27 @@ namespace CG{
 	
 	Transformation Transformation::newRotation(float theta){
 		return Transformation
-			({{ {cos(theta), -sin(theta), 0},
-				{sin(theta), cos(theta) , 0},
+			({{ {cosf(theta), -sinf(theta), 0},
+				{sinf(theta), cosf(theta) , 0},
 				{0         , 0          , 1}}});
 	}
 
-	Transformation operator+(const Transformation& lhs, const Transformation& rhs){
-//		const auto &m1 = lhs.m();
-//		const auto &m2 = rhs.m();
-		return Transformation::newScaling(1,1);
+	Transformation& Transformation::operator*=(const Transformation& rhs){
+		auto m1 = this->_m;
+		const auto &m2 = rhs.m();
+		for(int i=0; i<3; i++)
+			for(int j=0; j<3; j++){
+				_m[i][j]=0;
+				for(int k=0; k<3; k++)
+					_m[i][j] += m1[i][k] * m2[k][j];
+			}
+
+		return *this;
+	}
+
+	Transformation operator*(Transformation lhs, const Transformation& rhs){
+		lhs *= rhs;
+		return lhs;
 	}
 
 }
