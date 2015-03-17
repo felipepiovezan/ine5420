@@ -21,6 +21,7 @@ class MainWindow : public Gtk::Window {
 	protected:
 		void init_viewport();
 		void init_handlers();
+		void init_leaf();
 
     // Event handlers
     void on_newPoint();
