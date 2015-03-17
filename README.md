@@ -1,4 +1,4 @@
-# ine5420
+# ine5420 - Computer Graphics
 
 * Carlos Bonetti
 * Felipe de Azevedo Piovezan
@@ -7,7 +7,9 @@
 
 # Compiling
 
-You need GTKmm in order to compile the GUI. Install it with:
+Use a compiler compatible with C++11.
+
+You also need GTKmm in order to compile the GUI. Install it with:
 
 ```
 $ apt-get install libgtkmm-3.0-dev
@@ -17,10 +19,4 @@ Compile with:
 
 ```
 $ make
-```
-
-# Testing
-
-```
-$ make test
 ```

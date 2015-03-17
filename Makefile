@@ -1,13 +1,13 @@
 CC=g++
 INCLUDES=include/
-CFLAGS=-Wall
+CFLAGS=-Wall -std=c++11
 OBJ=GObject.o Window.o DisplayFile.o Transformations.o
 
 %.o: lib/%.cpp
-	$(CC) -std=c++11 -c $< -I $(INCLUDES) $(CFLAGS)
+	$(CC) -c $< -I $(INCLUDES) $(CFLAGS)
 
 all: $(OBJ)
-	$(CC) -std=c++11 $(OBJ) src/*.cpp -o cg -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`
+	$(CC) $(OBJ) src/*.cpp -o cg -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`
 
 test:
 	echo "Nothing yet to do"

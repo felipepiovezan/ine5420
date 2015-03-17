@@ -29,19 +29,21 @@ MainWindow::MainWindow() {
 void MainWindow::init_viewport() {
   CG::Window window(-10, -10, 10, 10);
   _viewport.window(window);
-
   CG::DisplayFile displayFile;
-  displayFile.add("P1",	CG::GPoint(3, 2));
-  displayFile.add("P2",	CG::GPoint(2, 2));
+
+  // Initializing some examples
+  displayFile.add("Xaxis", CG::GLine(-1000, 0, 1000, 0));
+  displayFile.add("Yaxis", CG::GLine(0, -1000, 0, 1000));
+  displayFile.add("Example Point",	CG::GPoint(-3, 2));
+  displayFile.add("Example Line", CG::GLine(-10, -4, 5, 3));
   CG::GObject::Coordinates coords;
   coords.push_back(CG::Coordinate(5, -4));
   coords.push_back(CG::Coordinate(3, -1));
-  coords.push_back(CG::Coordinate(6, 3));
-  displayFile.add("Quadrado",	CG::GPolygon(coords));
-  displayFile.add("Xaxis", CG::GLine(-1000, 0, 1000, 0));
-  displayFile.add("Yaxis", CG::GLine(0, -1000, 0, 1000));
-  displayFile.add("Line1", CG::GLine(-20, -4, 5, 3));
-  displayFile.add("Line2", CG::GLine(-5, 5, 5, -5));
+  coords.push_back(CG::Coordinate(2, 4));
+  coords.push_back(CG::Coordinate(7, 5));
+  coords.push_back(CG::Coordinate(6, 2));
+  displayFile.add("Example Polygon",	CG::GPolygon(coords));
+  
   _viewport.displayFile(displayFile);
 }
 
