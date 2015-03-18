@@ -80,14 +80,6 @@ void Toolbox::init_object_list_widgets() {
   _objectsTree.append_column("Name", _objectsModelColumns.colName);
   _objectsTree.append_column("Type", _objectsModelColumns.colType);
 
-  // Filling with test. TODO: show objects from displayFile
-  Gtk::TreeModel::Row row = *(_refObjectsTreeModel->append());
-  row[_objectsModelColumns.colName] = "Line 1";
-  row[_objectsModelColumns.colType] = "Line";
-  row = *(_refObjectsTreeModel->append());
-  row[_objectsModelColumns.colName] = "P3";
-  row[_objectsModelColumns.colType] = "Point";
-
   //Make all the columns reorderable
   for(guint i = 0; i < 2; i++) {
     Gtk::TreeView::Column* pColumn = _objectsTree.get_column(i);
@@ -97,8 +89,14 @@ void Toolbox::init_object_list_widgets() {
   // Layouting
   pack_start(_objectsFrame, Gtk::PACK_EXPAND_WIDGET);
   _objectsFrame.set_label("Object List");
-  _objectsFrame.add(_objectsTree);
+  _objectsScroll.set_policy(Gtk::POLICY_AUTOMATIC,Gtk::POLICY_AUTOMATIC);
+  _objectsScroll.set_border_width(TOOLBOX_SPACING);
+
+  _objectsFrame.add(_objectsScroll);
+  _objectsScroll.add(_objectsTree);
+
   _objectsTree.show();
+  _objectsScroll.show();
   _objectsFrame.show();
 }
 

@@ -36,6 +36,7 @@ class Toolbox : public Gtk::Box {
         Gtk::TreeModelColumn<Glib::ustring> colType;
     };
     Gtk::Frame _objectsFrame;
+    Gtk::ScrolledWindow _objectsScroll;
     Gtk::TreeView _objectsTree;
     ObjectModelColumns _objectsModelColumns;
     Glib::RefPtr<Gtk::ListStore> _refObjectsTreeModel;
