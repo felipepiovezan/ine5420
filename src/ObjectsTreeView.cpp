@@ -109,5 +109,21 @@ void ObjectsTreeView::on_menu_popup_scale() {
 
 void ObjectsTreeView::on_menu_popup_rotate() {
   CG::GObject obj = getSelectedObject();
-  // TODO
+  CG::Coordinate objCenter = obj.center();
+  RotateDialog dialog(objCenter);
+
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+    float degrees = dialog.getRotation();
+    CG::Coordinate rotationCenter = dialog.getRotationCenter();
+
+    // Translate destination
+    CG::Coordinate d = objCenter - rotationCenter;
+
+    CG::Transformation transformation = CG::Transformation::newTranslation(d.x, d.y);
+    transformation *= CG::Transformation::newRotation(degrees);
+    transformation *= CG::Transformation::newTranslation(objCenter.x, objCenter.y);
+
+    obj.transform(transformation);
+    // TODO: repaint
+  }
 }

@@ -168,3 +168,87 @@ ScaleDialog::ScaleDialog() {
 
   coordBox.show();
 }
+// ==========================================================
+// ScaleDialog
+
+RotateDialog::RotateDialog(CG::Coordinate objCenter) : objCenter(objCenter) {
+  set_title("Rotate Object");
+  init_degree_widgets();
+  init_center_widgets();
+  on_obj_rb_clicked();
+}
+
+void RotateDialog::init_degree_widgets() {
+  degreesBox.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  degreesBox.set_spacing(5);
+  degreesLabel.set_label("Degrees: ");
+  get_vbox()->pack_start(degreesBox);
+
+  degreesBox.pack_start(degreesLabel, Gtk::PACK_SHRINK);
+  degreesBox.pack_start(degreesEntry, Gtk::PACK_EXPAND_WIDGET);
+
+  degreesLabel.show();
+  degreesEntry.show();
+  degreesBox.show();
+}
+
+void RotateDialog::init_center_widgets() {
+  centerBox.set_orientation(Gtk::ORIENTATION_VERTICAL);
+  centerBox.set_spacing(5);
+  centerBox.set_border_width(5);
+  frame.set_label("Rotation center");
+  get_vbox()->pack_start(frame);
+  frame.add(centerBox);
+
+  Gtk::RadioButton::Group group = objRB.get_group();
+  worldRB.set_group(group);
+  coordRB.set_group(group);
+  objRB.set_label("Object center");
+  worldRB.set_label("World center");
+  coordRB.set_label("Custom point");
+  objRB.signal_clicked().connect(sigc::mem_fun(*this, &RotateDialog::on_obj_rb_clicked));
+  worldRB.signal_clicked().connect(sigc::mem_fun(*this, &RotateDialog::on_world_rb_clicked));
+  coordRB.signal_clicked().connect(sigc::mem_fun(*this, &RotateDialog::on_coord_rb_clicked));
+
+  centerBox.pack_start(objRB);
+  centerBox.pack_start(worldRB);
+  centerBox.pack_start(coordRB);
+
+  centerCoordBox.labelX.set_label("cx");
+  centerCoordBox.labelY.set_label("cy");
+  centerBox.pack_start(centerCoordBox);
+
+  centerBox.show();
+  centerCoordBox.show();
+  frame.show();
+  objRB.show();;
+  worldRB.show();
+  coordRB.show();
+}
+
+float RotateDialog::getRotation() {
+  float rotation = 0;
+  std::stringstream buffer;
+
+  buffer << degreesEntry.get_text().raw();
+  buffer >> rotation;
+  buffer.clear();
+
+  return rotation;
+}
+
+void RotateDialog::on_obj_rb_clicked() {
+  centerCoordBox.entryX.set_text(std::to_string(objCenter.x));
+  centerCoordBox.entryY.set_text(std::to_string(objCenter.y));
+}
+
+void RotateDialog::on_world_rb_clicked() {
+  centerCoordBox.entryX.set_text("0");
+  centerCoordBox.entryY.set_text("0");
+}
+
+void RotateDialog::on_coord_rb_clicked() {
+  centerCoordBox.entryX.set_text("");
+  centerCoordBox.entryY.set_text("");
+  centerCoordBox.entryX.grab_focus();
+}

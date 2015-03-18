@@ -134,4 +134,34 @@ class ScaleDialog : public Dialog {
     CoordinateBox coordBox;
 };
 
+/**
+ * Dialog Window for Object Scaling
+ */
+class RotateDialog : public Dialog {
+  public:
+    RotateDialog(CG::Coordinate objCenter);
+    CG::Coordinate getRotationCenter() { return centerCoordBox.getCoordinate(); }
+    float getRotation();
+
+  protected:
+    void init_degree_widgets();
+    void init_center_widgets();
+
+    void on_obj_rb_clicked();
+    void on_world_rb_clicked();
+    void on_coord_rb_clicked();
+
+    CG::Coordinate objCenter;
+
+    Gtk::Box degreesBox;
+    Gtk::Label degreesLabel;
+    Gtk::Entry degreesEntry;
+
+    Gtk::Frame frame;
+    CoordinateBox centerCoordBox;
+    Gtk::Box centerBox;
+    Gtk::RadioButton objRB, worldRB, coordRB;
+};
+
+
 #endif
