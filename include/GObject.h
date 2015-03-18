@@ -21,7 +21,7 @@ namespace CG {
 		public:
 			Coordinate(float x, float y) : x(x), y(y) {}
 
-			void applyTransformation(const Transformation& t);
+			void transform(const Transformation& t);
 
 			float x, y, z = 1;
 	};
@@ -38,7 +38,7 @@ namespace CG {
 			int numPoints() const {return _coordinates.size();}
 			const Coordinates& coordinates() const {return _coordinates;}
 
-			void applyTransformation(const Transformation& t);
+			void transform(const Transformation& t);
 
 			Type type() const { return _type; }
 
