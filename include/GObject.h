@@ -24,6 +24,9 @@ namespace CG {
 			void transform(const Transformation& t);
 
 			float x, y, z = 1;
+
+			friend Coordinate operator+(const Coordinate &c1, const Coordinate &c2);
+			friend Coordinate operator-(const Coordinate &c1, const Coordinate &c2);
 	};
 
 	class GObject {

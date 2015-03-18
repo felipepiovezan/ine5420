@@ -10,6 +10,14 @@ namespace CG {
 		this->z = x*m[0][2] + y*m[1][2] + z*m[2][2];
 	}
 
+	Coordinate operator+(const Coordinate &c1, const Coordinate &c2) {
+		return Coordinate(c1.x + c2.x, c1.y + c2.y);
+	}
+
+	Coordinate operator-(const Coordinate &c1, const Coordinate &c2) {
+		return Coordinate(c1.x - c2.x, c1.y - c2.y);
+	}
+
 	Coordinate GObject::center() const {
 		Coordinate r(0, 0);
 		int n = numPoints();
