@@ -7,9 +7,9 @@
 
 namespace CG {
 
+	typedef std::map<std::string, GObject> mapGObjects;
 	class DisplayFile {
 		private:
-			typedef std::map<std::string, GObject> mapGObjects;
 			mapGObjects _objects;
 
 		public:
