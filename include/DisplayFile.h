@@ -17,6 +17,9 @@ namespace CG {
 
 			//getter
 			const mapGObjects& objects() const{ return _objects;}
+			mapGObjects::iterator findObject(const std::string& name) {return _objects.find(name);}
+			bool isValidIterator(const mapGObjects::iterator it) const {return it!= _objects.end();}
+
   };
 
 }
