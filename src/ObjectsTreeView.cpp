@@ -1,5 +1,7 @@
 #include "ObjectsTreeView.h"
 
+#include "dialogs.h"
+
 ObjectsTreeView::ObjectsTreeView() {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);
@@ -85,7 +87,13 @@ void ObjectsTreeView::on_menu_popup_remove() {
 
 void ObjectsTreeView::on_menu_popup_translate() {
   CG::GObject obj = getSelectedObject();
-  // TODO
+  TranslateDialog dialog;
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+    CG::Coordinate c = dialog.getCoordinate();
+    CG::Transformation transformation = CG::Transformation::newTranslation(c.x, c.y);
+    obj.transform(transformation);
+    // TODO: repaint
+  }
 }
 
 void ObjectsTreeView::on_menu_popup_scale() {

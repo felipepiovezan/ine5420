@@ -152,3 +152,22 @@ void PolygonDialog::addCoordinate(CG::Coordinate c) {
 	row[pointsColumns.x] = c.x;
 	row[pointsColumns.y] = c.y;
 }
+
+// ==========================================================
+// TranslateDialog
+
+TranslateDialog::TranslateDialog() {
+  set_title("Translate Object");
+  set_border_width(10);
+  get_vbox()->set_spacing(SPACING);
+
+  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+  add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+
+  get_vbox()->pack_start(coordBox);
+
+  coordBox.labelX.set_label("dx");
+  coordBox.labelY.set_label("dy");
+
+  coordBox.show();
+}

@@ -88,7 +88,7 @@ class PolygonDialog : public Gtk::Dialog {
     void on_addCord_clicked();
     void addCoordinate(CG::Coordinate c);
 
-    class PointsColumns : public Gtk::TreeModel::ColumnRecord{
+    class PointsColumns : public Gtk::TreeModel::ColumnRecord {
       public:
         PointsColumns() { add(x); add(y); }
 
@@ -100,6 +100,18 @@ class PolygonDialog : public Gtk::Dialog {
     Gtk::TreeView pointsTree;
     Glib::RefPtr<Gtk::ListStore> pointsModel;
     Gtk::Button addCoordBtn;
+};
+
+/**
+ * Dialog Window for Object Translation
+ */
+class TranslateDialog : public Gtk::Dialog {
+  public:
+    TranslateDialog();
+    CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
+
+  protected:
+    CoordinateBox coordBox;
 };
 
 #endif
