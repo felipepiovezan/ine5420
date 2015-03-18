@@ -10,6 +10,20 @@ namespace CG {
 		this->z = x*m[0][2] + y*m[1][2] + z*m[2][2];
 	}
 
+	Coordinate GObject::center() const {
+		Coordinate r(0, 0);
+		int n = numPoints();
+
+		for(auto &p : _coordinates){
+			r.x += p.x;
+			r.y += p.y;
+		}
+
+		r.x /= n;
+		r.y /= n;
+		return r;
+	}
+
 	void GObject::transform(const Transformation& t){
 		for(auto &p : _coordinates){
 			p.transform(t);

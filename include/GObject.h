@@ -34,13 +34,13 @@ namespace CG {
 			static const std::string TypeNames[];
 
 			GObject(Type type = OBJECT) : _type(type) {};
+			Type type() const { return _type; }
 
-			int numPoints() const {return _coordinates.size();}
 			const Coordinates& coordinates() const {return _coordinates;}
+			int numPoints() const {return _coordinates.size();}
+			Coordinate center() const;
 
 			void transform(const Transformation& t);
-
-			Type type() const { return _type; }
 
 		protected:
 			Type _type;
