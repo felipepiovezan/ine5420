@@ -1,15 +1,11 @@
 #include "dialogs.h"
 
-#define SPACING 5
-
-using namespace std::placeholders;
-
 // ==========================================================
 // ObjectNameBox
 
 ObjectNameBox::ObjectNameBox() {
   set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-  set_spacing(SPACING);
+  set_spacing(5);
 
   label.set_label("Object name");
   pack_start(label, Gtk::PACK_SHRINK);
@@ -27,7 +23,7 @@ std::string ObjectNameBox::getName() {
 
 CoordinateBox::CoordinateBox() {
   set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-  set_spacing(SPACING);
+  set_spacing(5);
 
   labelX.set_label("X");
   labelY.set_label("Y");
@@ -57,16 +53,23 @@ CG::Coordinate CoordinateBox::getCoordinate() {
   return CG::Coordinate(x, y);
 }
 
+
+// ==========================================================
+// Generic Dialog
+
+Dialog::Dialog() {
+  set_border_width(10);
+  get_vbox()->set_spacing(5);
+
+  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+  add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+}
+
 // ==========================================================
 // PointDialog
 
 PointDialog::PointDialog() {
   set_title("Point");
-  set_border_width(10);
-  get_vbox()->set_spacing(SPACING);
-
-  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
-	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
   get_vbox()->pack_start(coordBox);
   coordBox.show();
@@ -77,11 +80,6 @@ PointDialog::PointDialog() {
 
 NamedPointDialog::NamedPointDialog() {
   set_title("Point");
-  set_border_width(10);
-  get_vbox()->set_spacing(SPACING);
-
-  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
-	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
   get_vbox()->pack_start(nameBox);
   get_vbox()->pack_start(coordBox);
@@ -95,11 +93,6 @@ NamedPointDialog::NamedPointDialog() {
 
 LineDialog::LineDialog() {
   set_title("Line");
-  set_border_width(10);
-  get_vbox()->set_spacing(SPACING);
-
-  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
-	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
   get_vbox()->pack_start(nameBox);
   get_vbox()->pack_start(coordBox1);
@@ -115,11 +108,6 @@ LineDialog::LineDialog() {
 
 PolygonDialog::PolygonDialog() {
   set_title("Polygon");
-  set_border_width(10);
-  get_vbox()->set_spacing(SPACING);
-
-  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
-	add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
   addCoordBtn.set_label("Add coordinate");
   addCoordBtn.signal_clicked().connect(sigc::mem_fun(*this, &PolygonDialog::on_addCord_clicked));
@@ -158,11 +146,6 @@ void PolygonDialog::addCoordinate(CG::Coordinate c) {
 
 TranslateDialog::TranslateDialog() {
   set_title("Translate Object");
-  set_border_width(10);
-  get_vbox()->set_spacing(SPACING);
-
-  add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
-  add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
   get_vbox()->pack_start(coordBox);
 

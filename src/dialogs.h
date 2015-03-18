@@ -31,9 +31,17 @@ class CoordinateBox : public Gtk::Box {
 };
 
 /**
+ * Generic dialog to be extended by all application dialogs
+ */
+class Dialog : public Gtk::Dialog {
+  public:
+    Dialog();
+};
+
+/**
  * Dialog window to request a coordinate
  */
-class PointDialog : public Gtk::Dialog {
+class PointDialog : public Dialog {
   public:
     PointDialog();
     CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
@@ -45,7 +53,7 @@ class PointDialog : public Gtk::Dialog {
 /**
  * Dialog window to request a coordinate and the point name
  */
-class NamedPointDialog : public Gtk::Dialog {
+class NamedPointDialog : public Dialog {
   public:
     NamedPointDialog();
     std::string getName() { return nameBox.getName(); }
@@ -59,7 +67,7 @@ class NamedPointDialog : public Gtk::Dialog {
 /**
  * Dialog window to request data for a Line
  */
-class LineDialog : public Gtk::Dialog {
+class LineDialog : public Dialog {
   public:
     LineDialog();
 
@@ -75,7 +83,7 @@ class LineDialog : public Gtk::Dialog {
 /**
  * Dialog window to request data for a polygon
  */
-class PolygonDialog : public Gtk::Dialog {
+class PolygonDialog : public Dialog {
   public:
     PolygonDialog();
 
@@ -105,7 +113,7 @@ class PolygonDialog : public Gtk::Dialog {
 /**
  * Dialog Window for Object Translation
  */
-class TranslateDialog : public Gtk::Dialog {
+class TranslateDialog : public Dialog {
   public:
     TranslateDialog();
     CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
