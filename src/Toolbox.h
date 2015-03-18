@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 #include "Viewport.h"
 #include "DisplayFile.h"
+#include "ObjectsTreeView.h"
 
 class Toolbox : public Gtk::Box {
   protected:
@@ -13,7 +14,7 @@ class Toolbox : public Gtk::Box {
 
   public:
     Toolbox();
-    void refreshObjectList(const CG::DisplayFile& dfile);
+    void refreshObjectList(const CG::DisplayFile& dfile) { _objectsTreeView.refresh(dfile); }
 
     // Create widgets
     Gtk::Frame _createFrame;
@@ -25,21 +26,10 @@ class Toolbox : public Gtk::Box {
     Gtk::Box _controlBox, _cBox1, _cBox2;
     Gtk::Button _zoomInBtn, _zoomOutBtn, _leftBtn, _downBtn, _upBtn, _rightBtn;
 
-    // Objects list widgets
-    class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {
-      public:
-        ObjectModelColumns() {
-          add(colName);
-          add(colType);
-        }
-        Gtk::TreeModelColumn<Glib::ustring> colName;
-        Gtk::TreeModelColumn<Glib::ustring> colType;
-    };
+    // Object list widgets
     Gtk::Frame _objectsFrame;
     Gtk::ScrolledWindow _objectsScroll;
-    Gtk::TreeView _objectsTree;
-    ObjectModelColumns _objectsModelColumns;
-    Glib::RefPtr<Gtk::ListStore> _refObjectsTreeModel;
+    ObjectsTreeView _objectsTreeView;
 };
 
 #endif

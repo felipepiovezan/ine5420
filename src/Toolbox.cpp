@@ -74,18 +74,6 @@ void Toolbox::init_control_widgets() {
 }
 
 void Toolbox::init_object_list_widgets() {
-  _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
-  _objectsTree.set_model(_refObjectsTreeModel);
-
-  _objectsTree.append_column("Name", _objectsModelColumns.colName);
-  _objectsTree.append_column("Type", _objectsModelColumns.colType);
-
-  //Make all the columns reorderable
-  for(guint i = 0; i < 2; i++) {
-    Gtk::TreeView::Column* pColumn = _objectsTree.get_column(i);
-    pColumn->set_reorderable();
-  }
-
   // Layouting
   pack_start(_objectsFrame, Gtk::PACK_EXPAND_WIDGET);
   _objectsFrame.set_label("Object List");
@@ -93,20 +81,9 @@ void Toolbox::init_object_list_widgets() {
   _objectsScroll.set_border_width(TOOLBOX_SPACING);
 
   _objectsFrame.add(_objectsScroll);
-  _objectsScroll.add(_objectsTree);
+  _objectsScroll.add(_objectsTreeView);
 
-  _objectsTree.show();
+  _objectsTreeView.show();
   _objectsScroll.show();
   _objectsFrame.show();
-}
-
-void Toolbox::refreshObjectList(const CG::DisplayFile& dfile) {
-  _refObjectsTreeModel->clear();
-
-  Gtk::TreeModel::Row row;
-  for(const auto &it : dfile.objects()){
-    row = *(_refObjectsTreeModel->append());
-		row[_objectsModelColumns.colName] = it.first;
-		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];
-	}
 }
