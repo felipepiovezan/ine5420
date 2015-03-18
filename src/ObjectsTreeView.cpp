@@ -98,7 +98,13 @@ void ObjectsTreeView::on_menu_popup_translate() {
 
 void ObjectsTreeView::on_menu_popup_scale() {
   CG::GObject obj = getSelectedObject();
-  // TODO
+  ScaleDialog dialog;
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+    CG::Coordinate c = dialog.getCoordinate();
+    CG::Transformation transformation = CG::Transformation::newScaling(c.x, c.y);
+    obj.transform(transformation);
+    // TODO: repaint
+  }
 }
 
 void ObjectsTreeView::on_menu_popup_rotate() {

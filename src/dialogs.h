@@ -122,4 +122,16 @@ class TranslateDialog : public Dialog {
     CoordinateBox coordBox;
 };
 
+/**
+ * Dialog Window for Object Scaling
+ */
+class ScaleDialog : public Dialog {
+  public:
+    ScaleDialog();
+    CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
+
+  protected:
+    CoordinateBox coordBox;
+};
+
 #endif

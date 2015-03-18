@@ -154,3 +154,17 @@ TranslateDialog::TranslateDialog() {
 
   coordBox.show();
 }
+
+// ==========================================================
+// ScaleDialog
+
+ScaleDialog::ScaleDialog() {
+  set_title("Scale Object");
+
+  get_vbox()->pack_start(coordBox);
+
+  coordBox.labelX.set_label("sx");
+  coordBox.labelY.set_label("sy");
+
+  coordBox.show();
+}
