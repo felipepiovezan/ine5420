@@ -7,13 +7,13 @@
 #include "Transformations.h"
 
 /*	CONTENTS:
- *	1- Coordinate
+ *	0- Coordinate
+ *	1- Color
  *	2- GObject (general class)
  *	3- GPoint
  *	4- GLine
  *	5- GPolygon
  */
-
 
 namespace CG {
 	class Transformation;
@@ -27,6 +27,13 @@ namespace CG {
 
 			friend Coordinate operator+(const Coordinate &c1, const Coordinate &c2);
 			friend Coordinate operator-(const Coordinate &c1, const Coordinate &c2);
+	};
+
+	class Color {
+		public:
+			Color() : r(0), g(0), b(0) {}
+			Color(double r, double g, double b) : r(r), g(g), b(b) {}
+			double r, g, b;
 	};
 
 	class GObject {
@@ -44,6 +51,8 @@ namespace CG {
 			Coordinate center() const;
 
 			void transform(const Transformation& t);
+
+			Color color;
 
 		protected:
 			Type _type;

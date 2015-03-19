@@ -34,17 +34,29 @@ MainWindow::MainWindow() :
 }
 
 void MainWindow::init_examples() {
-  _displayFile.add("Xaxis", CG::GLine(-1000, 0, 1000, 0));
-  _displayFile.add("Yaxis", CG::GLine(0, -1000, 0, 1000));
+  CG::GLine x(-1000, 0, 1000, 0);
+  x.color = CG::Color(1, 0, 0);
+  _displayFile.add("Xaxis", x);
+
+  CG::GLine y(0, -1000, 0, 1000);
+  y.color = CG::Color(0, 1, 0);
+  _displayFile.add("Yaxis", y);
+
   _displayFile.add("Example Point",	CG::GPoint(-3, 2));
-  _displayFile.add("Example Line", CG::GLine(-10, -4, 5, 3));
+
+  CG::GLine line(-10, -4, 5, 3);
+  line.color = CG::Color(0.6, 0.745, 0.1);
+  _displayFile.add("Example Line", line);
+
   CG::GObject::Coordinates coords;
   coords.push_back(CG::Coordinate(5, -4));
   coords.push_back(CG::Coordinate(3, -1));
   coords.push_back(CG::Coordinate(2, 4));
   coords.push_back(CG::Coordinate(7, 5));
   coords.push_back(CG::Coordinate(6, 2));
-  _displayFile.add("Example Polygon",	CG::GPolygon(coords));
+  CG::GPolygon polygon(coords);
+  polygon.color = CG::Color(0.6, 0.5, 0.9);
+  _displayFile.add("Example Polygon",	polygon);
 
   init_leaf();
 }
@@ -65,38 +77,41 @@ void MainWindow::init_handlers() {
 void MainWindow::on_newPoint() {
   NamedPointDialog pointDialog;
   if (pointDialog.run() == Gtk::RESPONSE_OK) {
-    createPoint(pointDialog.getName(), pointDialog.getCoordinate());
+    createPoint(pointDialog.getName(), pointDialog.getColor(), pointDialog.getCoordinate());
   }
 }
 
 void MainWindow::on_newLine() {
   LineDialog lineDialog;
   if (lineDialog.run() == Gtk::RESPONSE_OK) {
-    createLine(lineDialog.getName(), lineDialog.getCoordinate1(), lineDialog.getCoordinate2());
+    createLine(lineDialog.getName(), lineDialog.getColor(), lineDialog.getCoordinate1(), lineDialog.getCoordinate2());
   }
 }
 
 void MainWindow::on_newPolygon() {
   PolygonDialog polygonDialog;
   if (polygonDialog.run() == Gtk::RESPONSE_OK) {
-    createPolygon(polygonDialog.getName(), polygonDialog.getCoordinates());
+    createPolygon(polygonDialog.getName(), polygonDialog.getColor(), polygonDialog.getCoordinates());
   }
 }
 
-void MainWindow::createPoint(std::string name, CG::Coordinate c) {
+void MainWindow::createPoint(std::string name, CG::Color color, CG::Coordinate c) {
   CG::GPoint point(c);
+  point.color = color;
   _viewport.addObject(name, point);
   _toolbox.refreshObjectList();
 }
 
-void MainWindow::createLine(std::string name, CG::Coordinate c1, CG::Coordinate c2) {
+void MainWindow::createLine(std::string name, CG::Color color, CG::Coordinate c1, CG::Coordinate c2) {
   CG::GLine line(c1, c2);
+  line.color = color;
   _viewport.addObject(name, line);
   _toolbox.refreshObjectList();
 }
 
-void MainWindow::createPolygon(std::string name, CG::GObject::Coordinates coordinates) {
+void MainWindow::createPolygon(std::string name, CG::Color color, CG::GObject::Coordinates coordinates) {
   CG::GPolygon polygon(coordinates);
+  polygon.color = color;
   _viewport.addObject(name, polygon);
   _toolbox.refreshObjectList();
 }

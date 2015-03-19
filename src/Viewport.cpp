@@ -16,6 +16,8 @@ void Viewport::drawObject(const CG::GObject &obj, const Cairo::RefPtr<Cairo::Con
   if (obj.numPoints() == 0)
     return;
 
+  ctx->set_source_rgb(obj.color.r, obj.color.g, obj.color.b);
+
   const CG::GObject::Coordinates& coordinates = obj.coordinates();
   const CG::Coordinate& firstCoord = coordinates[0];
 

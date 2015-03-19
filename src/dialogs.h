@@ -7,15 +7,17 @@
 #include "MainWindow.h"
 
 /**
- * Custom widget to request an object name
+ * Custom widget to request an object name and its color
  */
 class ObjectNameBox : public Gtk::Box {
   public:
     ObjectNameBox();
     Gtk::Label label;
     Gtk::Entry name;
+    Gtk::ColorButton colorBtn;
 
     std::string getName();
+    CG::Color getColor();
 };
 
 /**
@@ -57,6 +59,7 @@ class NamedPointDialog : public Dialog {
   public:
     NamedPointDialog();
     std::string getName() { return nameBox.getName(); }
+    CG::Color getColor() { return nameBox.getColor(); }
     CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
 
   protected:
@@ -72,6 +75,7 @@ class LineDialog : public Dialog {
     LineDialog();
 
     std::string getName() { return nameBox.getName(); }
+    CG::Color getColor() { return nameBox.getColor(); }
     CG::Coordinate getCoordinate1() { return coordBox1.getCoordinate(); }
     CG::Coordinate getCoordinate2() { return coordBox2.getCoordinate(); }
 
@@ -88,6 +92,7 @@ class PolygonDialog : public Dialog {
     PolygonDialog();
 
     std::string getName() { return nameBox.getName(); }
+    CG::Color getColor() { return nameBox.getColor(); }
     CG::GObject::Coordinates getCoordinates() { return coordinates; }
 
   protected:

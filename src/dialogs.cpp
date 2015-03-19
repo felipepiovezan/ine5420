@@ -10,12 +10,19 @@ ObjectNameBox::ObjectNameBox() {
   label.set_label("Object name");
   pack_start(label, Gtk::PACK_SHRINK);
   pack_start(name, Gtk::PACK_EXPAND_WIDGET);
+  pack_start(colorBtn, Gtk::PACK_SHRINK);
   label.show();
   name.show();
+  colorBtn.show();
 }
 
 std::string ObjectNameBox::getName() {
   return name.get_text();
+}
+
+CG::Color ObjectNameBox::getColor() {
+  Gdk::Color gdkColor = colorBtn.get_color();
+  return CG::Color(gdkColor.get_red_p(), gdkColor.get_green_p(), gdkColor.get_blue_p());
 }
 
 // ==========================================================
