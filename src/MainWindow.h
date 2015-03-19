@@ -29,12 +29,12 @@ class MainWindow : public Gtk::Window {
     void on_newPoint();
     void on_newLine();
     void on_newPolygon();
-    void on_zoomIn() { _viewport.zoomIn(); }
-    void on_zoomOut() { _viewport.zoomOut(); }
-    void on_left() { _viewport.left(); }
-    void on_right() { _viewport.right(); }
-    void on_up() { _viewport.up(); }
-    void on_down() { _viewport.down(); }
+    void on_zoomIn()  { _window.zoom(1.0); _viewport.redraw(); }
+    void on_zoomOut() { _window.zoom(-1.0); _viewport.redraw(); }
+    void on_left()    { _window.dx(-1); _viewport.redraw(); }
+    void on_right()   { _window.dx(1); _viewport.redraw(); }
+    void on_up()      { _window.dy(1); _viewport.redraw(); }
+    void on_down()    { _window.dy(-1); _viewport.redraw(); }
 };
 
 #endif

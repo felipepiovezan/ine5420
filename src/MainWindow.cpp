@@ -98,21 +98,21 @@ void MainWindow::on_newPolygon() {
 void MainWindow::createPoint(std::string name, CG::Color color, CG::Coordinate c) {
   CG::GPoint point(c);
   point.color = color;
-  _viewport.addObject(name, point);
+  _displayFile.add(name, point);
   _toolbox.refreshObjectList();
 }
 
 void MainWindow::createLine(std::string name, CG::Color color, CG::Coordinate c1, CG::Coordinate c2) {
   CG::GLine line(c1, c2);
   line.color = color;
-  _viewport.addObject(name, line);
+  _displayFile.add(name, line);
   _toolbox.refreshObjectList();
 }
 
 void MainWindow::createPolygon(std::string name, CG::Color color, CG::GObject::Coordinates coordinates) {
   CG::GPolygon polygon(coordinates);
   polygon.color = color;
-  _viewport.addObject(name, polygon);
+  _displayFile.add(name, polygon);
   _toolbox.refreshObjectList();
 }
 
