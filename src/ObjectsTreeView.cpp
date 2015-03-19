@@ -56,7 +56,6 @@ void ObjectsTreeView::refresh() {
     row = *(_refObjectsTreeModel->append());
 		row[_objectsModelColumns.colName] = it.first;
 		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];
-		row[_objectsModelColumns.colObject] = it.second;
 	}
 }
 
@@ -75,41 +74,45 @@ bool ObjectsTreeView::on_button_press_event(GdkEventButton* event) {
   return return_value;
 }
 
-CG::GObject ObjectsTreeView::getSelectedObject() {
+CG::GObject& ObjectsTreeView::getSelectedObject() {
   Glib::RefPtr<Gtk::TreeView::Selection> refSelection = get_selection();
   Gtk::TreeModel::iterator iter = refSelection->get_selected();
-  return (*iter)[_objectsModelColumns.colObject];
+  std::string name = (*iter)[_objectsModelColumns.colName];
+  return displayFile->findObject(name)->second;
 }
 
 void ObjectsTreeView::on_menu_popup_remove() {
-  CG::GObject obj = getSelectedObject();
+  CG::GObject& obj = getSelectedObject();
   // TODO
 }
 
 void ObjectsTreeView::on_menu_popup_translate() {
-  CG::GObject obj = getSelectedObject();
+  CG::GObject& obj = getSelectedObject();
   TranslateDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate c = dialog.getCoordinate();
     CG::Transformation transformation = CG::Transformation::newTranslation(c.x, c.y);
     obj.transform(transformation);
-    // TODO: repaint
   }
 }
 
 void ObjectsTreeView::on_menu_popup_scale() {
-  CG::GObject obj = getSelectedObject();
+  CG::GObject& obj = getSelectedObject();
   ScaleDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
-    CG::Coordinate c = dialog.getCoordinate();
-    CG::Transformation transformation = CG::Transformation::newScaling(c.x, c.y);
+    CG::Coordinate scale = dialog.getCoordinate();
+    CG::Coordinate objCenter = obj.center();
+
+    CG::Transformation transformation = CG::Transformation::newTranslation(-objCenter.x, -objCenter.y);
+    transformation *= CG::Transformation::newScaling(scale.x, scale.y);
+    transformation *= CG::Transformation::newTranslation(objCenter.x, objCenter.y);
+
     obj.transform(transformation);
-    // TODO: repaint
   }
 }
 
 void ObjectsTreeView::on_menu_popup_rotate() {
-  CG::GObject obj = getSelectedObject();
+  CG::GObject& obj = getSelectedObject();
   CG::Coordinate objCenter = obj.center();
   RotateDialog dialog(objCenter);
 
@@ -117,14 +120,10 @@ void ObjectsTreeView::on_menu_popup_rotate() {
     float degrees = dialog.getRotation();
     CG::Coordinate rotationCenter = dialog.getRotationCenter();
 
-    // Translate destination
-    CG::Coordinate d = objCenter - rotationCenter;
-
-    CG::Transformation transformation = CG::Transformation::newTranslation(d.x, d.y);
+    CG::Transformation transformation = CG::Transformation::newTranslation(-rotationCenter.x, -rotationCenter.y);
     transformation *= CG::Transformation::newRotation(degrees);
-    transformation *= CG::Transformation::newTranslation(objCenter.x, objCenter.y);
+    transformation *= CG::Transformation::newTranslation(rotationCenter.x, rotationCenter.y);
 
     obj.transform(transformation);
-    // TODO: repaint
   }
 }

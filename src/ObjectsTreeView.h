@@ -18,16 +18,13 @@ class ObjectsTreeView : public Gtk::TreeView {
         ObjectModelColumns() {
           add(colName);
           add(colType);
-          add(colObject);
         }
-        Gtk::TreeModelColumn<Glib::ustring> colName;
-        Gtk::TreeModelColumn<Glib::ustring> colType;
-        Gtk::TreeModelColumn<CG::GObject> colObject;
+        Gtk::TreeModelColumn<std::string> colName;
+        Gtk::TreeModelColumn<std::string> colType;
     };
 
     ObjectModelColumns _objectsModelColumns;
     Glib::RefPtr<Gtk::ListStore> _refObjectsTreeModel;
-
 
     // Popup menu
     void init_popup_menu();
@@ -36,8 +33,9 @@ class ObjectsTreeView : public Gtk::TreeView {
     // Override Signal handler
     virtual bool on_button_press_event(GdkEventButton *ev);
 
+    CG::GObject& getSelectedObject();
+
     //Signal handlers for popup menu items:
-    CG::GObject getSelectedObject();
     void on_menu_popup_remove();
     void on_menu_popup_translate();
     void on_menu_popup_scale();

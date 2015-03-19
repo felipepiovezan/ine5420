@@ -10,7 +10,7 @@ namespace CG{
 			typedef std::array<std::array<float, 3>, 3> TransformationMatrix;
 		private:
 			TransformationMatrix _m;
-			
+
 			Transformation(TransformationMatrix&& m) : _m(m) {}
 		public:
 			//getters

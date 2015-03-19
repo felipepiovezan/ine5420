@@ -1,6 +1,10 @@
 #include "Transformations.h"
 
+
 namespace CG{
+
+	const double PI = atan(1) * 4;
+	const double RAD = 180 / PI;
 
 	Transformation Transformation::newTranslation(float dx, float dy){
 		return Transformation
@@ -8,18 +12,19 @@ namespace CG{
 				{0,  1,  0},
 				{dx, dy, 1}}});
 	}
-	
+
 	Transformation Transformation::newScaling(float sx, float sy){
 		return Transformation
 			({{ {sx, 0 , 0},
 				{0 , sy, 0},
 				{0 , 0 , 1}}});
 	}
-	
+
 	Transformation Transformation::newRotation(float theta){
+		float radians = theta / RAD;
 		return Transformation
-			({{ {cosf(theta), -sinf(theta), 0},
-				{sinf(theta), cosf(theta) , 0},
+			({{ {cosf(radians), -sinf	(radians), 0},
+				{sinf(radians), cosf(radians) , 0},
 				{0         , 0          , 1}}});
 	}
 
