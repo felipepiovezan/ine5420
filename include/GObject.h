@@ -16,7 +16,7 @@
 
 
 namespace CG {
-
+	class Transformation;
 	class Coordinate {
 		public:
 			Coordinate(float x, float y) : x(x), y(y) {}

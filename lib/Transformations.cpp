@@ -2,27 +2,6 @@
 
 namespace CG{
 
-	Transformation Transformation::newTranslation(float dx, float dy){
-		return Transformation
-			({{ {1,  0,  0},
-				{0,  1,  0},
-				{dx, dy, 1}}});
-	}
-	
-	Transformation Transformation::newScaling(float sx, float sy){
-		return Transformation
-			({{ {sx, 0 , 0},
-				{0 , sy, 0},
-				{0 , 0 , 1}}});
-	}
-	
-	Transformation Transformation::newRotation(float theta){
-		return Transformation
-			({{ {cosf(theta), -sinf(theta), 0},
-				{sinf(theta), cosf(theta) , 0},
-				{0         , 0          , 1}}});
-	}
-
 	Transformation& Transformation::operator*=(const Transformation& rhs){
 		auto m1 = this->_m;
 		const auto &m2 = rhs.m();
@@ -40,5 +19,36 @@ namespace CG{
 		lhs *= rhs;
 		return lhs;
 	}
+
+	Transformation Transformation::newTranslation(float dx, float dy){
+		return Transformation
+			({{ {1,  0,  0},
+				{0,  1,  0},
+				{dx, dy, 1}}});
+	}
+	
+	Transformation Transformation::newScaling(float sx, float sy){
+		return Transformation
+			({{ {sx, 0 , 0},
+				{0 , sy, 0},
+				{0 , 0 , 1}}});
+	}
+	
+	Transformation Transformation::newRotationAroundOrigin(float theta){
+		return Transformation
+			({{ {cosf(theta), -sinf(theta), 0},
+				{sinf(theta), cosf(theta) , 0},
+				{0         , 0          , 1}}});
+	}
+	
+	Transformation Transformation::newRotationAroundPoint(float theta, const Coordinate &p){
+		return newTranslation(-p.x, -p.y) * newRotationAroundOrigin(theta) * newTranslation(p.x, p.y);
+	}
+
+	Transformation Transformation::newRotationAroundCenterOfMass(float theta, const GObject& obj){
+		const Coordinate center = obj.center();
+		return newRotationAroundPoint(theta, center);
+	}
+
 
 }
