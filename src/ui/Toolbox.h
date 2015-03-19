@@ -2,9 +2,8 @@
 #define TOOLBOX_H_
 
 #include <gtkmm.h>
-#include "Viewport.h"
-#include "DisplayFile.h"
-#include "ObjectsTreeView.h"
+#include "cg/DisplayFile.h"
+#include "ui/ObjectsTreeView.h"
 
 class Toolbox : public Gtk::Box {
   protected:

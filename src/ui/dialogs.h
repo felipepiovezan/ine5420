@@ -3,8 +3,9 @@
 
 #include <gtkmm.h>
 #include <string>
-#include "GObject.h"
-#include "MainWindow.h"
+
+#include "cg/GObject.h"
+#include "ui/MainWindow.h"
 
 /**
  * Custom widget to request an object name and its color

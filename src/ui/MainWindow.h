@@ -2,9 +2,9 @@
 #define __MAINWINDOWH
 
 #include <gtkmm.h>
-#include "Viewport.h"
-#include "Toolbox.h"
-#include "dialogs.h"
+#include "ui/Viewport.h"
+#include "ui/Toolbox.h"
+#include "ui/dialogs.h"
 
 class MainWindow : public Gtk::Window {
 	private:

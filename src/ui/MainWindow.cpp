@@ -1,8 +1,8 @@
-#include "MainWindow.h"
-#include "Window.h"
-#include "DisplayFile.h"
+#include "ui/MainWindow.h"
 
 #include <iostream>
+#include "cg/Window.h"
+#include "cg/DisplayFile.h"
 
 MainWindow::MainWindow() :
   _window(-10, -10, 10, 10),

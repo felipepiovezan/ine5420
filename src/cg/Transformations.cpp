@@ -1,6 +1,6 @@
-#include "Transformations.h"
+#include "cg/Transformations.h"
 
-namespace CG{
+namespace CG {
 
 	Transformation& Transformation::operator*=(const Transformation& rhs){
 		auto m1 = this->_m;
@@ -49,5 +49,5 @@ namespace CG{
 		const Coordinate center = obj.center();
 		return newRotationAroundPoint(theta, center);
 	}
-	
+
 }

@@ -1,5 +1,4 @@
-#include "GObject.h"
-
+#include "cg/GObject.h"
 
 namespace CG {
 	void Coordinate::transform(const Transformation& t){

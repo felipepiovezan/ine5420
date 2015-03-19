@@ -1,6 +1,6 @@
-#include "ObjectsTreeView.h"
+#include "ui/ObjectsTreeView.h"
 
-#include "dialogs.h"
+#include "ui/dialogs.h"
 
 ObjectsTreeView::ObjectsTreeView(CG::DisplayFile* dfile) :
   displayFile(dfile) {

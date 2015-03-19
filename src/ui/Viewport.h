@@ -2,9 +2,9 @@
 #define __VIEWPORT
 
 #include <gtkmm/drawingarea.h>
-#include "Window.h"
-#include "DisplayFile.h"
-#include "GObject.h"
+#include "cg/Window.h"
+#include "cg/DisplayFile.h"
+#include "cg/GObject.h"
 
 class Viewport : public Gtk::DrawingArea {
 	private:

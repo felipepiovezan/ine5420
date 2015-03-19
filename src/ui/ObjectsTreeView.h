@@ -2,7 +2,7 @@
 #define OBJECTS_TREE_VIEW_H_
 
 #include <gtkmm.h>
-#include "DisplayFile.h"
+#include "cg/DisplayFile.h"
 
 class ObjectsTreeView : public Gtk::TreeView {
   public:

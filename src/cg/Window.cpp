@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "cg/Window.h"
 
 namespace CG {
 

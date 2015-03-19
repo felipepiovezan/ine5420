@@ -3,7 +3,7 @@
 
 #include <map>
 #include <string>
-#include "GObject.h"
+#include "cg/GObject.h"
 
 namespace CG {
 

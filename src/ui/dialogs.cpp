@@ -1,4 +1,4 @@
-#include "dialogs.h"
+#include "ui/dialogs.h"
 
 // ==========================================================
 // ObjectNameBox
