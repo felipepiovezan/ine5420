@@ -2,7 +2,8 @@
 
 #include "dialogs.h"
 
-ObjectsTreeView::ObjectsTreeView() {
+ObjectsTreeView::ObjectsTreeView(CG::DisplayFile* dfile) :
+  displayFile(dfile) {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);
 
@@ -47,11 +48,11 @@ void ObjectsTreeView::init_popup_menu() {
   signal_button_press_event().connect(sigc::mem_fun(*this, &ObjectsTreeView::on_button_press_event), false);
 }
 
-void ObjectsTreeView::refresh(const CG::DisplayFile& dfile) {
+void ObjectsTreeView::refresh() {
   _refObjectsTreeModel->clear();
 
   Gtk::TreeModel::Row row;
-  for(const auto &it : dfile.objects()){
+  for(const auto &it : displayFile->objects()){
     row = *(_refObjectsTreeModel->append());
 		row[_objectsModelColumns.colName] = it.first;
 		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];

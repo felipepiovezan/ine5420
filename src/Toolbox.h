@@ -13,8 +13,8 @@ class Toolbox : public Gtk::Box {
     void init_object_list_widgets();
 
   public:
-    Toolbox();
-    void refreshObjectList(const CG::DisplayFile& dfile) { _objectsTreeView.refresh(dfile); }
+    Toolbox(CG::DisplayFile* dfile);
+    void refreshObjectList() { _objectsTreeView.refresh(); }
 
     // Create widgets
     Gtk::Frame _createFrame;

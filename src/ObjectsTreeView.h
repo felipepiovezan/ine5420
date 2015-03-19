@@ -6,10 +6,12 @@
 
 class ObjectsTreeView : public Gtk::TreeView {
   public:
-    ObjectsTreeView();
-    void refresh(const CG::DisplayFile& dfile);
+    ObjectsTreeView(CG::DisplayFile* dfile);
+    void refresh();
 
   protected:
+    CG::DisplayFile* displayFile;
+
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {
       public:

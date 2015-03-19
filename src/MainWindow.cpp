@@ -7,12 +7,13 @@
 MainWindow::MainWindow() :
   _window(-10, -10, 10, 10),
   _displayFile(),
-  _viewport(&_window, &_displayFile) {
+  _viewport(&_window, &_displayFile),
+  _toolbox(&_displayFile) {
 
   init_examples();
   init_handlers();
 
-  _toolbox.refreshObjectList(_displayFile);
+  _toolbox.refreshObjectList();
   _viewport.redraw();
 
   // Layouting
@@ -85,19 +86,19 @@ void MainWindow::on_newPolygon() {
 void MainWindow::createPoint(std::string name, CG::Coordinate c) {
   CG::GPoint point(c);
   _viewport.addObject(name, point);
-  _toolbox.refreshObjectList(_displayFile);
+  _toolbox.refreshObjectList();
 }
 
 void MainWindow::createLine(std::string name, CG::Coordinate c1, CG::Coordinate c2) {
   CG::GLine line(c1, c2);
   _viewport.addObject(name, line);
-  _toolbox.refreshObjectList(_displayFile);
+  _toolbox.refreshObjectList();
 }
 
 void MainWindow::createPolygon(std::string name, CG::GObject::Coordinates coordinates) {
   CG::GPolygon polygon(coordinates);
   _viewport.addObject(name, polygon);
-  _toolbox.refreshObjectList(_displayFile);
+  _toolbox.refreshObjectList();
 }
 
 void MainWindow::init_leaf(){
