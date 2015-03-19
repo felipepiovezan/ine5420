@@ -36,7 +36,6 @@ class ObjectsTreeView : public Gtk::TreeView {
     CG::GObject& getSelectedObject();
 
     //Signal handlers for popup menu items:
-    void on_menu_popup_remove();
     void on_menu_popup_translate();
     void on_menu_popup_scale();
     void on_menu_popup_rotate();

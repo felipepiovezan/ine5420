@@ -22,11 +22,6 @@ ObjectsTreeView::ObjectsTreeView(CG::DisplayFile* dfile) :
 void ObjectsTreeView::init_popup_menu() {
   Gtk::MenuItem* item;
 
-  item = Gtk::manage(new Gtk::MenuItem("Remove", true));
-  item->signal_activate().connect(
-    sigc::mem_fun(*this, &ObjectsTreeView::on_menu_popup_remove) );
-  _menu.append(*item);
-
   item = Gtk::manage(new Gtk::MenuItem("Translate...", true));
   item->signal_activate().connect(
     sigc::mem_fun(*this, &ObjectsTreeView::on_menu_popup_translate) );
@@ -79,11 +74,6 @@ CG::GObject& ObjectsTreeView::getSelectedObject() {
   Gtk::TreeModel::iterator iter = refSelection->get_selected();
   std::string name = (*iter)[_objectsModelColumns.colName];
   return displayFile->findObject(name)->second;
-}
-
-void ObjectsTreeView::on_menu_popup_remove() {
-  CG::GObject& obj = getSelectedObject();
-  // TODO
 }
 
 void ObjectsTreeView::on_menu_popup_translate() {
