@@ -8,9 +8,11 @@
 
 class MainWindow : public Gtk::Window {
 	private:
-		Gtk::Box _mainBox;
+		CG::Window _window;
+		CG::DisplayFile _displayFile;
 		Viewport _viewport;
 		Toolbox _toolbox;
+		Gtk::Box _mainBox;
 
 	public:
 		MainWindow();
@@ -19,7 +21,7 @@ class MainWindow : public Gtk::Window {
 		void createPolygon(std::string name, CG::GObject::Coordinates coordinates);
 
 	protected:
-		void init_viewport();
+		void init_examples();
 		void init_handlers();
 		void init_leaf();
 
