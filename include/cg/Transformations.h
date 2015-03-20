@@ -12,7 +12,7 @@ namespace CG{
 	
 	class Transformation{
 		public:
-			typedef std::array<std::array<float, 3>, 3> TransformationMatrix;
+			typedef std::array<std::array<double, 3>, 3> TransformationMatrix;
 		private:
 			TransformationMatrix _m;
 
@@ -22,16 +22,16 @@ namespace CG{
 			const TransformationMatrix& m() const {return _m;}
 
 			//new transformations
-			static Transformation newTranslation(float dx, float dy);
-			static Transformation newScaling(float sx, float sy);
-			static Transformation newRotationAroundOrigin(float theta);
-			static Transformation newRotationAroundPoint(float theta, const Coordinate& p);
-			static Transformation newRotationAroundCenterOfMass(float theta, const GObject& obj);
+			static Transformation newTranslation(double dx, double dy);
+			static Transformation newScaling(double sx, double sy);
+			static Transformation newRotationAroundOrigin(double theta);
+			static Transformation newRotationAroundPoint(double theta, const Coordinate& p);
+			static Transformation newRotationAroundCenterOfMass(double theta, const GObject& obj);
 
 
 			//utils TODO: figure out where to put this
 			static constexpr double pi() { return std::atan(1)*4; }	
-			static float toRadians(float degrees){ return (pi()/180) * degrees;  }
+			static double toRadians(double degrees){ return (pi()/180) * degrees;  }
 
 			//member operators
 			Transformation& operator*=(const Transformation& rhs);

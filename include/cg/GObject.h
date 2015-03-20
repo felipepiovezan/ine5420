@@ -19,11 +19,11 @@ namespace CG {
 	class Transformation;
 	class Coordinate {
 		public:
-			Coordinate(float x, float y) : x(x), y(y) {}
+			Coordinate(double x, double y) : x(x), y(y) {}
 
 			void transform(const Transformation& t);
 
-			float x, y, z = 1;
+			double x, y, z = 1;
 
 			friend Coordinate operator+(const Coordinate &c1, const Coordinate &c2);
 			friend Coordinate operator-(const Coordinate &c1, const Coordinate &c2);

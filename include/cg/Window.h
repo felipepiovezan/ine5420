@@ -5,20 +5,20 @@ namespace CG {
 
   class Window {
 	  public:
-		  Window(float, float, float, float);
+		  Window(double, double, double, double);
 		  Window() = default;
 
-		  float xmin() { return _xmin; }
-		  float ymin() { return _ymin; }
-		  float xmax() { return _xmax; }
-		  float ymax() { return _ymax; }
+		  double xmin() { return _xmin; }
+		  double ymin() { return _ymin; }
+		  double xmax() { return _xmax; }
+		  double ymax() { return _ymax; }
 
-		  void dx(float d) { _xmin += d; _xmax += d; }
-		  void dy(float d) { _ymin += d; _ymax += d; }
-      void zoom(float step);
+		  void dx(double d) { _xmin += d; _xmax += d; }
+		  void dy(double d) { _ymin += d; _ymax += d; }
+      void zoom(double step);
 
 	  private:
-		  float _xmin, _ymin, _xmax, _ymax;
+		  double _xmin, _ymin, _xmax, _ymax;
   };
 
 }

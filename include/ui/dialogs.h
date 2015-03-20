@@ -106,8 +106,8 @@ class PolygonDialog : public Dialog {
       public:
         PointsColumns() { add(x); add(y); }
 
-        Gtk::TreeModelColumn<float> x;
-        Gtk::TreeModelColumn<float> y;
+        Gtk::TreeModelColumn<double> x;
+        Gtk::TreeModelColumn<double> y;
     };
 
     PointsColumns pointsColumns;
@@ -147,7 +147,7 @@ class RotateDialog : public Dialog {
   public:
     RotateDialog(CG::Coordinate objCenter);
     CG::Coordinate getRotationCenter() { return centerCoordBox.getCoordinate(); }
-    float getRotation();
+    double getRotation();
 
   protected:
     void init_degree_widgets();

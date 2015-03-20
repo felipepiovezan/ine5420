@@ -47,7 +47,7 @@ CoordinateBox::CoordinateBox() {
 }
 
 CG::Coordinate CoordinateBox::getCoordinate() {
-  float x, y = 0;
+  double x, y = 0;
   std::stringstream buffer;
 
   buffer << entryX.get_text().raw();
@@ -233,8 +233,8 @@ void RotateDialog::init_center_widgets() {
   coordRB.show();
 }
 
-float RotateDialog::getRotation() {
-  float rotation = 0;
+double RotateDialog::getRotation() {
+  double rotation = 0;
   std::stringstream buffer;
 
   buffer << degreesEntry.get_text().raw();
