@@ -11,8 +11,8 @@ class Viewport : public Gtk::DrawingArea {
 		virtual bool on_draw(const Cairo::RefPtr<Cairo::Context>& ctx);
 		void drawObject(const CG::GObject &obj, const Cairo::RefPtr<Cairo::Context>& ctx);
 
-		int transformX(int x);
-		int transformY(int y);
+		double transformX(double x);
+		double transformY(double y);
 
 		CG::Window* _window;
 		CG::DisplayFile* _displayFile;

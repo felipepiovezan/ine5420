@@ -44,13 +44,13 @@ void Viewport::drawObject(const CG::GObject &obj, const Cairo::RefPtr<Cairo::Con
 
 
 //Transforms the coordinates of the World into a coordinate of the visible area.
-int Viewport::transformX(int x) {
+double Viewport::transformX(double x) {
 	Gtk::Allocation allocation = get_allocation();
 	int width = allocation.get_height();
 	return width * (x - _window->xmin()) / (_window->xmax() - _window->xmin());
 }
 
-int Viewport::transformY(int y) {
+double Viewport::transformY(double y) {
   Gtk::Allocation allocation = get_allocation();
   const int height = allocation.get_height();
   return height * (1 - ((y - _window->ymin()) / (_window->ymax() - _window->ymin())));
