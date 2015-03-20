@@ -19,7 +19,7 @@ namespace CG {
 		lhs *= rhs;
 		return lhs;
 	}
-
+	
 	Transformation Transformation::newTranslation(float dx, float dy){
 		return Transformation
 			({{ {1,  0,  0},

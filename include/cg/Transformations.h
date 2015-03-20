@@ -8,6 +8,8 @@
 namespace CG{
 	class Coordinate;
 	class GObject;
+
+	
 	class Transformation{
 		public:
 			typedef std::array<std::array<float, 3>, 3> TransformationMatrix;
@@ -26,6 +28,12 @@ namespace CG{
 			static Transformation newRotationAroundPoint(float theta, const Coordinate& p);
 			static Transformation newRotationAroundCenterOfMass(float theta, const GObject& obj);
 
+
+			//utils TODO: figure out where to put this
+			static constexpr double pi() { return std::atan(1)*4; }	
+			static float toRadians(float degrees){ return (pi()/180) * degrees;  }
+
+			//member operators
 			Transformation& operator*=(const Transformation& rhs);
 
 	};

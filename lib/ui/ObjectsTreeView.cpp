@@ -109,7 +109,7 @@ void ObjectsTreeView::on_menu_popup_rotate() {
   if (dialog.run() == Gtk::RESPONSE_OK) {
     float degrees = dialog.getRotation();
     CG::Coordinate rotationCenter = dialog.getRotationCenter();
-    CG::Transformation transformation = CG::Transformation::newRotationAroundPoint(degrees, rotationCenter);
+    CG::Transformation transformation = CG::Transformation::newRotationAroundPoint(CG::Transformation::toRadians(degrees), rotationCenter);
     obj.transform(transformation);
   }
 }
