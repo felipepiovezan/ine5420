@@ -33,6 +33,7 @@ class Viewport : public Gtk::DrawingArea {
 		//methods called by the gui, transformations on the window
 		void changeWindowZoom(double step);
 		void changeWindowPosition(double sx, double sy);
+		void rotateWindow(double theta);
 
 };
 

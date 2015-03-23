@@ -9,9 +9,6 @@ namespace CG {
 		  Window(double cx, double cy, double width, double heitgh, double theta);
 		  Window() = default;
 
-		  void updateMatrix();
-
-
 		  double width() const { return _width; }
 		  double height() const { return _height; }
 		  double theta() const { return _theta; }
@@ -21,9 +18,11 @@ namespace CG {
 		  int ymin() const { return -1;}
 		  int ymax() const { return  1;}
 
-		  void moveCenter(double dx, double dy) {_center.x -= dx; _center.y -= dy;}
-		  
+		  //methods related to window transformations
+		  void updateMatrix();
+		  void move(double dx, double dy) {_center.x += dx; _center.y += dy;}
 		  void zoom(double step);
+		  void rotate(double theta) {_theta += theta;}
 
 	  private:
 		  Coordinate _center;

@@ -11,11 +11,11 @@ namespace CG {
 
   void Window::zoom(double step) {
     // Maximum zoom reached
-    if (_width - step <= 0 ||  _height - step <= 0)
+    if (_width + step <= 0 ||  _height + step <= 0)
       return;
 
-	_width -= step;
-	_height -= step;
+	_width += step;
+	_height += step;
 
 	updateMatrix();
   }

@@ -116,7 +116,14 @@ void Viewport::changeWindowZoom(double step){
 }
 
 void Viewport::changeWindowPosition(double sx, double sy){
-	_window->moveCenter(sx, sy);
+	_window->move(sx, sy);
+	_window->updateMatrix();
+	_displayFile->updateWindowCoords(_window->wo2wiMatrix());
+	redraw();
+}
+
+void Viewport::rotateWindow(double theta){
+	_window->rotate(CG::Transformation::toRadians(theta));
 	_window->updateMatrix();
 	_displayFile->updateWindowCoords(_window->wo2wiMatrix());
 	redraw();
