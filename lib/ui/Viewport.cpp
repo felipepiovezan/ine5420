@@ -7,7 +7,7 @@ Viewport::Viewport(CG::Window* window, CG::DisplayFile* dfile)
   : _window(window), _displayFile(dfile) {}
 
 bool Viewport::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
-	for(const auto &it : _displayFile->objects()){
+	for(const auto &it : _displayFile->windowObjects()){
 		drawObject(it.second, ctx);
 	}
 	return true;
@@ -54,4 +54,56 @@ double Viewport::transformY(double y) {
   Gtk::Allocation allocation = get_allocation();
   const int height = allocation.get_height();
   return height * (1 - ((y - _window->ymin()) / (_window->ymax() - _window->ymin())));
+}
+
+void Viewport::applyTranslation(const std::string &name, double dx, double dy){
+	auto itWindow = _displayFile->findWindowObject(name);
+	auto itWorld = _displayFile->findWorldObject(name);
+	assert(_displayFile->isValidWindowIterator(itWindow) && _displayFile->isValidWorldIterator(itWorld));
+
+	auto &worldObject = itWorld->second;
+	auto &windowObject = itWindow->second;
+
+    CG::Transformation transformation = CG::Transformation::newTranslation(dx, dy);
+    worldObject.transform(transformation);
+    //TODO: transform these two lines into a single operator * line
+    windowObject = worldObject;
+    windowObject.transform(_window->wo2wiMatrix());
+}
+
+void Viewport::applyScaling(const std::string &name, double sx, double sy){
+	auto itWindow = _displayFile->findWindowObject(name);
+	auto itWorld = _displayFile->findWorldObject(name);
+	assert(_displayFile->isValidWindowIterator(itWindow) && _displayFile->isValidWorldIterator(itWorld));
+
+	auto &worldObject = itWorld->second;
+	auto &windowObject = itWindow->second;
+
+	CG::Coordinate center = worldObject.center();
+
+    //TODO: use the transformation builder instead of multiplying it here.
+    CG::Transformation transformation = CG::Transformation::newTranslation(-center.x, -center.y);
+    transformation *= CG::Transformation::newScaling(sx, sy);
+    transformation *= CG::Transformation::newTranslation(center.x, center.y);
+
+    worldObject.transform(transformation);
+    //TODO: transform these two lines into a single operator * line
+    windowObject = worldObject;
+    windowObject.transform(_window->wo2wiMatrix());
+}
+
+void Viewport::applyRotation(const std::string &name, double theta, const CG::Coordinate &rotationCenter){
+	auto itWindow = _displayFile->findWindowObject(name);
+	auto itWorld = _displayFile->findWorldObject(name);
+	assert(_displayFile->isValidWindowIterator(itWindow) && _displayFile->isValidWorldIterator(itWorld));
+
+	auto &worldObject = itWorld->second;
+	auto &windowObject = itWindow->second;
+
+	CG::Transformation transformation = CG::Transformation::newRotationAroundPoint(CG::Transformation::toRadians(theta), rotationCenter);
+
+    worldObject.transform(transformation);
+    //TODO: transform these two lines into a single operator * line
+    windowObject = worldObject;
+    windowObject.transform(_window->wo2wiMatrix());
 }

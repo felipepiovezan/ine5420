@@ -1,12 +1,19 @@
 #include "cg/GObject.h"
 
 namespace CG {
-	void Coordinate::transform(const Transformation& t){
-		const auto &m = t.m();
+
+	Coordinate& Coordinate::operator*=(const Transformation& rhs){
+		const auto &m = rhs.m();
 		double x = this->x, y = this->y, z = this->z;
 		this->x = x*m[0][0] + y*m[1][0] + z*m[2][0];
 		this->y = x*m[0][1] + y*m[1][1] + z*m[2][1];
 		this->z = x*m[0][2] + y*m[1][2] + z*m[2][2];
+		return *this;
+	}
+
+	Coordinate operator*(Coordinate lhs, const Transformation& rhs){
+		lhs *= rhs;
+		return lhs;
 	}
 
 	Coordinate operator+(const Coordinate &c1, const Coordinate &c2) {
@@ -33,7 +40,7 @@ namespace CG {
 
 	void GObject::transform(const Transformation& t){
 		for(auto &p : _coordinates){
-			p.transform(t);
+			p*=(t);
 		}
 	}
 

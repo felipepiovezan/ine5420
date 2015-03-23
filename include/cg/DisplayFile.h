@@ -10,17 +10,20 @@ namespace CG {
 	typedef std::map<std::string, GObject> mapGObjects;
 	class DisplayFile {
 		private:
-			mapGObjects _objects;
+			mapGObjects _worldObjects;
+			mapGObjects _windowObjects;
 
 		public:
-			void add(std::string name, GObject object);
-
 			//getter
-			const mapGObjects& objects() const{ return _objects;}
-			mapGObjects::iterator findObject(const std::string& name) {return _objects.find(name);}
-			bool isValidIterator(const mapGObjects::iterator it) const {return it!= _objects.end();}
+			const mapGObjects& windowObjects() const{ return _windowObjects;}
 
-			mapGObjects::size_type removeObject(const std::string& name) { return _objects.erase(name); }
+			//add, remove and fetch objects
+			void add(std::string name, GObject object, const Transformation& wo2wiMatrix);
+			mapGObjects::iterator findWorldObject(const std::string& name) {return _worldObjects.find(name);}
+			mapGObjects::iterator findWindowObject(const std::string& name) {return _windowObjects.find(name);}
+			bool isValidWorldIterator(const mapGObjects::iterator it) const {return it!= _worldObjects.end();}
+			bool isValidWindowIterator(const mapGObjects::iterator it) const {return it!= _windowObjects.end();}
+			mapGObjects::size_type removeObject(const std::string& name) {_worldObjects.erase(name); return _windowObjects.erase(name);}
   };
 
 }

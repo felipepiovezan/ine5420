@@ -13,7 +13,7 @@ class Toolbox : public Gtk::Box {
     void set_icon(Gtk::Button& btn, Gtk::Image& img, const Gtk::StockID& id);
 
   public:
-    Toolbox(CG::DisplayFile* dfile);
+    Toolbox(Viewport* viewport);
     void refreshObjectList() { _objectsTreeView.refresh(); }
 
     // Create widgets

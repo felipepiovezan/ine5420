@@ -5,6 +5,8 @@
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
 #include "cg/GObject.h"
+#include <cassert>
+
 
 class Viewport : public Gtk::DrawingArea {
 	private:
@@ -20,6 +22,13 @@ class Viewport : public Gtk::DrawingArea {
 	public:
 		Viewport(CG::Window* window, CG::DisplayFile* dfile);
 		void redraw() { queue_draw(); }
+
+		const CG::DisplayFile* displayFile(){ return _displayFile;}
+
+		void applyTranslation(const std::string &name, double dx, double dy);
+		void applyScaling(const std::string &name, double sx, double xy);
+		void applyRotation(const std::string &name, double theta, const CG::Coordinate& rotationCenter);
+
 };
 
 #endif

@@ -2,15 +2,16 @@
 #define OBJECTS_TREE_VIEW_H_
 
 #include <gtkmm.h>
-#include "cg/DisplayFile.h"
+#include "ui/Viewport.h"
+#include <utility>
 
 class ObjectsTreeView : public Gtk::TreeView {
   public:
-    ObjectsTreeView(CG::DisplayFile* dfile);
+    ObjectsTreeView(Viewport* viewport);
     void refresh();
 
   protected:
-    CG::DisplayFile* displayFile;
+    Viewport* viewport;
 
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {
@@ -33,7 +34,7 @@ class ObjectsTreeView : public Gtk::TreeView {
     // Override Signal handler
     virtual bool on_button_press_event(GdkEventButton *ev);
 
-    CG::GObject& getSelectedObject();
+    const std::string getSelectedObject();
 
     //Signal handlers for popup menu items:
     void on_menu_popup_translate();

@@ -2,8 +2,8 @@
 
 #include "ui/dialogs.h"
 
-ObjectsTreeView::ObjectsTreeView(CG::DisplayFile* dfile) :
-  displayFile(dfile) {
+ObjectsTreeView::ObjectsTreeView(Viewport* viewport) :
+	viewport(viewport) {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);
 
@@ -47,7 +47,7 @@ void ObjectsTreeView::refresh() {
   _refObjectsTreeModel->clear();
 
   Gtk::TreeModel::Row row;
-  for(const auto &it : displayFile->objects()){
+  for(const auto &it : viewport->displayFile()->windowObjects()){
     row = *(_refObjectsTreeModel->append());
 		row[_objectsModelColumns.colName] = it.first;
 		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];
@@ -69,47 +69,40 @@ bool ObjectsTreeView::on_button_press_event(GdkEventButton* event) {
   return return_value;
 }
 
-CG::GObject& ObjectsTreeView::getSelectedObject() {
+const std::string ObjectsTreeView::getSelectedObject() {
   Glib::RefPtr<Gtk::TreeView::Selection> refSelection = get_selection();
   Gtk::TreeModel::iterator iter = refSelection->get_selected();
-  std::string name = (*iter)[_objectsModelColumns.colName];
-  return displayFile->findObject(name)->second;
+  return (*iter)[_objectsModelColumns.colName];
 }
 
 void ObjectsTreeView::on_menu_popup_translate() {
-  CG::GObject& obj = getSelectedObject();
+  const std::string name = getSelectedObject();
+
   TranslateDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate c = dialog.getCoordinate();
-    CG::Transformation transformation = CG::Transformation::newTranslation(c.x, c.y);
-    obj.transform(transformation);
+    viewport->applyTranslation(name, c.x, c.y);
   }
 }
 
 void ObjectsTreeView::on_menu_popup_scale() {
-  CG::GObject& obj = getSelectedObject();
+  const std::string name = getSelectedObject();
   ScaleDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate scale = dialog.getCoordinate();
-    CG::Coordinate objCenter = obj.center();
-
-    CG::Transformation transformation = CG::Transformation::newTranslation(-objCenter.x, -objCenter.y);
-    transformation *= CG::Transformation::newScaling(scale.x, scale.y);
-    transformation *= CG::Transformation::newTranslation(objCenter.x, objCenter.y);
-
-    obj.transform(transformation);
+    viewport->applyTranslation(name, scale.x, scale.y);
   }
 }
 
 void ObjectsTreeView::on_menu_popup_rotate() {
-  CG::GObject& obj = getSelectedObject();
-  CG::Coordinate objCenter = obj.center();
-  RotateDialog dialog(objCenter);
+	const std::string name = getSelectedObject();
+	//TODO: deixa que quem for fazer a transformacao calcula o centro. Achar um jeito de pegar a bullet marcada
+	//e passar como parametro o tipo de rotacao pra applyRotation
+	RotateDialog dialog(CG::Coordinate(0,0));
 
-  if (dialog.run() == Gtk::RESPONSE_OK) {
-    double degrees = dialog.getRotation();
-    CG::Coordinate rotationCenter = dialog.getRotationCenter();
-    CG::Transformation transformation = CG::Transformation::newRotationAroundPoint(CG::Transformation::toRadians(degrees), rotationCenter);
-    obj.transform(transformation);
+	if (dialog.run() == Gtk::RESPONSE_OK) {
+		double degrees = dialog.getRotation();
+		CG::Coordinate rotationCenter = dialog.getRotationCenter();
+		viewport->applyRotation(name, degrees, rotationCenter);
   }
 }

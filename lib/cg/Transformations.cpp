@@ -2,6 +2,10 @@
 
 namespace CG {
 
+	Transformation::Transformation(){
+		_m[0][0] = _m[1][1] = _m[2][2] = 1;
+	}
+
 	Transformation& Transformation::operator*=(const Transformation& rhs){
 		auto m1 = this->_m;
 		const auto &m2 = rhs.m();

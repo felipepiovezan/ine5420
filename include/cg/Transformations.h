@@ -18,6 +18,9 @@ namespace CG{
 
 			Transformation(TransformationMatrix&& m) : _m(m) {}
 		public:
+			//default constructor builds an identity matrix;
+			Transformation();
+
 			//getters
 			const TransformationMatrix& m() const {return _m;}
 

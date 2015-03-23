@@ -5,42 +5,41 @@
 #include "cg/DisplayFile.h"
 
 MainWindow::MainWindow() :
-  _window(-10, -10, 10, 10),
-  _displayFile(),
-  _viewport(&_window, &_displayFile),
-  _toolbox(&_displayFile) {
-
-  init_examples();
-  init_handlers();
-
-  _toolbox.refreshObjectList();
-  _viewport.redraw();
-
-  // Layouting
-  set_title("Computer Graphics Interative System");
-  set_border_width(10);
-
-  add(_mainBox);
-  _mainBox.set_spacing(10);
-  _mainBox.show();
-
-  _mainBox.pack_start(_toolbox, Gtk::PACK_SHRINK);
-  _toolbox.set_size_request(200, 0);
-  _mainBox.pack_end(_viewport, Gtk::PACK_EXPAND_WIDGET);
-  _viewport.set_size_request(550, 550);
-
-  _toolbox.show();
-  _viewport.show();
+	_window(0, 0, 10, 10, 0),
+	_displayFile(),
+	_viewport(&_window, &_displayFile),
+	_toolbox(&_viewport) {
+		init_examples();
+		init_handlers();
+		
+		_toolbox.refreshObjectList();
+		_viewport.redraw();
+		
+		// Layouting
+		set_title("Computer Graphics Interative System");
+		set_border_width(10);
+		
+		add(_mainBox);
+		_mainBox.set_spacing(10);
+		_mainBox.show();
+		
+		_mainBox.pack_start(_toolbox, Gtk::PACK_SHRINK);
+		_toolbox.set_size_request(200, 0);
+		_mainBox.pack_end(_viewport, Gtk::PACK_EXPAND_WIDGET);
+		_viewport.set_size_request(550, 550);
+		
+		_toolbox.show();
+		_viewport.show();
 }
 
 void MainWindow::init_examples() {
   CG::GLine x(-1000, 0, 1000, 0);
   x.color = CG::Color(1, 0, 0);
-  _displayFile.add("Xaxis", x);
+  _displayFile.add("Xaxis", x, _window.wo2wiMatrix());
 
   CG::GLine y(0, -1000, 0, 1000);
   y.color = CG::Color(0, 0, 1);
-  _displayFile.add("Yaxis", y);
+  _displayFile.add("Yaxis", y, _window.wo2wiMatrix());
 
   init_leaf();
 }
@@ -85,46 +84,26 @@ void MainWindow::on_newPolygon() {
 void MainWindow::createPoint(std::string name, CG::Color color, CG::Coordinate c) {
   CG::GPoint point(c);
   point.color = color;
-  _displayFile.add(name, point);
+  _displayFile.add(name, point, _window.wo2wiMatrix());
   _toolbox.refreshObjectList();
 }
 
 void MainWindow::createLine(std::string name, CG::Color color, CG::Coordinate c1, CG::Coordinate c2) {
   CG::GLine line(c1, c2);
   line.color = color;
-  _displayFile.add(name, line);
+  _displayFile.add(name, line, _window.wo2wiMatrix());
   _toolbox.refreshObjectList();
 }
 
+//TODO: change the coordinates parameter to &&, since that's the only way it's being called;
 void MainWindow::createPolygon(std::string name, CG::Color color, CG::GObject::Coordinates coordinates) {
   CG::GPolygon polygon(coordinates);
   polygon.color = color;
-  _displayFile.add(name, polygon);
+  _displayFile.add(name, polygon, _window.wo2wiMatrix());
   _toolbox.refreshObjectList();
 }
 
 void MainWindow::init_leaf(){
-/*  _displayFile.add("Leaf_00", CG::GLine(-2,3,-1,4));
-  _displayFile.add("Leaf_01", CG::GLine(-1,4,0,6) );
-  _displayFile.add("Leaf_02", CG::GLine(-6,-1,-2,-4));
-  _displayFile.add("Leaf_03", CG::GLine(-2,-4,0,-5) );
-  _displayFile.add("Leaf_04", CG::GLine(0,-5,2,-3));
-  _displayFile.add("Leaf_05", CG::GLine(2,-3,3,0));
-  _displayFile.add("Leaf_06", CG::GLine(3,0,4,5));
-  _displayFile.add("Leaf_07", CG::GLine(-5,3,-4,2));
-  _displayFile.add("Leaf_08", CG::GLine(-4,2,-1,1) );
-  _displayFile.add("Leaf_09", CG::GLine(5,-3,3,-4));
-  _displayFile.add("Leaf_10", CG::GLine(3,-4,1,-4) );
-  _displayFile.add("Leaf_11", CG::GLine(1,-4,1,-1));
-  _displayFile.add("Leaf_12", CG::GLine(1,-1,2,1) );
-  _displayFile.add("Leaf_13", CG::GLine(-1,-10,0,-6));
-  _displayFile.add("Leaf_53", CG::GLine(0,-6,0,-3));
-  _displayFile.add("Leaf_54", CG::GLine(0,-3,-1,1));
-  _displayFile.add("Leaf_55", CG::GLine(-1,1,-4,7));
-  _displayFile.add("Leaf_56", CG::GLine(-2,-4,-3,-5));
-  _displayFile.add("Leaf_57", CG::GLine(-3,-5,-5,-6));
-  _displayFile.add("Leaf_58", CG::GLine(-2,7,-3,5));
-  _displayFile.add("Leaf_59", CG::GLine(1,-1,0,0));*/
   CG::GObject::Coordinates c;
   c.push_back(CG::Coordinate(-1,-10));
   c.push_back(CG::Coordinate(0,-6));
@@ -170,5 +149,5 @@ void MainWindow::init_leaf(){
   c.push_back(CG::Coordinate(-1,-10));
   auto leaf = CG::GPolygon(c);
   leaf.color = CG::Color(0, 1, 0);
-  _displayFile.add("leaf body", leaf);
+  _displayFile.add("leaf body", leaf, _window.wo2wiMatrix());
 }

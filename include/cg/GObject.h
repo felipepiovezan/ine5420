@@ -20,9 +20,7 @@ namespace CG {
 	class Coordinate {
 		public:
 			Coordinate(double x, double y) : x(x), y(y) {}
-
-			void transform(const Transformation& t);
-
+			Coordinate& operator*=(const Transformation& t);
 			double x, y, z = 1;
 
 			friend Coordinate operator+(const Coordinate &c1, const Coordinate &c2);
@@ -40,6 +38,7 @@ namespace CG {
 		public:
 			typedef std::vector<Coordinate> Coordinates;
 
+			//TODO: change this.
 			enum Type { OBJECT, POINT, LINE, POLYGON };
 			static const std::string TypeNames[];
 
