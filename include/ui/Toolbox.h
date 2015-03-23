@@ -22,8 +22,9 @@ class Toolbox : public Gtk::Box {
 
     // Control widgets
     Gtk::Frame _controlFrame;
-    Gtk::Box _controlBox, _cBox1, _cBox2;
-    Gtk::Button _zoomInBtn, _zoomOutBtn, _leftBtn, _downBtn, _upBtn, _rightBtn;
+    Gtk::Box _controlBox, _cBox1, _cBox2, _cBox3;
+    Gtk::Button _zoomInBtn, _zoomOutBtn, _leftBtn, _downBtn, _upBtn, _rightBtn,
+                _rotateLeftBtn, _rotateRightBtn;
 
     // Object list widgets
     Gtk::Frame _objectsFrame;

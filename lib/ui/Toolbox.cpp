@@ -42,6 +42,8 @@ void Toolbox::init_control_widgets() {
   _rightBtn.set_label("Right");
   _downBtn.set_label("Down");
   _upBtn.set_label("Up");
+  _rotateLeftBtn.set_label("Rotate left");
+  _rotateRightBtn.set_label("Rotate right");
 
   pack_start(_controlFrame, Gtk::PACK_SHRINK);
   _controlFrame.add(_controlBox);
@@ -51,8 +53,10 @@ void Toolbox::init_control_widgets() {
 
   _cBox1.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
   _cBox2.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
+  _cBox3.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
   _controlBox.pack_start(_cBox1, Gtk::PACK_SHRINK);
   _controlBox.pack_start(_cBox2, Gtk::PACK_SHRINK);
+  _controlBox.pack_start(_cBox3, Gtk::PACK_SHRINK);
 
   _cBox1.pack_start(_zoomInBtn, Gtk::PACK_EXPAND_WIDGET);
   _cBox1.pack_start(_zoomOutBtn, Gtk::PACK_EXPAND_WIDGET);
@@ -62,20 +66,25 @@ void Toolbox::init_control_widgets() {
   _cBox2.pack_start(_upBtn, Gtk::PACK_EXPAND_WIDGET);
   _cBox2.pack_start(_rightBtn, Gtk::PACK_EXPAND_WIDGET);
 
+  _cBox3.pack_start(_rotateLeftBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox3.pack_start(_rotateRightBtn, Gtk::PACK_EXPAND_WIDGET);
+
   _controlFrame.show();
   _controlBox.show();
   _cBox1.show();
   _cBox2.show();
+  _cBox3.show();
   _zoomInBtn.show();
   _zoomOutBtn.show();
   _leftBtn.show();
   _rightBtn.show();
   _downBtn.show();
   _upBtn.show();
+  _rotateLeftBtn.show();
+  _rotateRightBtn.show();
 }
 
 void Toolbox::init_object_list_widgets() {
-  // Layouting
   pack_start(_objectsFrame, Gtk::PACK_EXPAND_WIDGET);
   _objectsFrame.set_label("Object List");
   _objectsScroll.set_policy(Gtk::POLICY_AUTOMATIC,Gtk::POLICY_AUTOMATIC);

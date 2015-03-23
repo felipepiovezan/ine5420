@@ -35,6 +35,8 @@ class MainWindow : public Gtk::Window {
     void on_right()   { _window.dx(1); _viewport.redraw(); }
     void on_up()      { _window.dy(1); _viewport.redraw(); }
     void on_down()    { _window.dy(-1); _viewport.redraw(); }
+    void on_rotate_left()  {} // TODO
+    void on_rotate_right() {} // TODO 
 };
 
 #endif

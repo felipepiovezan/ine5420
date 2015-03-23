@@ -56,6 +56,9 @@ void MainWindow::init_handlers() {
   _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_right));
   _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_up));
   _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_down));
+
+  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_rotate_left));
+  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_rotate_right));
 }
 
 void MainWindow::on_newPoint() {
