@@ -36,14 +36,14 @@ void Toolbox::init_create_widgets() {
 
 void Toolbox::init_control_widgets() {
   _controlFrame.set_label("Controls");
-  _zoomInBtn.set_label("Zoom In");
-  _zoomOutBtn.set_label("Zoom Out");
-  _leftBtn.set_label("Left");
-  _rightBtn.set_label("Right");
-  _downBtn.set_label("Down");
-  _upBtn.set_label("Up");
-  _rotateLeftBtn.set_label("Rotate left");
-  _rotateRightBtn.set_label("Rotate right");
+  set_icon(_leftBtn, _leftImg, Gtk::Stock::GO_BACK);
+  set_icon(_rightBtn, _rightImg, Gtk::Stock::GO_FORWARD);
+  set_icon(_upBtn, _upImg, Gtk::Stock::GO_UP);
+  set_icon(_downBtn, _downImg, Gtk::Stock::GO_DOWN);
+  set_icon(_zoomInBtn, _zoomInImg, Gtk::Stock::ZOOM_IN);
+  set_icon(_zoomOutBtn, _zoomOutImg, Gtk::Stock::ZOOM_OUT);
+  set_icon(_rotateLeftBtn, _rotateLeftImg, Gtk::Stock::UNDO);
+  set_icon(_rotateRightBtn, _rotateRightImg, Gtk::Stock::REDO);
 
   pack_start(_controlFrame, Gtk::PACK_SHRINK);
   _controlFrame.add(_controlBox);
@@ -59,14 +59,14 @@ void Toolbox::init_control_widgets() {
   _controlBox.pack_start(_cBox3, Gtk::PACK_SHRINK);
 
   _cBox1.pack_start(_zoomInBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox1.pack_start(_upBtn, Gtk::PACK_EXPAND_WIDGET);
   _cBox1.pack_start(_zoomOutBtn, Gtk::PACK_EXPAND_WIDGET);
 
   _cBox2.pack_start(_leftBtn, Gtk::PACK_EXPAND_WIDGET);
-  _cBox2.pack_start(_downBtn, Gtk::PACK_EXPAND_WIDGET);
-  _cBox2.pack_start(_upBtn, Gtk::PACK_EXPAND_WIDGET);
   _cBox2.pack_start(_rightBtn, Gtk::PACK_EXPAND_WIDGET);
 
   _cBox3.pack_start(_rotateLeftBtn, Gtk::PACK_EXPAND_WIDGET);
+  _cBox3.pack_start(_downBtn, Gtk::PACK_EXPAND_WIDGET);
   _cBox3.pack_start(_rotateRightBtn, Gtk::PACK_EXPAND_WIDGET);
 
   _controlFrame.show();
@@ -96,4 +96,10 @@ void Toolbox::init_object_list_widgets() {
   _objectsTreeView.show();
   _objectsScroll.show();
   _objectsFrame.show();
+}
+
+void Toolbox::set_icon(Gtk::Button& btn, Gtk::Image& img, const Gtk::StockID& id) {
+  Gtk::Stock::lookup(id, Gtk::ICON_SIZE_BUTTON, img);
+  btn.add(img);
+  img.show();
 }
