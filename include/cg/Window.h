@@ -9,6 +9,9 @@ namespace CG {
 		  Window(double cx, double cy, double width, double heitgh, double theta);
 		  Window() = default;
 
+		  void updateMatrix();
+
+
 		  double width() const { return _width; }
 		  double height() const { return _height; }
 		  double theta() const { return _theta; }
@@ -18,9 +21,7 @@ namespace CG {
 		  int ymin() const { return -1;}
 		  int ymax() const { return  1;}
 
-		  //void dx(double d) { _xmin += d; _xmax += d; }
-		  //void dy(double d) { _ymin += d; _ymax += d; }
-		  void moveCenter(double dx, double dy) {_center.x += dx; _center.y += dy;}
+		  void moveCenter(double dx, double dy) {_center.x -= dx; _center.y -= dy;}
 		  
 		  void zoom(double step);
 

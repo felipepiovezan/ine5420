@@ -107,3 +107,17 @@ void Viewport::applyRotation(const std::string &name, double theta, const CG::Co
     windowObject = worldObject;
     windowObject.transform(_window->wo2wiMatrix());
 }
+
+void Viewport::changeWindowZoom(double step){
+	_window->zoom(step);
+	_window->updateMatrix();
+	_displayFile->updateWindowCoords(_window->wo2wiMatrix());
+	redraw();
+}
+
+void Viewport::changeWindowPosition(double sx, double sy){
+	_window->moveCenter(sx, sy);
+	_window->updateMatrix();
+	_displayFile->updateWindowCoords(_window->wo2wiMatrix());
+	redraw();
+}

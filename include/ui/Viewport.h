@@ -25,9 +25,14 @@ class Viewport : public Gtk::DrawingArea {
 
 		const CG::DisplayFile* displayFile(){ return _displayFile;}
 
+		//methods called by the gui, transformations on objects
 		void applyTranslation(const std::string &name, double dx, double dy);
 		void applyScaling(const std::string &name, double sx, double xy);
 		void applyRotation(const std::string &name, double theta, const CG::Coordinate& rotationCenter);
+
+		//methods called by the gui, transformations on the window
+		void changeWindowZoom(double step);
+		void changeWindowPosition(double sx, double sy);
 
 };
 

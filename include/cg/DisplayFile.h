@@ -24,6 +24,8 @@ namespace CG {
 			bool isValidWorldIterator(const mapGObjects::iterator it) const {return it!= _worldObjects.end();}
 			bool isValidWindowIterator(const mapGObjects::iterator it) const {return it!= _windowObjects.end();}
 			mapGObjects::size_type removeObject(const std::string& name) {_worldObjects.erase(name); return _windowObjects.erase(name);}
+
+			void updateWindowCoords(const Transformation& wo2wiMatrix);
   };
 
 }
