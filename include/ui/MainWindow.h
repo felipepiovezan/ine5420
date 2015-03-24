@@ -35,8 +35,8 @@ class MainWindow : public Gtk::Window {
     void on_right()   { _viewport.changeWindowPosition(-1,0);}
     void on_up()      { _viewport.changeWindowPosition(0,-1);}
     void on_down()    { _viewport.changeWindowPosition(0,1);}
-    void on_rotate_left()  { _viewport.rotateWindow(-30);} // TODO
-    void on_rotate_right() { _viewport.rotateWindow(+30);} // TODO
+    void on_rotate_left()  { _viewport.rotateWindow(-15);}
+    void on_rotate_right() { _viewport.rotateWindow(+15);}
 };
 
 #endif
