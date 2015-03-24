@@ -1,5 +1,6 @@
 #include "cg/Window.h"
-
+#include <ctgmath>
+#include <iostream>
 namespace CG {
 
   Window:: Window(double cx, double cy, double width, double height, double theta)
@@ -17,8 +18,15 @@ namespace CG {
 	_width += step;
 	_height += step;
 
-	updateMatrix();
   }
+
+  void Window::move(double dx, double dy){
+	  Coordinate c(dx, dy);
+	  c *= Transformation::newRotationAroundOrigin(-_theta);
+	  _center.x += c.x;
+	  _center.y += c.y;
+  }
+
 
   void Window::updateMatrix(){
 	  _wo2wiMatrix = Transformation();

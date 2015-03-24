@@ -3,6 +3,9 @@
 namespace CG {
 
 	Transformation::Transformation(){
+		for(int i=0; i<3; i++)
+			for(int j=0; j<3; j++)
+				_m[i][j] = 0;
 		_m[0][0] = _m[1][1] = _m[2][2] = 1;
 	}
 

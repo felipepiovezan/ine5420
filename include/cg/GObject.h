@@ -19,7 +19,7 @@ namespace CG {
 	class Transformation;
 	class Coordinate {
 		public:
-			Coordinate(double x, double y) : x(x), y(y) {}
+			Coordinate(double dx, double dy) : x(dx), y(dy) {}
 			Coordinate& operator*=(const Transformation& t);
 			double x, y, z = 1;
 
