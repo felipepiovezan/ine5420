@@ -177,10 +177,25 @@ void MainWindow::init_leaf(){
   _displayFile.add("leaf body", leaf, _window.wo2wiMatrix());
 }
 
+#include <iostream>
 void MainWindow::on_action_file_open() {
-	// TODO
+	Gtk::FileChooserDialog dialog("Choose file to open", Gtk::FILE_CHOOSER_ACTION_OPEN);
+	dialog.add_button("Open", Gtk::RESPONSE_OK);
+	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+
+	if (dialog.run() == Gtk::RESPONSE_OK) {
+		// TODO: open .obj file here
+		std::cout << "Opening " << dialog.get_filename() << std::endl;
+	}
 }
 
 void MainWindow::on_action_file_save() {
-	// TODO
+	Gtk::FileChooserDialog dialog("Choose destination file", Gtk::FILE_CHOOSER_ACTION_SAVE);
+	dialog.add_button("Save", Gtk::RESPONSE_OK);
+	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+
+	if (dialog.run() == Gtk::RESPONSE_OK) {
+		// TODO: save .obj file here
+		std::cout << "Saving " << dialog.get_filename() << std::endl;
+	}
 }
