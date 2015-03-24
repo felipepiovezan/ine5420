@@ -1,13 +1,13 @@
 #ifndef CG_WINDOW_H_
 #define CG_WINDOW_H_
+
 #include "cg/GObject.h"
 
 namespace CG {
 
   class Window {
 	  public:
-		  Window(double cx, double cy, double width, double heitgh, double theta);
-		  Window() = default;
+		  Window(double cx, double cy, double width, double height, double theta);
 
 		  double width() const { return _width; }
 		  double height() const { return _height; }

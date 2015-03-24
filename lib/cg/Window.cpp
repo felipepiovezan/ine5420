@@ -1,6 +1,6 @@
 #include "cg/Window.h"
 #include <ctgmath>
-#include <iostream>
+
 namespace CG {
 
   Window:: Window(double cx, double cy, double width, double height, double theta)
@@ -15,9 +15,8 @@ namespace CG {
     if (_width + step <= 0 ||  _height + step <= 0)
       return;
 
-	_width += step;
-	_height += step;
-
+    _width += step;
+    _height += step;
   }
 
   void Window::move(double dx, double dy){
@@ -26,7 +25,6 @@ namespace CG {
 	  _center.x += c.x;
 	  _center.y += c.y;
   }
-
 
   void Window::updateMatrix(){
 	  _wo2wiMatrix = Transformation();
