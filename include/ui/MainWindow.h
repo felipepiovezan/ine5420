@@ -2,15 +2,14 @@
 #define __MAINWINDOWH
 
 #include <gtkmm.h>
+#include "cg/Scene.h"
 #include "ui/Viewport.h"
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
 
 class MainWindow : public Gtk::Window {
 	private:
-		CG::Window _window;
-		CG::DisplayFile _displayFile;
-		Viewport _viewport;
+		CG::Scene scene;
 
 		Toolbox _toolbox;
 		Gtk::Box _mainBox;
@@ -33,14 +32,6 @@ class MainWindow : public Gtk::Window {
     void on_newPoint();
     void on_newLine();
     void on_newPolygon();
-    void on_zoomIn()  { _viewport.changeWindowZoom(-1); }
-    void on_zoomOut() { _viewport.changeWindowZoom(1); }
-    void on_left()    { _viewport.changeWindowPosition(1,0);}
-    void on_right()   { _viewport.changeWindowPosition(-1,0);}
-    void on_up()      { _viewport.changeWindowPosition(0,-1);}
-    void on_down()    { _viewport.changeWindowPosition(0,1);}
-    void on_rotate_left()  { _viewport.rotateWindow(-15);}
-    void on_rotate_right() { _viewport.rotateWindow(+15);}
 		void on_action_file_open();
 		void on_action_file_save();
 };
