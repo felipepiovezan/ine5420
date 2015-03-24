@@ -11,8 +11,11 @@ class MainWindow : public Gtk::Window {
 		CG::Window _window;
 		CG::DisplayFile _displayFile;
 		Viewport _viewport;
+
 		Toolbox _toolbox;
 		Gtk::Box _mainBox;
+		Glib::RefPtr<Gtk::ActionGroup> _actionGroup;
+		Glib::RefPtr<Gtk::UIManager> _uiManager;
 
 	public:
 		MainWindow();
@@ -24,6 +27,7 @@ class MainWindow : public Gtk::Window {
 		void init_examples();
 		void init_handlers();
 		void init_leaf();
+		void init_action_menu();
 
     // Event handlers
     void on_newPoint();
@@ -37,6 +41,8 @@ class MainWindow : public Gtk::Window {
     void on_down()    { _viewport.changeWindowPosition(0,1);}
     void on_rotate_left()  { _viewport.rotateWindow(-15);}
     void on_rotate_right() { _viewport.rotateWindow(+15);}
+		void on_action_file_open();
+		void on_action_file_save();
 };
 
 #endif

@@ -11,23 +11,24 @@ MainWindow::MainWindow() :
 	_toolbox(&_viewport) {
 		init_examples();
 		init_handlers();
-		
+		init_action_menu();
+
 		_toolbox.refreshObjectList();
 		_viewport.redraw();
-		
+
 		// Layouting
 		set_title("Computer Graphics Interative System");
 		set_border_width(10);
-		
+
 		add(_mainBox);
 		_mainBox.set_spacing(10);
 		_mainBox.show();
-		
+
 		_mainBox.pack_start(_toolbox, Gtk::PACK_SHRINK);
 		_toolbox.set_size_request(200, 0);
 		_mainBox.pack_end(_viewport, Gtk::PACK_EXPAND_WIDGET);
 		_viewport.set_size_request(550, 550);
-		
+
 		_toolbox.show();
 		_viewport.show();
 }
@@ -58,6 +59,30 @@ void MainWindow::init_handlers() {
 
   _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_rotate_left));
   _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_rotate_right));
+}
+
+void MainWindow::init_action_menu() {
+	_actionGroup = Gtk::ActionGroup::create();
+	_actionGroup->add(Gtk::Action::create("MenuFile", "File"));
+	_actionGroup->add(Gtk::Action::create("MenuFileOpen", Gtk::Stock::OPEN, "Open..."), sigc::mem_fun(*this, &MainWindow::on_action_file_open));
+	_actionGroup->add(Gtk::Action::create("MenuFileSave", Gtk::Stock::SAVE, "Save..."), sigc::mem_fun(*this, &MainWindow::on_action_file_save));
+
+	_uiManager = Gtk::UIManager::create();
+	_uiManager->insert_action_group(_actionGroup);
+	add_accel_group(_uiManager->get_accel_group());
+
+	Glib::ustring menuBarLayout =
+    "<ui>"
+    "  <menubar name='MenuBar'>"
+    "    <menu action='MenuFile'>"
+    "      <menuitem action='MenuFileOpen'/>"
+    "      <menuitem action='MenuFileSave'/>"
+    "    </menu>"
+    "  </menubar>"
+    "</ui>";
+
+		_uiManager->add_ui_from_string(menuBarLayout);
+		_mainBox.pack_start(*_uiManager->get_widget("/MenuBar"));
 }
 
 void MainWindow::on_newPoint() {
@@ -150,4 +175,12 @@ void MainWindow::init_leaf(){
   auto leaf = CG::GPolygon(c);
   leaf.color = CG::Color(0, 1, 0);
   _displayFile.add("leaf body", leaf, _window.wo2wiMatrix());
+}
+
+void MainWindow::on_action_file_open() {
+	// TODO
+}
+
+void MainWindow::on_action_file_save() {
+	// TODO
 }
