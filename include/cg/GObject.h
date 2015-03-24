@@ -19,12 +19,16 @@ namespace CG {
 	class Transformation;
 	class Coordinate {
 		public:
-			Coordinate(double dx, double dy) : x(dx), y(dy) {}
-			Coordinate& operator*=(const Transformation& t);
-			double x, y, z = 1;
+			Coordinate(double dx, double dy) : x(dx), y(dy), w(1) {}
+			double x, y;
 
+			Coordinate& operator*=(const Transformation& t);
 			friend Coordinate operator+(const Coordinate &c1, const Coordinate &c2);
 			friend Coordinate operator-(const Coordinate &c1, const Coordinate &c2);
+
+		protected:
+			// Extra-dimensional coordinate value, used to work with a homogenous coordinate system
+			double w;
 	};
 
 	class Color {
