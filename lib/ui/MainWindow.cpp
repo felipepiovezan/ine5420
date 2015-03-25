@@ -23,8 +23,10 @@ MainWindow::MainWindow() :
 
 		_mainBox.pack_start(_toolbox, Gtk::PACK_SHRINK);
 		_toolbox.set_size_request(200, 0);
-		_mainBox.pack_end(drawingCtx, Gtk::PACK_EXPAND_WIDGET);
-		drawingCtx.set_size_request(550, 550);
+		_mainBox.pack_start(drawingCtx, Gtk::PACK_EXPAND_PADDING);
+		drawingCtx.set_size_request(600, 600);
+
+		set_resizable(false);
 
 		_toolbox.show();
 		drawingCtx.show();
