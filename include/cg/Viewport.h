@@ -5,7 +5,6 @@
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
 #include "cg/DrawingContext.h"
-#include <cassert>
 
 namespace CG {
 
@@ -23,13 +22,6 @@ namespace CG {
       void redraw() { ctx->redraw(); }
       // DrawingContext::Listener implementation
       void onContextChange();
-
-      //methods called by the gui, transformations on objects
-      // TODO: remove it!
-      const DisplayFile* getDisplayFile(){ return displayFile;}
-  		void applyTranslation(const std::string &name, double dx, double dy);
-  		void applyScaling(const std::string &name, double sx, double xy);
-  		void applyRotation(const std::string &name, double theta, const CG::Coordinate& rotationCenter);
 
     protected:
       DrawingContext* ctx;

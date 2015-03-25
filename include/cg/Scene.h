@@ -15,12 +15,23 @@ namespace CG {
    * providing the facade for these structures
    */
   class Scene {
+    protected:
+      Window window;
+    	DisplayFile displayFile;
+      Viewport viewport;
+
     public:
       Scene(DrawingContext& ctx);
 
+      // Object creation
       void createPoint(std::string name, Color color, Coordinate c);
       void createLine(std::string name, Color color, Coordinate c1, Coordinate c2);
       void createPolygon(std::string name, Color color, GObject::Coordinates coordinates);
+
+      // Object manipulation
+      void translateObject(const std::string &name, double dx, double dy);
+  		void scaleObject(const std::string &name, double sx, double sy);
+  		void rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter);
 
       // Window manipulation
       void changeWindowZoom(double step);
@@ -36,12 +47,21 @@ namespace CG {
       void rotateLeft()  { rotateWindow(-15);}
       void rotateRight() { rotateWindow(+15);}
 
-    protected:
-      Window window;
-  		DisplayFile displayFile;
+      // Events notifiers & listeners definition
+      class Listener {
+        public:
+          // Called when an object of the scene is changed
+          virtual void onObjectChange(DisplayFile* displayFile) {}
 
-    public:
-      Viewport viewport;
+          // Called when the window is changed
+          virtual void onWindowChange(Window* window) {}
+      };
+      void addListener(Listener* listener);
+
+    private:
+      std::vector<Listener*> listeners;
+      void notifyWindowChange();
+      void notifyObjectChange();
   };
 
 }

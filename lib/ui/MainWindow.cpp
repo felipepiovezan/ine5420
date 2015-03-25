@@ -1,19 +1,17 @@
 #include "ui/MainWindow.h"
 
-#include <iostream>
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
 
 MainWindow::MainWindow() :
 	drawingCtx(),
 	scene(drawingCtx),
-	_toolbox(&scene.viewport) // TODO: remove injection
-	{
+	_toolbox(&scene) {
+		scene.addListener(&_toolbox._objectsTreeView);
+
 		init_examples();
 		init_handlers();
 		init_action_menu();
-
-		_toolbox.refreshObjectList();
 
 		// Layouting
 		set_title("Computer Graphics Interative System");
@@ -83,7 +81,6 @@ void MainWindow::on_newPoint() {
   NamedPointDialog pointDialog;
   if (pointDialog.run() == Gtk::RESPONSE_OK) {
     scene.createPoint(pointDialog.getName(), pointDialog.getColor(), pointDialog.getCoordinate());
-		_toolbox.refreshObjectList();
   }
 }
 
@@ -91,7 +88,6 @@ void MainWindow::on_newLine() {
   LineDialog lineDialog;
   if (lineDialog.run() == Gtk::RESPONSE_OK) {
 		scene.createLine(lineDialog.getName(), lineDialog.getColor(), lineDialog.getCoordinate1(), lineDialog.getCoordinate2());
-		_toolbox.refreshObjectList();
   }
 }
 
@@ -99,7 +95,6 @@ void MainWindow::on_newPolygon() {
   PolygonDialog polygonDialog;
   if (polygonDialog.run() == Gtk::RESPONSE_OK) {
 		scene.createPolygon(polygonDialog.getName(), polygonDialog.getColor(), polygonDialog.getCoordinates());
-		_toolbox.refreshObjectList();
   }
 }
 
