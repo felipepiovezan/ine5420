@@ -90,7 +90,7 @@ void ObjectsTreeView::on_menu_popup_scale() {
   ScaleDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate scale = dialog.getCoordinate();
-    viewport->applyTranslation(name, scale.x, scale.y);
+    viewport->applyScaling(name, scale.x, scale.y);
   }
 }
 
