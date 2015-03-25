@@ -2,7 +2,7 @@
 
 #include "ui/dialogs.h"
 
-ObjectsTreeView::ObjectsTreeView(Viewport* viewport) :
+ObjectsTreeView::ObjectsTreeView(CG::Viewport* viewport) :
 	viewport(viewport) {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);
@@ -47,7 +47,7 @@ void ObjectsTreeView::refresh() {
   _refObjectsTreeModel->clear();
 
   Gtk::TreeModel::Row row;
-  for(const auto &it : viewport->displayFile()->windowObjects()){
+  for(const auto &it : viewport->getDisplayFile()->windowObjects()){
     row = *(_refObjectsTreeModel->append());
 		row[_objectsModelColumns.colName] = it.first;
 		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];

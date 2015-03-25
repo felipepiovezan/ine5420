@@ -4,7 +4,8 @@
 #include "cg/GObject.h"
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
-#include "ui/Viewport.h" // TODO
+#include "cg/DrawingContext.h"
+#include "cg/Viewport.h"
 
 namespace CG {
 
@@ -15,7 +16,7 @@ namespace CG {
    */
   class Scene {
     public:
-      Scene();
+      Scene(DrawingContext& ctx);
 
       void createPoint(std::string name, Color color, Coordinate c);
       void createLine(std::string name, Color color, Coordinate c1, Coordinate c2);
@@ -38,8 +39,9 @@ namespace CG {
     protected:
       Window window;
   		DisplayFile displayFile;
+
     public:
-  		Viewport viewport;
+      Viewport viewport;
   };
 
 }

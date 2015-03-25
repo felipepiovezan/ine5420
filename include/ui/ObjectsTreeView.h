@@ -2,16 +2,16 @@
 #define OBJECTS_TREE_VIEW_H_
 
 #include <gtkmm.h>
-#include "ui/Viewport.h"
 #include <utility>
+#include "cg/Viewport.h"
 
 class ObjectsTreeView : public Gtk::TreeView {
   public:
-    ObjectsTreeView(Viewport* viewport);
+    ObjectsTreeView(CG::Viewport* viewport);
     void refresh();
 
   protected:
-    Viewport* viewport;
+    CG::Viewport* viewport;
 
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {

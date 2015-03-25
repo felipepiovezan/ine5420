@@ -3,12 +3,13 @@
 
 #include <gtkmm.h>
 #include "cg/Scene.h"
-#include "ui/Viewport.h"
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
+#include "ui/GtkDrawingContext.h"
 
 class MainWindow : public Gtk::Window {
 	private:
+		GtkDrawingContext drawingCtx;
 		CG::Scene scene;
 
 		Toolbox _toolbox;

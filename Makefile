@@ -5,7 +5,7 @@ CPP_FILES=$(wildcard lib/cg/*.cpp) $(wildcard lib/ui/*.cpp)
 OBJ_FILES=$(addprefix build/,$(subst lib/,,$(CPP_FILES:.cpp=.o)))
 
 build/cg/%.o: lib/cg/%.cpp
-	$(CC) -c $< -o $@ -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`
+	$(CC) -c $< -o $@ -I $(INCLUDES) $(CFLAGS)
 
 build/ui/%.o: lib/ui/%.cpp
 	$(CC) -c $< -o $@ -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`

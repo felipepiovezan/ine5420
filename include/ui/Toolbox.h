@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 #include "cg/DisplayFile.h"
+#include "cg/Viewport.h"
 #include "ui/ObjectsTreeView.h"
 
 class Toolbox : public Gtk::Box {
@@ -13,7 +14,7 @@ class Toolbox : public Gtk::Box {
     void set_icon(Gtk::Button& btn, Gtk::Image& img, const Gtk::StockID& id);
 
   public:
-    Toolbox(Viewport* viewport);
+    Toolbox(CG::Viewport* viewport);
     void refreshObjectList() { _objectsTreeView.refresh(); }
 
     // Create widgets
