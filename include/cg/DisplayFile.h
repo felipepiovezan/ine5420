@@ -16,6 +16,7 @@ namespace CG {
 		public:
 			//getter
 			const mapGObjects& windowObjects() const{ return _windowObjects;}
+			const mapGObjects& worldObjects() const{ return _worldObjects;}
 
 			//add, remove and fetch objects
 			void add(std::string name, GObject object, const Transformation& wo2wiMatrix);
