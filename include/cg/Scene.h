@@ -23,11 +23,13 @@ namespace CG {
     public:
       Scene(DrawingContext& ctx);
 
-      // Object creation
+      // Object manipulation
       void addObject(std::string name, const GObject& obj);
       void createPoint(std::string name, Color color, Coordinate c);
       void createLine(std::string name, Color color, Coordinate c1, Coordinate c2);
       void createPolygon(std::string name, Color color, GObject::Coordinates coordinates);
+
+      const mapGObjects& getObjects() const { return displayFile.windowObjects(); }
 
       // Object manipulation
       void translateObject(const std::string &name, double dx, double dy);
