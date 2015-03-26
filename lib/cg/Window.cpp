@@ -22,8 +22,8 @@ namespace CG {
   void Window::move(double dx, double dy){
 	  Coordinate c(dx, dy);
 	  c *= Transformation::newRotationAroundOrigin(-_theta);
-	  _center.x += c.x;
-	  _center.y += c.y;
+	  _center.x -= c.x;
+	  _center.y -= c.y;
   }
 
   void Window::updateMatrix(){
