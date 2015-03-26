@@ -184,8 +184,14 @@ void MainWindow::on_action_file_open() {
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
-		// TODO: open .obj file here
 		std::cout << "Opening " << dialog.get_filename() << std::endl;
+		ObjReader r(dialog.get_filename());
+		int i=0;
+		for(const auto &it : r.objects()){
+			_displayFile.add(std::string(dialog.get_filename()) + std::to_string(i), it, _window.wo2wiMatrix());
+			i++;
+		}
+		_toolbox.refreshObjectList();
 	}
 }
 

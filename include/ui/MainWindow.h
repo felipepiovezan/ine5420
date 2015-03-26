@@ -5,6 +5,7 @@
 #include "ui/Viewport.h"
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
+#include "utils/objIO.h"
 
 class MainWindow : public Gtk::Window {
 	private:

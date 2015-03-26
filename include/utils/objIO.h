@@ -11,6 +11,7 @@ class ObjReader {
 	public:
 		ObjReader(const std::string& filename);
 
+		const std::vector<CG::GObject>& objects() {return _objects;}
 	private:
 		typedef std::string string;
 

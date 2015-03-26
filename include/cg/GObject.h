@@ -6,15 +6,6 @@
 #include <map>
 #include "cg/Transformations.h"
 
-/*	CONTENTS:
- *	0- Coordinate
- *	1- Color
- *	2- GObject (general class)
- *	3- GPoint
- *	4- GLine
- *	5- GPolygon
- */
-
 namespace CG {
 	class Transformation;
 	class Coordinate {
