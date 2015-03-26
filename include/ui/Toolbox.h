@@ -13,7 +13,7 @@ class Toolbox : public Gtk::Box {
     void set_icon(Gtk::Button& btn, Gtk::Image& img, const Gtk::StockID& id);
 
   public:
-    Toolbox(CG::Scene* scene);
+    Toolbox(CG::Scene& scene);
 
     // Create widgets
     Gtk::Frame _createFrame;

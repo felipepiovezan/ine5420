@@ -10,9 +10,9 @@ namespace CG {
 
   class Viewport : public DrawingContext::Listener {
     public:
-      Viewport(DrawingContext *ctx, Window* window, DisplayFile* dfile) :
-        ctx(ctx), window(window), displayFile(dfile) {
-          ctx->addListener(this);
+      Viewport(DrawingContext& ctx, Window& window, DisplayFile& dfile) :
+        ctx(&ctx), window(&window), displayFile(&dfile) {
+          ctx.addListener(*this);
         }
 
       void drawObject(const GObject& obj);

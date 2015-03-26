@@ -6,8 +6,8 @@
 MainWindow::MainWindow() :
 	drawingCtx(),
 	scene(drawingCtx),
-	_toolbox(&scene) {
-		scene.addListener(&_toolbox._objectsTreeView);
+	_toolbox(scene) {
+		scene.addListener(_toolbox._objectsTreeView);
 
 		init_examples();
 		init_handlers();

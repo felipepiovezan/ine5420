@@ -8,7 +8,7 @@ namespace CG {
   Scene::Scene(DrawingContext& ctx) :
     window(0, 0, 10, 10, 0),
     displayFile(),
-    viewport(&ctx, &window, &displayFile)
+    viewport(ctx, window, displayFile)
   {
     viewport.redraw();
     notifyObjectChange();
@@ -117,15 +117,15 @@ namespace CG {
 
   void Scene::notifyObjectChange() {
     for (auto &it : listeners)
-      it->onObjectChange(&displayFile);
+      it->onObjectChange(displayFile);
   }
 
   void Scene::notifyWindowChange() {
     for (auto &it : listeners)
-      it->onWindowChange(&window);
+      it->onWindowChange(window);
   }
 
-  void Scene::addListener(Listener* listener) {
-    listeners.push_back(listener);
+  void Scene::addListener(Listener& listener) {
+    listeners.push_back(&listener);
   }
 }

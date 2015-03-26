@@ -25,7 +25,7 @@ namespace CG {
           virtual void onContextChange() = 0;
       };
 
-      void addListener(Listener* listener) { listeners.push_back(listener); }
+      void addListener(Listener& listener) { listeners.push_back(&listener); }
       void notifyContextChange() {
         for(auto &it : listeners) {
           it->onContextChange();

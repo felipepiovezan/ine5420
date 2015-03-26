@@ -52,12 +52,12 @@ namespace CG {
       class Listener {
         public:
           // Called when an object of the scene is changed
-          virtual void onObjectChange(DisplayFile* displayFile) {}
+          virtual void onObjectChange(DisplayFile& displayFile) {}
 
           // Called when the window is changed
-          virtual void onWindowChange(Window* window) {}
+          virtual void onWindowChange(Window& window) {}
       };
-      void addListener(Listener* listener);
+      void addListener(Listener& listener);
 
     private:
       std::vector<Listener*> listeners;

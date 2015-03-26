@@ -6,8 +6,8 @@
 
 class ObjectsTreeView : public Gtk::TreeView, public CG::Scene::Listener {
   public:
-    ObjectsTreeView(CG::Scene* scene);
-    void refresh(CG::DisplayFile* displayFile);
+    ObjectsTreeView(CG::Scene& scene);
+    void refresh(CG::DisplayFile& displayFile);
 
   protected:
     CG::Scene* scene;
@@ -41,7 +41,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::Scene::Listener {
     void on_menu_popup_rotate();
 
     // Scene handlers
-    void onObjectChange(CG::DisplayFile* displayFile);
+    void onObjectChange(CG::DisplayFile& displayFile);
 };
 
 #endif
