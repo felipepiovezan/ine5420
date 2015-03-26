@@ -1,4 +1,4 @@
-#include "cg/objIO.h"
+#include "utils/objIO.h"
 #include <iostream>
 
 ObjReader::ObjReader(const std::string &filename) : ifs(filename), good(true) {

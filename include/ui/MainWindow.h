@@ -3,6 +3,7 @@
 
 #include <gtkmm.h>
 #include "cg/Scene.h"
+#include "utils/objIO.h"
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
 #include "ui/GtkDrawingContext.h"

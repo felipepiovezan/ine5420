@@ -147,15 +147,18 @@ void MainWindow::init_leaf(){
 	scene.createPolygon("leaf body", CG::Color(0, 1, 0), c);
 }
 
-#include <iostream>
 void MainWindow::on_action_file_open() {
 	Gtk::FileChooserDialog dialog("Choose file to open", Gtk::FILE_CHOOSER_ACTION_OPEN);
 	dialog.add_button("Open", Gtk::RESPONSE_OK);
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
-		// TODO: open .obj file here
-		std::cout << "Opening " << dialog.get_filename() << std::endl;
+		ObjReader r(dialog.get_filename());
+		int i=0;
+		for(const auto &it : r.objects()){
+			scene.addObject(std::string(dialog.get_filename()) + std::to_string(i), it);
+			i++;
+		}
 	}
 }
 
@@ -166,6 +169,5 @@ void MainWindow::on_action_file_save() {
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		// TODO: save .obj file here
-		std::cout << "Saving " << dialog.get_filename() << std::endl;
 	}
 }

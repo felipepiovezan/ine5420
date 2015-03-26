@@ -15,28 +15,28 @@ namespace CG {
     notifyWindowChange();
   }
 
+  void Scene::addObject(std::string name, const GObject& obj) {
+    displayFile.add(name, obj, window.wo2wiMatrix());
+    viewport.redraw();
+    notifyObjectChange();
+  }
+
   void Scene::createPoint(std::string name, Color color, Coordinate c) {
     GPoint point(c);
     point.color = color;
-    displayFile.add(name, point, window.wo2wiMatrix());
-    viewport.redraw();
-    notifyObjectChange();
+    addObject(name, point);
   }
 
   void Scene::createLine(std::string name, Color color, Coordinate c1, Coordinate c2) {
     GLine line(c1, c2);
     line.color = color;
-    displayFile.add(name, line, window.wo2wiMatrix());
-    viewport.redraw();
-    notifyObjectChange();
+    addObject(name, line);
   }
 
   void Scene::createPolygon(std::string name, Color color, GObject::Coordinates coordinates) {
     GPolygon polygon(coordinates);
     polygon.color = color;
-    displayFile.add(name, polygon, window.wo2wiMatrix());
-    viewport.redraw();
-    notifyObjectChange();
+    addObject(name, polygon);
   }
 
   void Scene::translateObject(const std::string &name, double dx, double dy) {

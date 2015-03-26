@@ -24,6 +24,7 @@ namespace CG {
       Scene(DrawingContext& ctx);
 
       // Object creation
+      void addObject(std::string name, const GObject& obj);
       void createPoint(std::string name, Color color, Coordinate c);
       void createLine(std::string name, Color color, Coordinate c1, Coordinate c2);
       void createPolygon(std::string name, Color color, GObject::Coordinates coordinates);
