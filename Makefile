@@ -11,7 +11,7 @@ build/ui/%.o: lib/ui/%.cpp
 	$(CC) -c $< -o $@ -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`
 
 build/utils/%.o: lib/utils/%.cpp
-	$(CC) -c $< -o $@ -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`
+	$(CC) -c $< -o $@ -I $(INCLUDES) $(CFLAGS)
 
 all: prepare $(OBJ_FILES)
 	$(CC) $(OBJ_FILES) lib/*.cpp -o cg -I $(INCLUDES) $(CFLAGS) `pkg-config --cflags --libs gtkmm-3.0`

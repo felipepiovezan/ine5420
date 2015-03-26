@@ -2,8 +2,8 @@
 
 #include "ui/dialogs.h"
 
-ObjectsTreeView::ObjectsTreeView(Viewport* viewport) :
-	viewport(viewport) {
+ObjectsTreeView::ObjectsTreeView(CG::Scene* scene) :
+	scene(scene) {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);
 
@@ -43,11 +43,11 @@ void ObjectsTreeView::init_popup_menu() {
   signal_button_press_event().connect(sigc::mem_fun(*this, &ObjectsTreeView::on_button_press_event), false);
 }
 
-void ObjectsTreeView::refresh() {
+void ObjectsTreeView::refresh(CG::DisplayFile* displayFile) {
   _refObjectsTreeModel->clear();
 
   Gtk::TreeModel::Row row;
-  for(const auto &it : viewport->displayFile()->windowObjects()){
+  for(const auto &it : displayFile->windowObjects()){
     row = *(_refObjectsTreeModel->append());
 		row[_objectsModelColumns.colName] = it.first;
 		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];
@@ -81,7 +81,7 @@ void ObjectsTreeView::on_menu_popup_translate() {
   TranslateDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate c = dialog.getCoordinate();
-    viewport->applyTranslation(name, c.x, c.y);
+    scene->translateObject(name, c.x, c.y);
   }
 }
 
@@ -90,7 +90,7 @@ void ObjectsTreeView::on_menu_popup_scale() {
   ScaleDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate scale = dialog.getCoordinate();
-    viewport->applyScaling(name, scale.x, scale.y);
+    scene->scaleObject(name, scale.x, scale.y);
   }
 }
 
@@ -103,6 +103,10 @@ void ObjectsTreeView::on_menu_popup_rotate() {
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		double degrees = dialog.getRotation();
 		CG::Coordinate rotationCenter = dialog.getRotationCenter();
-		viewport->applyRotation(name, degrees, rotationCenter);
+		scene->rotateObject(name, degrees, rotationCenter);
   }
+}
+
+void ObjectsTreeView::onObjectChange(CG::DisplayFile* displayFile) {
+	refresh(displayFile);
 }
