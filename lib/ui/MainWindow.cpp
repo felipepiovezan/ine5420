@@ -33,10 +33,8 @@ MainWindow::MainWindow() :
 }
 
 void MainWindow::init_examples() {
-	scene.createLine("Xaxis", CG::Color(1, 0, 0), CG::Coordinate(-100, 0), CG::Coordinate(100, 0));
-	scene.createLine("Yaxis", CG::Color(0, 0, 1), CG::Coordinate(0, -100), CG::Coordinate(0, 100));
-
-  init_leaf();
+	scene.addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
+	init_leaf();
 }
 
 void MainWindow::init_handlers() {
@@ -144,7 +142,10 @@ void MainWindow::init_leaf(){
   c.push_back(CG::Coordinate(1,-6));
   c.push_back(CG::Coordinate(0,-6));
   c.push_back(CG::Coordinate(-1,-10));
-	scene.createPolygon("leaf body", CG::Color(0, 1, 0), c);
+	scene.createPolygon("leaf", CG::Color(0, 1, 0), c);
+	scene.scaleObject("leaf", 0.1,0.1);
+	scene.translateObject("leaf", 4.3, 6);
+	scene.rotateObject("leaf", 30);
 }
 
 void MainWindow::on_action_file_open() {
