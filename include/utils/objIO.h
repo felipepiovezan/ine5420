@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include "cg/GObject.h"
+#include <cassert>
 
 class ObjReader {
 	public:
@@ -27,6 +28,20 @@ class ObjReader {
 		void processNormal(std::stringstream& line);
 		void processParaSpaceVertex(std::stringstream& line);
 		void processFace(std::stringstream& line);
+};
+
+class ObjWriter{
+	public:
+		ObjWriter(const std::string& filename);
+		void writeObjects(const std::map<std::string, CG::GObject>& objects);
+
+	private:
+		std::ofstream ofs;
+		bool good;
+		int end;
+
+		void printVertex(const CG::Coordinate& c);
+		void printFace(int start, int end);
 };
 
 #endif
