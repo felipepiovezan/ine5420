@@ -145,9 +145,10 @@ class ScaleDialog : public Dialog {
  */
 class RotateDialog : public Dialog {
   public:
-    RotateDialog(CG::Coordinate objCenter);
+    RotateDialog();
     CG::Coordinate getRotationCenter() { return centerCoordBox.getCoordinate(); }
     double getRotation();
+    bool isAroundObjectCenterSelected();
 
   protected:
     void init_degree_widgets();
@@ -156,8 +157,6 @@ class RotateDialog : public Dialog {
     void on_obj_rb_clicked();
     void on_world_rb_clicked();
     void on_coord_rb_clicked();
-
-    CG::Coordinate objCenter;
 
     Gtk::Box degreesBox;
     Gtk::Label degreesLabel;

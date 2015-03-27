@@ -70,12 +70,7 @@ namespace CG {
   	auto &worldObject = itWorld->second;
   	auto &windowObject = itWindow->second;
 
-  	Coordinate center = worldObject.center();
-
-    //TODO: use the transformation builder instead of multiplying it here.
-    Transformation transformation = Transformation::newTranslation(-center.x, -center.y);
-    transformation *= Transformation::newScaling(sx, sy);
-    transformation *= Transformation::newTranslation(center.x, center.y);
+    Transformation transformation = Transformation::newScalingAroundObjCenter(sx, sy, worldObject);
 
     worldObject.transform(transformation);
     //TODO: transform these two lines into a single operator * line
@@ -92,6 +87,23 @@ namespace CG {
   	auto &windowObject = itWindow->second;
 
   	Transformation transformation = Transformation::newRotationAroundPoint(Transformation::toRadians(theta), rotationCenter);
+
+    worldObject.transform(transformation);
+    //TODO: transform these two lines into a single operator * line
+    windowObject = worldObject;
+    windowObject.transform(window.wo2wiMatrix());
+  }
+
+  void Scene::rotateObject(const std::string &name, double theta) {
+    // If no rotationCenter was provided, consider the center as the object center
+    auto itWindow = displayFile.findWindowObject(name);
+  	auto itWorld = displayFile.findWorldObject(name);
+  	assert(displayFile.isValidWindowIterator(itWindow) && displayFile.isValidWorldIterator(itWorld));
+
+  	auto &worldObject = itWorld->second;
+  	auto &windowObject = itWindow->second;
+
+  	Transformation transformation = Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), worldObject);
 
     worldObject.transform(transformation);
     //TODO: transform these two lines into a single operator * line

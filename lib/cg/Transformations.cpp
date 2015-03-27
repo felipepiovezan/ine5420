@@ -26,7 +26,7 @@ namespace CG {
 		lhs *= rhs;
 		return lhs;
 	}
-	
+
 	Transformation Transformation::newTranslation(double dx, double dy){
 		return Transformation
 			({{ {1,  0,  0},
@@ -41,6 +41,11 @@ namespace CG {
 				{0 , 0 , 1}}});
 	}
 
+	Transformation Transformation::newScalingAroundObjCenter(double sx, double sy, const GObject& obj){
+		const Coordinate center = obj.center();
+		return newTranslation(-center.x, -center.y) * newScaling(sx, sy) * newTranslation(center.x, center.y);
+	}
+
 	Transformation Transformation::newRotationAroundOrigin(double theta){
 		return Transformation
 			({{ {cos(theta), -sin(theta), 0},
@@ -52,7 +57,7 @@ namespace CG {
 		return newTranslation(-p.x, -p.y) * newRotationAroundOrigin(theta) * newTranslation(p.x, p.y);
 	}
 
-	Transformation Transformation::newRotationAroundCenterOfMass(double theta, const GObject& obj){
+	Transformation Transformation::newRotationAroundObjCenter(double theta, const GObject& obj){
 		const Coordinate center = obj.center();
 		return newRotationAroundPoint(theta, center);
 	}
