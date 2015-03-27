@@ -1,7 +1,6 @@
 #include "cg/GObject.h"
 
 namespace CG {
-
 	Coordinate& Coordinate::operator*=(const Transformation& rhs){
 		const auto &m = rhs.m();
 		double x = this->x, y = this->y, w = this->w;
@@ -24,6 +23,8 @@ namespace CG {
 		return Coordinate(c1.x - c2.x, c1.y - c2.y);
 	}
 
+	const std::string GObject::TypeNames[] = {"Object", "Point", "Line", "Polygon"};
+
 	Coordinate GObject::center() const {
 		Coordinate r(0, 0);
 		int n = numPoints();
@@ -43,6 +44,4 @@ namespace CG {
 			p*=(t);
 		}
 	}
-
-	const std::string GObject::TypeNames[] = {"Object", "Point", "Line", "Polygon"};
 }

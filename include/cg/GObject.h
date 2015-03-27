@@ -28,11 +28,11 @@ namespace CG {
 	class GObject {
 		public:
 			typedef std::vector<Coordinate> Coordinates;
-
 			enum Type { OBJECT, POINT, LINE, POLYGON };
+
 			static const std::string TypeNames[];
 
-			GObject() {	_type = Type::OBJECT;	}
+			GObject(Type t = Type::OBJECT) : _type(t) {}
 			Type type() const { return _type; }
 
 			const Coordinates& coordinates() const {return _coordinates;}
@@ -56,34 +56,28 @@ namespace CG {
 
 	class GPoint : public GObject {
 		public:
-			GPoint(int x, int y) {
-				_type = Type::POINT;
+			GPoint(int x, int y) : GObject(Type::POINT) {
 				addCoordinate(x,y);
 			}
-			GPoint(const Coordinate& p) {
-				_type = Type::POINT;
+			GPoint(const Coordinate& p) : GObject(Type::POINT) {
 				addCoordinate(p);
 			}
-			GPoint(Coordinate&& p) {
-				_type = Type::POINT;
+			GPoint(Coordinate&& p) : GObject(Type::POINT) {
 				addCoordinate(p);
 			}
 	};
 
 	class GLine : public GObject {
 		public:
-			GLine(int x1, int y1, int x2, int y2) {
-				_type = Type::LINE;
+			GLine(int x1, int y1, int x2, int y2) : GObject(Type::LINE) {
 				addCoordinate(x1,y1);
 				addCoordinate(x2,y2);
 			}
-			GLine(const Coordinate& p1, const Coordinate& p2) {
-				_type = Type::LINE;
+			GLine(const Coordinate& p1, const Coordinate& p2) : GObject(Type::LINE) {
 				addCoordinate(p1);
 				addCoordinate(p2);
 			}
-			GLine(Coordinate&& p1, Coordinate&& p2) {
-				_type = Type::LINE;
+			GLine(Coordinate&& p1, Coordinate&& p2) : GObject(Type::LINE) {
 				addCoordinate(p1);
 				addCoordinate(p2);
 			}
@@ -91,8 +85,7 @@ namespace CG {
 
 	class GPolygon : public GObject {
 		public:
-			GPolygon(const Coordinates& coords) {
-				_type = Type::POLYGON;
+			GPolygon(const Coordinates& coords) : GObject(Type::POLYGON) {
 				addCoordinate(coords);
 			}
 	};
