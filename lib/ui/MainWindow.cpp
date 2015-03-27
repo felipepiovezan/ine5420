@@ -33,8 +33,8 @@ MainWindow::MainWindow() :
 }
 
 void MainWindow::init_examples() {
-	scene.createLine("Xaxis", CG::Color(1, 0, 0), CG::Coordinate(-1000, 0), CG::Coordinate(1000, 0));
-	scene.createLine("Yaxis", CG::Color(0, 0, 1), CG::Coordinate(0, -1000), CG::Coordinate(0, 1000));
+	scene.createLine("Xaxis", CG::Color(1, 0, 0), CG::Coordinate(-100, 0), CG::Coordinate(100, 0));
+	scene.createLine("Yaxis", CG::Color(0, 0, 1), CG::Coordinate(0, -100), CG::Coordinate(0, 100));
 
   init_leaf();
 }
