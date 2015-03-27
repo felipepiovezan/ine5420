@@ -51,7 +51,6 @@ void ObjReader::processParaSpaceVertex(std::stringstream& line){
 }
 
 void ObjReader::processFace(std::stringstream& line){
-	std::cout<<line.str() << std::endl;
 	string pointString;
 	unsigned int vertexIndex, textureIndex = -1, normalIndex = -1;
 	std::vector<CG::Coordinate> coords;
@@ -88,7 +87,7 @@ void ObjReader::processFace(std::stringstream& line){
 
 		if(vertexIndex > _vertices.size()) { std::cerr << "Vertex index (" << vertexIndex << ") out of bounds @line = " << line.str() << std::endl; return;}
 		coords.push_back(_vertices[vertexIndex-1]);
-		std::cout << "\tvertex, texture, normal = " << vertexIndex << ", " << textureIndex << ", " << normalIndex << std::endl;
+	//	std::cout << "\tvertex, texture, normal = " << vertexIndex << ", " << textureIndex << ", " << normalIndex << std::endl;
 	}
 
 	//TODO: this is ugly. We need an universal constructor for GObjects which receives a vector<Coords>.

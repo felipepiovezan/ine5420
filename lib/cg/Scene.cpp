@@ -21,6 +21,14 @@ namespace CG {
     notifyObjectChange();
   }
 
+  void Scene::addObject(std::string baseName, const std::vector<GObject>& objVector) {
+    int i=0;
+	for(const auto &obj : objVector)
+	  displayFile.add(baseName + std::to_string(i++), obj, window.wo2wiMatrix());
+    viewport.redraw();
+    notifyObjectChange();
+  }
+
   void Scene::createPoint(std::string name, Color color, Coordinate c) {
     GPoint point(c);
     point.color = color;

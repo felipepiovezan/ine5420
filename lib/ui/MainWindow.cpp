@@ -154,11 +154,8 @@ void MainWindow::on_action_file_open() {
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		ObjReader r(dialog.get_filename());
-		int i=0;
-		for(const auto &it : r.objects()){
-			scene.addObject(dialog.get_filename() + std::to_string(i), it);
-			i++;
-		}
+		std::cout << "read " << r.objects().size() << " objects from file" << std::endl;
+		scene.addObject(dialog.get_filename(), r.objects());
 	}
 }
 

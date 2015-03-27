@@ -25,6 +25,7 @@ namespace CG {
 
       // Object manipulation
       void addObject(std::string name, const GObject& obj);
+      void addObject(std::string baseName, const std::vector<GObject>& objVector);
       void createPoint(std::string name, Color color, Coordinate c);
       void createLine(std::string name, Color color, Coordinate c1, Coordinate c2);
       void createPolygon(std::string name, Color color, GObject::Coordinates coordinates);

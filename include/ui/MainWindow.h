@@ -7,6 +7,7 @@
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
 #include "ui/GtkDrawingContext.h"
+#include <iostream>
 
 class MainWindow : public Gtk::Window {
 	private:
