@@ -14,7 +14,7 @@ MainWindow::MainWindow() :
 		init_action_menu();
 
 		// Layouting
-		set_title("Computer Graphics Interative System");
+		set_title("Computer Graphics Interactive System");
 		set_border_width(10);
 
 		add(_mainBox);
