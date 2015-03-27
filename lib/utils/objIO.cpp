@@ -4,6 +4,7 @@
 ObjReader::ObjReader(const std::string &filename) : ifs(filename), good(true) {
 	if(!ifs){
 		good = false;
+		std::cerr << "Failed to open file " << filename << std::endl;
 		return;
 	}
 	init();
@@ -98,4 +99,40 @@ void ObjReader::processFace(std::stringstream& line){
 		_objects.push_back(CG::GLine(coords[0], coords[1]));
 	else if (coords.size() > 2)
 		_objects.push_back(CG::GPolygon(coords));
+}
+
+ObjWriter::ObjWriter (const std::string &filename) : ofs(filename), good(true), end(1) {
+	if(!ofs){
+		good = false;
+		std::cerr << "Failed to open file " << filename << std::endl;
+		return;
+	}
+}
+
+void ObjWriter::writeObjects(const std::map<std::string, CG::GObject>& objects){
+	if(!good){
+		std::cerr << "Object writer was not successfully opened" << std::endl;
+		return;
+	}
+	for(const auto &obj : objects){
+		assert(obj.second.numPoints() > 0);
+		int start = end;
+		for(const auto &coord : obj.second.coordinates())
+			printVertex(coord);
+		printFace(start, end);
+	}
+}
+
+void ObjWriter::printVertex(const CG::Coordinate& c){
+	ofs << "v " << c.x << " " << c.y << " " << 1.0 << " " << c.w << std::endl;
+	end++;
+}
+
+void ObjWriter::printFace(int start, int end){
+	if(start == end) return;
+
+	ofs << "f";
+	for(int i=start; i < end; i++)
+		ofs << " " << i;
+	ofs << std::endl;
 }

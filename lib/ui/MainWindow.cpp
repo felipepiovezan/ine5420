@@ -156,7 +156,7 @@ void MainWindow::on_action_file_open() {
 		ObjReader r(dialog.get_filename());
 		int i=0;
 		for(const auto &it : r.objects()){
-			scene.addObject(std::string(dialog.get_filename()) + std::to_string(i), it);
+			scene.addObject(dialog.get_filename() + std::to_string(i), it);
 			i++;
 		}
 	}
@@ -168,6 +168,6 @@ void MainWindow::on_action_file_save() {
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
-		// TODO: save .obj file here
+		ObjWriter(dialog.get_filename()).writeObjects(scene.getObjects());
 	}
 }
