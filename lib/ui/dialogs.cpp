@@ -176,9 +176,9 @@ ScaleDialog::ScaleDialog() {
   coordBox.show();
 }
 // ==========================================================
-// ScaleDialog
+// RotateDialog
 
-RotateDialog::RotateDialog(CG::Coordinate objCenter) : objCenter(objCenter) {
+RotateDialog::RotateDialog() {
   set_title("Rotate Object");
   init_degree_widgets();
   init_center_widgets();
@@ -244,9 +244,13 @@ double RotateDialog::getRotation() {
   return rotation;
 }
 
+bool RotateDialog::isAroundObjectCenterSelected() {
+  return centerCoordBox.entryX.get_text().empty() && centerCoordBox.entryY.get_text().empty();
+}
+
 void RotateDialog::on_obj_rb_clicked() {
-  centerCoordBox.entryX.set_text(std::to_string(objCenter.x));
-  centerCoordBox.entryY.set_text(std::to_string(objCenter.y));
+  centerCoordBox.entryX.set_text("");
+  centerCoordBox.entryY.set_text("");
 }
 
 void RotateDialog::on_world_rb_clicked() {
@@ -255,7 +259,7 @@ void RotateDialog::on_world_rb_clicked() {
 }
 
 void RotateDialog::on_coord_rb_clicked() {
-  centerCoordBox.entryX.set_text("");
-  centerCoordBox.entryY.set_text("");
+  centerCoordBox.entryX.set_text("0");
+  centerCoordBox.entryY.set_text("0");
   centerCoordBox.entryX.grab_focus();
 }

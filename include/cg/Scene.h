@@ -31,10 +31,11 @@ namespace CG {
 
       const mapGObjects& getObjects() const { return displayFile.worldObjects(); }
 
-      // Object manipulation
+      // Object transformations
       void translateObject(const std::string &name, double dx, double dy);
   		void scaleObject(const std::string &name, double sx, double sy);
   		void rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter);
+  		void rotateObject(const std::string &name, double theta);
 
       // Window manipulation
       void changeWindowZoom(double step);

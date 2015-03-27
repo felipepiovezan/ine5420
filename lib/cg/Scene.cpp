@@ -91,6 +91,23 @@ namespace CG {
     windowObject.transform(window.wo2wiMatrix());
   }
 
+  void Scene::rotateObject(const std::string &name, double theta) {
+    // If no rotationCenter was provided, consider the center as the object center
+    auto itWindow = displayFile.findWindowObject(name);
+  	auto itWorld = displayFile.findWorldObject(name);
+  	assert(displayFile.isValidWindowIterator(itWindow) && displayFile.isValidWorldIterator(itWorld));
+
+  	auto &worldObject = itWorld->second;
+  	auto &windowObject = itWindow->second;
+
+  	Transformation transformation = Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), worldObject);
+
+    worldObject.transform(transformation);
+    //TODO: transform these two lines into a single operator * line
+    windowObject = worldObject;
+    windowObject.transform(window.wo2wiMatrix());
+  }
+
   void Scene::changeWindowZoom(double step){
   	window.zoom(step);
   	window.updateMatrix();

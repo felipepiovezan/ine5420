@@ -9,7 +9,6 @@ namespace CG{
 	class Coordinate;
 	class GObject;
 
-	
 	class Transformation{
 		public:
 			typedef std::array<std::array<double, 3>, 3> TransformationMatrix;
@@ -29,11 +28,11 @@ namespace CG{
 			static Transformation newScaling(double sx, double sy);
 			static Transformation newRotationAroundOrigin(double theta);
 			static Transformation newRotationAroundPoint(double theta, const Coordinate& p);
-			static Transformation newRotationAroundCenterOfMass(double theta, const GObject& obj);
+			static Transformation newRotationAroundObjCenter(double theta, const GObject& obj);
 
 
 			//utils TODO: figure out where to put this
-			static constexpr double pi() { return std::atan(1)*4; }	
+			static constexpr double pi() { return std::atan(1)*4; }
 			static double toRadians(double degrees){ return (pi()/180) * degrees;  }
 
 			//member operators

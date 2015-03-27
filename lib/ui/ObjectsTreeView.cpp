@@ -96,14 +96,18 @@ void ObjectsTreeView::on_menu_popup_scale() {
 
 void ObjectsTreeView::on_menu_popup_rotate() {
 	const std::string name = getSelectedObject();
-	//TODO: deixa que quem for fazer a transformacao calcula o centro. Achar um jeito de pegar a bullet marcada
-	//e passar como parametro o tipo de rotacao pra applyRotation
-	RotateDialog dialog(CG::Coordinate(0,0));
+
+	RotateDialog dialog;
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		double degrees = dialog.getRotation();
-		CG::Coordinate rotationCenter = dialog.getRotationCenter();
-		scene->rotateObject(name, degrees, rotationCenter);
+
+		if (dialog.isAroundObjectCenterSelected()) {
+			scene->rotateObject(name, degrees);
+		} else {
+			CG::Coordinate rotationCenter = dialog.getRotationCenter();
+			scene->rotateObject(name, degrees, rotationCenter);
+		}
   }
 }
 
