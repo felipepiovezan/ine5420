@@ -62,12 +62,7 @@ namespace CG {
   	auto &worldObject = itWorld->second;
   	auto &windowObject = itWindow->second;
 
-  	Coordinate center = worldObject.center();
-
-    //TODO: use the transformation builder instead of multiplying it here.
-    Transformation transformation = Transformation::newTranslation(-center.x, -center.y);
-    transformation *= Transformation::newScaling(sx, sy);
-    transformation *= Transformation::newTranslation(center.x, center.y);
+    Transformation transformation = Transformation::newScalingAroundObjCenter(sx, sy, worldObject);
 
     worldObject.transform(transformation);
     //TODO: transform these two lines into a single operator * line

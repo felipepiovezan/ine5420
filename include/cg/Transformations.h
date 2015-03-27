@@ -26,6 +26,7 @@ namespace CG{
 			//new transformations
 			static Transformation newTranslation(double dx, double dy);
 			static Transformation newScaling(double sx, double sy);
+			static Transformation newScalingAroundObjCenter(double sx, double sy, const GObject& obj);
 			static Transformation newRotationAroundOrigin(double theta);
 			static Transformation newRotationAroundPoint(double theta, const Coordinate& p);
 			static Transformation newRotationAroundObjCenter(double theta, const GObject& obj);

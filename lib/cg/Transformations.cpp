@@ -41,6 +41,11 @@ namespace CG {
 				{0 , 0 , 1}}});
 	}
 
+	Transformation Transformation::newScalingAroundObjCenter(double sx, double sy, const GObject& obj){
+		const Coordinate center = obj.center();
+		return newTranslation(-center.x, -center.y) * newScaling(sx, sy) * newTranslation(center.x, center.y);
+	}
+
 	Transformation Transformation::newRotationAroundOrigin(double theta){
 		return Transformation
 			({{ {cos(theta), -sin(theta), 0},
