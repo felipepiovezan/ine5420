@@ -4,7 +4,6 @@
 #include "cg/GObject.h"
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
-#include "cg/DrawingContext.h"
 #include "cg/World.h"
 
 namespace CG {
@@ -34,22 +33,12 @@ namespace CG {
       //World Listener methods
       void onWorldChange(const DisplayFile& worldObjects);
 
-      //Event notifier and listeners
-
-      class ViewportListener {
-              public:
-                // Called when an object of the scene is changed
-                virtual void onViewportChange(const DisplayFile&) = 0;
-                virtual ~ViewportListener(){}
-      };
-      void addListener(ViewportListener& listener);
-
 
     private:
       Window _window;
       DisplayFile _windowObjects;
-      std::vector<ViewportListener*> _listeners;
-      void notifyViewportChanged();
+    protected:
+      virtual void redraw() = 0;
 
   };
 

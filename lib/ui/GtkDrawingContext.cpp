@@ -48,6 +48,5 @@ void GtkDrawingContext::updateDimension() {
 bool GtkDrawingContext::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
   cairoCtx = ctx;
   updateDimension();
-  notifyContextChange();
   return true;
 }

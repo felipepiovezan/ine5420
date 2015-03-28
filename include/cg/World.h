@@ -4,7 +4,6 @@
 #include "cg/GObject.h"
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
-#include "cg/DrawingContext.h"
 
 namespace CG {
 

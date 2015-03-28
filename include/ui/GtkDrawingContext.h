@@ -3,9 +3,8 @@
 
 #include <gtkmm/drawingarea.h>
 #include "cg/GObject.h"
-#include "cg/DrawingContext.h"
 
-class GtkDrawingContext : public CG::DrawingContext, public Gtk::DrawingArea {
+class GtkDrawingContext : public CG::Viewport, public Gtk::DrawingArea {
   public:
     void redraw();
     void drawPoint(CG::Coordinate p, CG::Color color);

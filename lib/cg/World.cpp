@@ -78,7 +78,7 @@ namespace CG {
   }
 
  //Should this method  have an object as parameter instead of using the whole vector?
- void World::notifyWorldChanged(const GObject& obj) const {
+ void World::notifyWorldChanged() const {
     for (auto it : _listeners)
       it->onWorldChange(_worldObjects);
   }

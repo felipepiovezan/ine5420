@@ -12,7 +12,7 @@
 class MainWindow : public Gtk::Window {
 	private:
 		GtkDrawingContext drawingCtx;
-		CG::World scene;
+		CG::World _world;
 
 		Toolbox _toolbox;
 		Gtk::Box _mainBox;

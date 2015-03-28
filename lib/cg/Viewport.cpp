@@ -50,7 +50,7 @@ namespace CG {
 		if(_window.zoom(step)){
 			_window.updateMatrix();
 			applyTransformation(Transformation::newScaling(step, step));
-			notifyViewportChanged();
+			redraw();
 		}
 	}
 
@@ -60,32 +60,21 @@ namespace CG {
 		Coordinate c(sx, sy);
 		c *= Transformation::newRotationAroundOrigin(-_window.theta());
 		applyTransformation(Transformation::newTranslation(-c.x/_window.width(), -c.y/_window.height()));
-		notifyViewportChanged();
+		redraw();
 	}
 
 	void Viewport::rotateWindow(double theta){
 		_window.rotate(Transformation::toRadians(theta));
 		_window.updateMatrix();
 		applyTransformation(Transformation::newRotationAroundOrigin(Transformation::toRadians(theta)));
-		notifyViewportChanged();
+		redraw();
 	}
 
 	void Viewport::onWorldChange(const DisplayFile& worldObjects){
 		//TODO: improve this, only update the objects that changed.
 		_windowObjects = worldObjects;
 		applyTransformation(_window.wo2wiMatrix());
-		notifyViewportChanged();
+		redraw();
 	}
-
-    void Viewport::addListener(ViewportListener& listener){
-    	_listeners.push_back(&listener);
-    }
-
-	void Viewport::notifyViewportChanged() {
-		for (auto &it : _listeners)
-		  it->onViewportChange(_windowObjects);
-	}
-
-
 
 }

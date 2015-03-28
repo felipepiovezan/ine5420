@@ -111,6 +111,6 @@ void ObjectsTreeView::on_menu_popup_rotate() {
   }
 }
 
-void ObjectsTreeView::onObjectChange(CG::DisplayFile& displayFile) {
+void ObjectsTreeView::onWorldChange(CG::DisplayFile& displayFile) {
 	refresh(displayFile);
 }

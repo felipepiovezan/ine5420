@@ -5,9 +5,9 @@
 
 MainWindow::MainWindow() :
 	drawingCtx(),
-	scene(drawingCtx),
-	_toolbox(scene) {
-		scene.addListener(_toolbox._objectsTreeView);
+	_world(),
+	_toolbox(_world) {
+		_world.addListener(_toolbox._objectsTreeView);
 
 		init_examples();
 		init_handlers();
@@ -33,7 +33,7 @@ MainWindow::MainWindow() :
 }
 
 void MainWindow::init_examples() {
-	scene.addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
+	_world.addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
 	init_leaf();
 }
 
@@ -42,15 +42,15 @@ void MainWindow::init_handlers() {
   _toolbox._newLine.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newLine));
   _toolbox._newPolygon.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPolygon));
 
-  _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::zoomIn));
-  _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::zoomOut));
-  _toolbox._leftBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::left));
-  _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::right));
-  _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::up));
-  _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::down));
+  _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::zoomIn));
+  _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::zoomOut));
+  _toolbox._leftBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::left));
+  _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::right));
+  _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::up));
+  _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::down));
 
-  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::rotateLeft));
-  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::rotateRight));
+  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::rotateLeft));
+  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::rotateRight));
 }
 
 void MainWindow::init_action_menu() {
@@ -80,21 +80,21 @@ void MainWindow::init_action_menu() {
 void MainWindow::on_newPoint() {
   NamedPointDialog pointDialog;
   if (pointDialog.run() == Gtk::RESPONSE_OK) {
-    scene.createPoint(pointDialog.getName(), pointDialog.getColor(), pointDialog.getCoordinate());
+    _world.createPoint(pointDialog.getName(), pointDialog.getColor(), pointDialog.getCoordinate());
   }
 }
 
 void MainWindow::on_newLine() {
   LineDialog lineDialog;
   if (lineDialog.run() == Gtk::RESPONSE_OK) {
-		scene.createLine(lineDialog.getName(), lineDialog.getColor(), lineDialog.getCoordinate1(), lineDialog.getCoordinate2());
+		_world.createLine(lineDialog.getName(), lineDialog.getColor(), lineDialog.getCoordinate1(), lineDialog.getCoordinate2());
   }
 }
 
 void MainWindow::on_newPolygon() {
   PolygonDialog polygonDialog;
   if (polygonDialog.run() == Gtk::RESPONSE_OK) {
-		scene.createPolygon(polygonDialog.getName(), polygonDialog.getColor(), polygonDialog.getCoordinates());
+		_world.createPolygon(polygonDialog.getName(), polygonDialog.getColor(), polygonDialog.getCoordinates());
   }
 }
 
@@ -142,10 +142,10 @@ void MainWindow::init_leaf(){
   c.push_back(CG::Coordinate(1,-6));
   c.push_back(CG::Coordinate(0,-6));
   c.push_back(CG::Coordinate(-1,-10));
-	scene.createPolygon("leaf", CG::Color(0, 1, 0), c);
-	scene.scaleObject("leaf", 0.1,0.1);
-	scene.translateObject("leaf", 4.3, 6);
-	scene.rotateObject("leaf", 30);
+	_world.createPolygon("leaf", CG::Color(0, 1, 0), c);
+	_world.scaleObject("leaf", 0.1,0.1);
+	_world.translateObject("leaf", 4.3, 6);
+	_world.rotateObject("leaf", 30);
 }
 
 void MainWindow::on_action_file_open() {
@@ -156,7 +156,7 @@ void MainWindow::on_action_file_open() {
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		ObjReader r(dialog.get_filename());
 		std::cout << "read " << r.objects().size() << " objects from file" << std::endl;
-		scene.addObject(dialog.get_filename(), r.objects());
+		_world.addObject(dialog.get_filename(), r.objects());
 	}
 }
 
@@ -166,6 +166,6 @@ void MainWindow::on_action_file_save() {
 	dialog.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
-		ObjWriter(dialog.get_filename()).writeObjects(scene.getObjects());
+		ObjWriter(dialog.get_filename()).writeObjects(_world.getObjects());
 	}
 }
