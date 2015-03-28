@@ -11,7 +11,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
     void refresh(CG::DisplayFile& displayFile);
 
     // Scene handlers
-    void onWorldChange(CG::DisplayFile& displayFile);
+    void onWorldChange(const CG::DisplayFile& displayFile);
 
   protected:
     CG::World* scene;

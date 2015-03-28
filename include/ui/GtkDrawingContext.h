@@ -3,6 +3,7 @@
 
 #include <gtkmm/drawingarea.h>
 #include "cg/GObject.h"
+#include "cg/Viewport.h"
 
 class GtkDrawingContext : public CG::Viewport, public Gtk::DrawingArea {
   public:
