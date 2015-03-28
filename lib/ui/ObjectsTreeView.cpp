@@ -10,6 +10,8 @@ world(&world) {
   append_column("Name", _objectsModelColumns.colName);
   append_column("Type", _objectsModelColumns.colType);
 
+  _refObjectsTreeModel->set_sort_column(0, Gtk::SORT_ASCENDING);
+
   //Make all the columns reorderable
   for(guint i = 0; i < 2; i++) {
     Gtk::TreeView::Column* pColumn = get_column(i);
