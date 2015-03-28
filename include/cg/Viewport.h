@@ -32,7 +32,6 @@ namespace CG {
       void rotateRight() { rotateWindow(+15);}
 
       // World Listener methods
-      void onWorldChange(const DisplayFile& worldObjects);
       void onObjectCreation(const std::string& name, const GObject& object);
       void onObjectChange(const std::string& name, const GObject& object);
 

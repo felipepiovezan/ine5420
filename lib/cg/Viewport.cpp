@@ -45,12 +45,6 @@ namespace CG {
 		redraw();
 	}
 
-	void Viewport::onWorldChange(const DisplayFile& worldObjects) {
-		//_windowObjects = worldObjects;
-		//applyTransformation(_window.wo2wiMatrix());
-		//redraw();
-	}
-
   void Viewport::onObjectCreation(const std::string& name, const GObject& object) {
     auto &windowObj = _windowObjects.add(name, object);
     windowObj.transform(_window.wo2wiMatrix());
