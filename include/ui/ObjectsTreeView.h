@@ -2,15 +2,16 @@
 #define OBJECTS_TREE_VIEW_H_
 
 #include <gtkmm.h>
-#include "cg/Scene.h"
 
-class ObjectsTreeView : public Gtk::TreeView, public CG::Scene::Listener {
+#include "../cg/World.h"
+
+class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
   public:
-    ObjectsTreeView(CG::Scene& scene);
+    ObjectsTreeView(CG::World& scene);
     void refresh(CG::DisplayFile& displayFile);
 
   protected:
-    CG::Scene* scene;
+    CG::World* scene;
 
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {

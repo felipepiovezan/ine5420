@@ -2,7 +2,7 @@
 
 #include "ui/dialogs.h"
 
-ObjectsTreeView::ObjectsTreeView(CG::Scene& scene) :
+ObjectsTreeView::ObjectsTreeView(CG::World& scene) :
 	scene(&scene) {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);

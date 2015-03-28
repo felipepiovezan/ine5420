@@ -42,15 +42,15 @@ void MainWindow::init_handlers() {
   _toolbox._newLine.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newLine));
   _toolbox._newPolygon.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPolygon));
 
-  _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::zoomIn));
-  _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::zoomOut));
-  _toolbox._leftBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::left));
-  _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::right));
-  _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::up));
-  _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::down));
+  _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::zoomIn));
+  _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::zoomOut));
+  _toolbox._leftBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::left));
+  _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::right));
+  _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::up));
+  _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::down));
 
-  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::rotateLeft));
-  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::Scene::rotateRight));
+  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::rotateLeft));
+  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(scene, &CG::World::rotateRight));
 }
 
 void MainWindow::init_action_menu() {

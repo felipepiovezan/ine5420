@@ -2,17 +2,17 @@
 #define __MAINWINDOWH
 
 #include <gtkmm.h>
-#include "cg/Scene.h"
 #include "utils/objIO.h"
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
 #include "ui/GtkDrawingContext.h"
 #include <iostream>
+#include "../cg/World.h"
 
 class MainWindow : public Gtk::Window {
 	private:
 		GtkDrawingContext drawingCtx;
-		CG::Scene scene;
+		CG::World scene;
 
 		Toolbox _toolbox;
 		Gtk::Box _mainBox;
