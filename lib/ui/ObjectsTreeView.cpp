@@ -22,6 +22,11 @@ world(&world) {
 void ObjectsTreeView::init_popup_menu() {
   Gtk::MenuItem* item;
 
+  item = Gtk::manage(new Gtk::MenuItem("Remove", true));
+  item->signal_activate().connect(
+    sigc::mem_fun(*this, &ObjectsTreeView::on_menu_popup_remove) );
+  _menu.append(*item);
+
   item = Gtk::manage(new Gtk::MenuItem("Translate...", true));
   item->signal_activate().connect(
     sigc::mem_fun(*this, &ObjectsTreeView::on_menu_popup_translate) );
@@ -64,6 +69,11 @@ const std::string ObjectsTreeView::getSelectedObject() {
   return (*iter)[_objectsModelColumns.colName];
 }
 
+void ObjectsTreeView::on_menu_popup_remove() {
+  const std::string name = getSelectedObject();
+  world->removeObject(name);
+}
+
 void ObjectsTreeView::on_menu_popup_translate() {
   const std::string name = getSelectedObject();
 
@@ -104,4 +114,13 @@ void ObjectsTreeView::onObjectCreation(const std::string& name, const CG::GObjec
   Gtk::TreeModel::Row row = *(_refObjectsTreeModel->append());
   row[_objectsModelColumns.colName] = name;
   row[_objectsModelColumns.colType] = CG::GObject::TypeNames[object.type()];
+}
+
+void ObjectsTreeView::onObjectRemoval(const std::string& name) {
+  for (auto row : _refObjectsTreeModel->children()) {
+    std::string rowName = (*row)[_objectsModelColumns.colName];
+    if (rowName == name) {
+      _refObjectsTreeModel->erase(row);
+    }
+  }
 }

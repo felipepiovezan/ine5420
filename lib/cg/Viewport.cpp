@@ -46,7 +46,7 @@ namespace CG {
 	}
 
   void Viewport::onObjectCreation(const std::string& name, const GObject& object) {
-  	assert(!_windowObjects.isValidIterator(_windowObjects.findObject(name)));
+    assert(!_windowObjects.exists(name));
     auto &windowObj = _windowObjects.add(name, object);
     windowObj.transform(_window.wo2wiMatrix());
     redraw();
@@ -58,6 +58,12 @@ namespace CG {
   	auto &windowObj = itWindow->second;
     windowObj = object;
     windowObj.transform(_window.wo2wiMatrix());
+    redraw();
+  }
+
+  void Viewport::onObjectRemoval(const std::string& name) {
+    assert(_windowObjects.exists(name));
+    _windowObjects.remove(name);
     redraw();
   }
 

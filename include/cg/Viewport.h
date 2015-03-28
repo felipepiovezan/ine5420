@@ -34,6 +34,7 @@ namespace CG {
       // World Listener methods
       void onObjectCreation(const std::string& name, const GObject& object);
       void onObjectChange(const std::string& name, const GObject& object);
+      void onObjectRemoval(const std::string& name);
 
     private:
       Window _window;

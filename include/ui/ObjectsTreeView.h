@@ -12,6 +12,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
 
     // World event handlers
     void onObjectCreation(const std::string& name, const CG::GObject& object);
+    void onObjectRemoval(const std::string& name);
 
   protected:
     CG::World* world;
@@ -40,6 +41,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
     const std::string getSelectedObject();
 
     //Signal handlers for popup menu items:
+    void on_menu_popup_remove();
     void on_menu_popup_translate();
     void on_menu_popup_scale();
     void on_menu_popup_rotate();

@@ -36,6 +36,12 @@ namespace CG {
     addObject(name, polygon);
   }
 
+  void World::removeObject(const std::string &name) {
+    assert(_worldObjects.exists(name));
+    _worldObjects.remove(name);
+    notifyObjectRemoval(name);
+  }
+
   void World::translateObject(const std::string &name, double dx, double dy) {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
@@ -81,5 +87,10 @@ namespace CG {
   void World::notifyObjectChange(const std::string& name, const GObject& object) const {
     for (auto it : _listeners)
       it->onObjectChange(name, object);
+  }
+
+  void World::notifyObjectRemoval(const std::string& name) const {
+    for (auto it : _listeners)
+      it->onObjectRemoval(name);
   }
 }

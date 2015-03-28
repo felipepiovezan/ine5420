@@ -24,6 +24,8 @@ namespace CG {
 			}
 			mapGObjects::iterator findObject(const std::string& name) {return _objects.find(name);}
 			bool isValidIterator(const mapGObjects::iterator it) const {return it!= _objects.end();}
+			mapGObjects::size_type remove(const std::string& name) {return _objects.erase(name);}
+			bool exists(const std::string& name) { return isValidIterator(findObject(name)); }
   };
 
 }
