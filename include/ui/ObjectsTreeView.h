@@ -3,7 +3,7 @@
 
 #include <gtkmm.h>
 
-#include "../cg/World.h"
+#include "cg/World.h"
 
 class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
   public:

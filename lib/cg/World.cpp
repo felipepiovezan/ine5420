@@ -1,6 +1,6 @@
+#include "cg/World.h"
 #include "cg/Transformations.h"
 #include <cassert>
-#include "../../include/cg/World.h"
 
 namespace CG {
 

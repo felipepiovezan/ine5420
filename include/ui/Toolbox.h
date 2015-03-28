@@ -3,7 +3,7 @@
 
 #include <gtkmm.h>
 
-#include "../cg/World.h"
+#include "cg/World.h"
 #include "ui/ObjectsTreeView.h"
 
 class Toolbox : public Gtk::Box {
