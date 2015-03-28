@@ -12,7 +12,6 @@ namespace CG {
     public:
       Viewport(Window& window) : _window(window){}
 
-      //TODO: this method must be moved to the GUI class: void drawObject(const GObject& obj);
       Coordinate transformCoordinate(const Coordinate& c) const;
       GObject::Coordinates transformCoordinates(GObject::Coordinates coords) const;
 
@@ -33,7 +32,8 @@ namespace CG {
       void rotateRight() { rotateWindow(+15);}
 
       // World Listener methods
-      void onWorldChange(const DisplayFile& worldObjects);
+      void onObjectCreation(const std::string& name, const GObject& object);
+      void onObjectChange(const std::string& name, const GObject& object);
 
     private:
       Window _window;

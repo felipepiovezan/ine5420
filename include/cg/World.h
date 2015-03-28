@@ -7,15 +7,8 @@
 
 namespace CG {
 
-  /**
-   * Represents a "world scene"
-   * Each Scene instance holds its own DisplayFile, Window and Viewport,
-   * providing the facade for these structures
-   */
   class World {
     public:
-      World();
-
       // Object insertion
       void addObject(std::string name, const GObject& obj);
       void addObject(std::string baseName, const std::vector<GObject>& objVector);
@@ -34,17 +27,22 @@ namespace CG {
       // Events notifiers & listeners definition
       class WorldListener {
         public:
-          // Called when an object of the scene is changed
-          virtual void onWorldChange(const DisplayFile&) = 0;
+          // Called when an object is created
+          virtual void onObjectCreation(const std::string& name, const GObject& object) {}
+
+          // Called when an object is changed
+          virtual void onObjectChange(const std::string& name, const GObject& object) {}
+
           virtual ~WorldListener(){}
       };
       void addListener(WorldListener& listener);
 
     private:
       std::vector<WorldListener*> _listeners;
-      void notifyWorldChanged() const;
       DisplayFile _worldObjects;
 
+      void notifyObjectCreation(const std::string& name, const GObject& object) const;
+      void notifyObjectChange(const std::string& name, const GObject& object) const;
   };
 
 }

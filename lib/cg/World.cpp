@@ -4,20 +4,18 @@
 
 namespace CG {
 
-  World::World(){
-    notifyWorldChanged();
-  }
-
   void World::addObject(std::string name, const GObject& obj) {
     _worldObjects.add(name, obj);
-    notifyWorldChanged();
+    notifyObjectCreation(name, obj);
   }
 
   void World::addObject(std::string baseName, const std::vector<GObject>& objVector) {
     int i=0;
-	for(const auto &obj : objVector)
-	  _worldObjects.add(baseName + std::to_string(i++), obj);
-    notifyWorldChanged();
+    for(const auto &obj : objVector) {
+      std::string name = baseName + std::to_string(i++);
+      _worldObjects.add(name, obj);
+      notifyObjectCreation(name, obj);
+    }
   }
 
   void World::createPoint(std::string name, Color color, Coordinate c) {
@@ -43,9 +41,7 @@ namespace CG {
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newTranslation(dx, dy));
-  	//TODO:different notify to inform a obj transformation?
-    notifyWorldChanged();
-
+    notifyObjectChange(name, worldObject);
   }
 
   void World::scaleObject(const std::string &name, double sx, double sy) {
@@ -53,18 +49,15 @@ namespace CG {
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newScalingAroundObjCenter(sx, sy, worldObject));
-    //TODO:different notify to inform a obj transformation?
-    notifyWorldChanged();
-
+    notifyObjectChange(name, worldObject);
   }
 
   void World::rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter) {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
- 	auto &worldObject = itWorld->second;
+    auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newRotationAroundPoint(Transformation::toRadians(theta), rotationCenter));
-    //TODO:different notify to inform a obj transformation?
-    notifyWorldChanged();
+    notifyObjectChange(name, worldObject);
   }
 
   void World::rotateObject(const std::string &name, double theta) {
@@ -73,17 +66,20 @@ namespace CG {
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), worldObject));
-    //TODO:different notify to inform a obj transformation?
-    notifyWorldChanged();
-  }
-
- //Should this method  have an object as parameter instead of using the whole vector?
- void World::notifyWorldChanged() const {
-    for (auto it : _listeners)
-      it->onWorldChange(_worldObjects);
+    notifyObjectChange(name, worldObject);
   }
 
   void World::addListener(WorldListener& listener) {
     _listeners.push_back(&listener);
+  }
+
+  void World::notifyObjectCreation(const std::string& name, const GObject& object) const {
+    for (auto it : _listeners)
+      it->onObjectCreation(name, object);
+  }
+
+  void World::notifyObjectChange(const std::string& name, const GObject& object) const {
+    for (auto it : _listeners)
+      it->onObjectChange(name, object);
   }
 }
