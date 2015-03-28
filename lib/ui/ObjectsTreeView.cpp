@@ -2,8 +2,8 @@
 
 #include "ui/dialogs.h"
 
-ObjectsTreeView::ObjectsTreeView(CG::World& scene) :
-	scene(&scene) {
+ObjectsTreeView::ObjectsTreeView(CG::World& world) :
+world(&world) {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);
 
@@ -81,7 +81,7 @@ void ObjectsTreeView::on_menu_popup_translate() {
   TranslateDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate c = dialog.getCoordinate();
-    scene->translateObject(name, c.x, c.y);
+		world->translateObject(name, c.x, c.y);
   }
 }
 
@@ -90,7 +90,7 @@ void ObjectsTreeView::on_menu_popup_scale() {
   ScaleDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate scale = dialog.getCoordinate();
-    scene->scaleObject(name, scale.x, scale.y);
+		world->scaleObject(name, scale.x, scale.y);
   }
 }
 
@@ -103,10 +103,10 @@ void ObjectsTreeView::on_menu_popup_rotate() {
 		double degrees = dialog.getRotation();
 
 		if (dialog.isAroundObjectCenterSelected()) {
-			scene->rotateObject(name, degrees);
+			world->rotateObject(name, degrees);
 		} else {
 			CG::Coordinate rotationCenter = dialog.getRotationCenter();
-			scene->rotateObject(name, degrees, rotationCenter);
+			world->rotateObject(name, degrees, rotationCenter);
 		}
   }
 }

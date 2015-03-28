@@ -14,7 +14,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
     void onWorldChange(const CG::DisplayFile& displayFile);
 
   protected:
-    CG::World* scene;
+    CG::World* world;
 
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {
