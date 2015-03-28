@@ -4,14 +4,9 @@
 
 namespace CG {
 
-  World::World(){
-    notifyWorldChange();
-  }
-
   void World::addObject(std::string name, const GObject& obj) {
     _worldObjects.add(name, obj);
     notifyObjectCreation(name, obj);
-    notifyWorldChange();
   }
 
   void World::addObject(std::string baseName, const std::vector<GObject>& objVector) {
@@ -21,7 +16,6 @@ namespace CG {
       _worldObjects.add(name, obj);
       notifyObjectCreation(name, obj);
     }
-    notifyWorldChange();
   }
 
   void World::createPoint(std::string name, Color color, Coordinate c) {
@@ -48,7 +42,6 @@ namespace CG {
   	auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newTranslation(dx, dy));
     notifyObjectChange(name, worldObject);
-    notifyWorldChange();
   }
 
   void World::scaleObject(const std::string &name, double sx, double sy) {
@@ -57,7 +50,6 @@ namespace CG {
   	auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newScalingAroundObjCenter(sx, sy, worldObject));
     notifyObjectChange(name, worldObject);
-    notifyWorldChange();
   }
 
   void World::rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter) {
@@ -66,7 +58,6 @@ namespace CG {
     auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newRotationAroundPoint(Transformation::toRadians(theta), rotationCenter));
     notifyObjectChange(name, worldObject);
-    notifyWorldChange();
   }
 
   void World::rotateObject(const std::string &name, double theta) {
@@ -76,16 +67,10 @@ namespace CG {
   	auto &worldObject = itWorld->second;
     worldObject.transform(Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), worldObject));
     notifyObjectChange(name, worldObject);
-    notifyWorldChange();
   }
 
   void World::addListener(WorldListener& listener) {
     _listeners.push_back(&listener);
-  }
-
-  void World::notifyWorldChange() const {
-    for (auto it : _listeners)
-      it->onWorldChange(_worldObjects);
   }
 
   void World::notifyObjectCreation(const std::string& name, const GObject& object) const {
