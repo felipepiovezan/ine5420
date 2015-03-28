@@ -37,11 +37,11 @@ namespace CG {
 
     private:
       Window _window;
-      DisplayFile _windowObjects;
 
     protected:
       void applyTransformation(const Transformation &t);
       virtual void redraw() = 0;
+      DisplayFile _windowObjects;
   };
 
 }

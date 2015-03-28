@@ -35,6 +35,12 @@ MainWindow::MainWindow() :
 }
 
 void MainWindow::init_examples() {
+	  CG::GObject::Coordinates c;
+	  c.push_back(CG::Coordinate(-10,-15));
+	  c.push_back(CG::Coordinate(-10,15));
+	  c.push_back(CG::Coordinate(10,15));
+	  c.push_back(CG::Coordinate(10,-15));
+	_world.createPolygon("rectangle", CG::Color(0, 1, 0), c);
 	_world.addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
 	init_leaf();
 }

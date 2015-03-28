@@ -2,28 +2,6 @@
 
 namespace CG {
 
-
-// TODO: this must go to the GUI class
-//  void Viewport::drawObject(const GObject& obj) {
-//    if (obj.numPoints() == 0)
-//      return;
-//
-//    // Generate the viewport coordinates
-//    CG::GObject::Coordinates vwCoordinates = transformCoordinates(obj.coordinates());
-//
-//    if (obj.numPoints() == 1) {
-//      ctx->drawPoint(vwCoordinates[0], obj.color);
-//      return;
-//    }
-//
-//    if (obj.numPoints() == 2) {
-//      ctx->drawLine(vwCoordinates[0], vwCoordinates[1], obj.color);
-//      return;
-//    }
-//
-//    ctx->drawPolygon(vwCoordinates, obj.color);
-//  }
-
  Coordinate Viewport::transformCoordinate(const Coordinate& c) const {
    int width = getWidth();
    int height = getHeight();
@@ -42,9 +20,11 @@ namespace CG {
  }
 
 	void Viewport::changeWindowZoom(double step){
+		double width = _window.width();
+		double height = _window.height();
 		if(_window.zoom(step)){
 			_window.updateMatrix();
-			applyTransformation(Transformation::newScaling(step, step));
+			applyTransformation(Transformation::newScaling(width/(width+step), height/(height+step)));
 			redraw();
 		}
 	}
@@ -52,9 +32,7 @@ namespace CG {
 	void Viewport::changeWindowPosition(double sx, double sy){
 		_window.move(sx, sy);
 		_window.updateMatrix();
-		Coordinate c(sx, sy);
-		c *= Transformation::newRotationAroundOrigin(-_window.theta());
-		applyTransformation(Transformation::newTranslation(-c.x/_window.width(), -c.y/_window.height()));
+		applyTransformation(Transformation::newTranslation(sx/_window.width(), sy/_window.height()));
 		redraw();
 	}
 
@@ -69,7 +47,7 @@ namespace CG {
 		//TODO: improve this, only update the objects that changed.
 		_windowObjects = worldObjects;
 		applyTransformation(_window.wo2wiMatrix());
-		//redraw();
+		redraw();
 	}
 
 	void Viewport::applyTransformation(const Transformation &t){

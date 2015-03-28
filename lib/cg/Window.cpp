@@ -1,13 +1,13 @@
 #include "cg/Window.h"
 #include <ctgmath>
 
+#include <iostream>
+
 namespace CG {
 
   Window:: Window(double cx, double cy, double width, double height, double theta)
 	  : _center(cx, cy), _width(width), _height(height), _theta(theta) {
-	  _wo2wiMatrix *= Transformation::newTranslation(-cx, -cy);
-	  _wo2wiMatrix *= Transformation::newRotationAroundOrigin(theta);
-	  _wo2wiMatrix *= Transformation::newScaling(1.0/width, 1.0/height);
+	  updateMatrix();
   }
 
   bool Window::zoom(double step) {

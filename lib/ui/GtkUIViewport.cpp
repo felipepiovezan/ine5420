@@ -1,52 +1,45 @@
 #include "ui/GtkUIViewport.h"
-
+#include <iostream>
 #include <cairomm/context.h>
 
 void GtkUIViewport::redraw() {
   queue_draw();
 }
 
-void GtkUIViewport::drawPoint(CG::Coordinate p, CG::Color color) {
-  if (!cairoCtx) return;
+void GtkUIViewport::drawObject(const CG::GObject &obj) {
+	if (!cairoCtx) return;
+	cairoCtx->set_source_rgb(obj.color.r, obj.color.g, obj.color.b);
 
-  cairoCtx->set_source_rgb(color.r, color.g, color.b);
-  cairoCtx->move_to(p.x, p.y);
-  cairoCtx->arc(p.x, p.y, 1.0, 0.0, 2.0 * M_PI);
-  cairoCtx->fill_preserve();
-  cairoCtx->stroke();
-}
+	CG::Coordinate p = transformCoordinate(obj.coordinates()[0]);
+	cairoCtx->move_to(p.x, p.y);
 
-void GtkUIViewport::drawLine(CG::Coordinate p1, CG::Coordinate p2, CG::Color color) {
-  if (!cairoCtx) return;
+	if(obj.type() == CG::GObject::Type::POINT){
+		cairoCtx->arc(p.x, p.y, 1.0, 0.0, 2.0 * M_PI);
+		cairoCtx->fill_preserve();
+		cairoCtx->stroke();
+		return;
+	}
 
-  cairoCtx->set_source_rgb(color.r, color.g, color.b);
-  cairoCtx->move_to(p1.x, p1.y);
-  cairoCtx->line_to(p2.x, p2.y);
-  cairoCtx->stroke();
-}
+	for(const auto &it : obj.coordinates()){
+		CG::Coordinate q = transformCoordinate(it);
+		cairoCtx->line_to(q.x, q.y);
+	}
 
-void GtkUIViewport::drawPolygon(CG::GObject::Coordinates cs, CG::Color color) {
-  if (!cairoCtx) return;
+	if((obj.type() == CG::GObject::Type::POLYGON))
+		cairoCtx->line_to(p.x, p.y);
 
-  cairoCtx->set_source_rgb(color.r, color.g, color.b);
-  cairoCtx->move_to(cs[0].x, cs[0].y);
-
-  for(const auto &it : cs) {
-    cairoCtx->line_to(it.x, it.y);
-  }
-
-  // connect the last point with the first one
-  cairoCtx->line_to(cs[0].x, cs[0].y);
-  cairoCtx->stroke();
+	cairoCtx->stroke();
 }
 
 void GtkUIViewport::updateDimension() {
-  width = get_allocation().get_width();
-  height = get_allocation().get_height();
+	_width = get_allocation().get_width();
+	_height = get_allocation().get_height();
 }
 
 bool GtkUIViewport::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
   cairoCtx = ctx;
   updateDimension();
+  for(const auto &obj : _windowObjects.objects())
+	  drawObject(obj.second);
   return true;
 }

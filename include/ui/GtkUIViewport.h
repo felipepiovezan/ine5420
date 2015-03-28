@@ -11,14 +11,12 @@ class GtkUIViewport : public CG::Viewport, public Gtk::DrawingArea {
     GtkUIViewport(CG::Window& window) : CG::Viewport(window) {};
 
     void redraw();
-    void drawPoint(CG::Coordinate p, CG::Color color);
-    void drawLine(CG::Coordinate p1, CG::Coordinate p2, CG::Color color);
-    void drawPolygon(CG::GObject::Coordinates cs, CG::Color color);
-    double getWidth() const { return width; }
-    double getHeight() const { return height; }
+    void drawObject(const CG::GObject &obj);
+    double getWidth() const { return _width; }
+    double getHeight() const { return _height; }
 
   protected:
-    double width, height;
+    double _width, _height;
 
     void updateDimension();
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& ctx);
