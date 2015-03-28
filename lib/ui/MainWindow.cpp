@@ -5,7 +5,7 @@
 
 MainWindow::MainWindow() :
 	_world(),
-	_window(0, 0, 20, 20, 0),
+	_window(0, 0, 8, 8, 0),
 	_viewport(_window),
 	_toolbox(_world) {
 		_world.addListener(_viewport);
@@ -36,10 +36,10 @@ MainWindow::MainWindow() :
 
 void MainWindow::init_examples() {
 	  CG::GObject::Coordinates c;
-	  c.push_back(CG::Coordinate(-10,-15));
-	  c.push_back(CG::Coordinate(-10,15));
-	  c.push_back(CG::Coordinate(10,15));
-	  c.push_back(CG::Coordinate(10,-15));
+	  c.push_back(CG::Coordinate(-8,-12));
+	  c.push_back(CG::Coordinate(-8,12));
+	  c.push_back(CG::Coordinate(8,12));
+	  c.push_back(CG::Coordinate(8,-12));
 	_world.createPolygon("rectangle", CG::Color(0, 1, 0), c);
 	_world.addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
 	init_leaf();
