@@ -1,5 +1,7 @@
 #include "cg/Viewport.h"
 
+#include <cassert>
+
 namespace CG {
 
  Coordinate Viewport::transformCoordinate(const Coordinate& c) const {
@@ -43,12 +45,26 @@ namespace CG {
 		redraw();
 	}
 
-	void Viewport::onWorldChange(const DisplayFile& worldObjects){
-		//TODO: improve this, only update the objects that changed.
-		_windowObjects = worldObjects;
-		applyTransformation(_window.wo2wiMatrix());
-		redraw();
+	void Viewport::onWorldChange(const DisplayFile& worldObjects) {
+		//_windowObjects = worldObjects;
+		//applyTransformation(_window.wo2wiMatrix());
+		//redraw();
 	}
+
+  void Viewport::onObjectCreation(const std::string& name, const GObject& object) {
+    auto &windowObj = _windowObjects.add(name, object);
+    windowObj.transform(_window.wo2wiMatrix());
+    redraw();
+  }
+
+  void Viewport::onObjectChange(const std::string& name, const GObject& object) {
+    auto itWindow = _windowObjects.findObject(name);
+  	assert(_windowObjects.isValidIterator(itWindow));
+  	auto &windowObj = itWindow->second;
+    windowObj = object;
+    windowObj.transform(_window.wo2wiMatrix());
+    redraw();
+  }
 
 	void Viewport::applyTransformation(const Transformation &t){
 		for(auto &obj : _windowObjects.objects())

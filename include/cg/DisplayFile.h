@@ -18,7 +18,10 @@ namespace CG {
 			mapGObjects& objects() { return _objects;}
 
 			//add, remove and fetch objects
-			void add(std::string name, GObject object) { _objects[name] = object; }
+			GObject& add(std::string name, GObject object) {
+				_objects[name] = object;
+				return _objects[name];
+			}
 			mapGObjects::iterator findObject(const std::string& name) {return _objects.find(name);}
 			bool isValidIterator(const mapGObjects::iterator it) const {return it!= _objects.end();}
   };
