@@ -29,6 +29,8 @@ namespace CG {
       void rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter);
       void rotateObject(const std::string &name, double theta);
 
+      const mapGObjects& getObjects() const { return _worldObjects.objects(); }
+
       // Events notifiers & listeners definition
       class WorldListener {
         public:
