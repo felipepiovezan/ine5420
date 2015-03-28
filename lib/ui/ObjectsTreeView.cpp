@@ -43,11 +43,11 @@ void ObjectsTreeView::init_popup_menu() {
   signal_button_press_event().connect(sigc::mem_fun(*this, &ObjectsTreeView::on_button_press_event), false);
 }
 
-void ObjectsTreeView::refresh(CG::DisplayFile& displayFile) {
+void ObjectsTreeView::refresh(const CG::DisplayFile& displayFile) {
   _refObjectsTreeModel->clear();
 
   Gtk::TreeModel::Row row;
-  for(const auto &it : displayFile.windowObjects()){
+  for(const auto &it : displayFile.objects()){
     row = *(_refObjectsTreeModel->append());
 		row[_objectsModelColumns.colName] = it.first;
 		row[_objectsModelColumns.colType] = CG::GObject::TypeNames[it.second.type()];
@@ -111,6 +111,6 @@ void ObjectsTreeView::on_menu_popup_rotate() {
   }
 }
 
-void ObjectsTreeView::onWorldChange(CG::DisplayFile& displayFile) {
+void ObjectsTreeView::onWorldChange(const CG::DisplayFile& displayFile) {
 	refresh(displayFile);
 }

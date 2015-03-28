@@ -8,7 +8,7 @@
 class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
   public:
     ObjectsTreeView(CG::World& scene);
-    void refresh(CG::DisplayFile& displayFile);
+    void refresh(const CG::DisplayFile& displayFile);
 
     // Scene handlers
     void onWorldChange(const CG::DisplayFile& displayFile);
