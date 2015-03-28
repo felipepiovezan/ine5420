@@ -46,6 +46,7 @@ namespace CG {
 	}
 
   void Viewport::onObjectCreation(const std::string& name, const GObject& object) {
+  	assert(!_windowObjects.isValidIterator(_windowObjects.findObject(name)));
     auto &windowObj = _windowObjects.add(name, object);
     windowObj.transform(_window.wo2wiMatrix());
     redraw();
