@@ -13,8 +13,11 @@ namespace CG {
       Viewport(Window& window) : _window(window){}
 
       //TODO: this method must be moved to the GUI class: void drawObject(const GObject& obj);
-      //TODO: this method must be moved to the GUI class: Coordinate transformCoordinate(const Coordinate& c) const;
-      //TODO: this method must be moved to the GUI class: GObject::Coordinates transformCoordinates(GObject::Coordinates coords) const;
+      Coordinate transformCoordinate(const Coordinate& c) const;
+      GObject::Coordinates transformCoordinates(GObject::Coordinates coords) const;
+
+      virtual double getWidth() const = 0;
+      virtual double getHeight() const = 0;
 
       // Window manipulation
       void changeWindowZoom(double step);
@@ -28,18 +31,17 @@ namespace CG {
       void down()    { changeWindowPosition(0,1);}
       void rotateLeft()  { rotateWindow(-15);}
       void rotateRight() { rotateWindow(+15);}
-      void applyTransformation(const Transformation &t);
 
-      //World Listener methods
+      // World Listener methods
       void onWorldChange(const DisplayFile& worldObjects);
-
 
     private:
       Window _window;
       DisplayFile _windowObjects;
-    protected:
-      virtual void redraw() = 0;
 
+    protected:
+      void applyTransformation(const Transformation &t);
+      virtual void redraw() = 0;
   };
 
 }

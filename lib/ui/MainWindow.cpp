@@ -8,6 +8,7 @@ MainWindow::MainWindow() :
 	_window(0, 0, 20, 20, 0),
 	_viewport(_window),
 	_toolbox(_world) {
+		_world.addListener(_viewport);
 		_world.addListener(_toolbox._objectsTreeView);
 
 		init_examples();

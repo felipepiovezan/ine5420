@@ -14,8 +14,8 @@ class GtkUIViewport : public CG::Viewport, public Gtk::DrawingArea {
     void drawPoint(CG::Coordinate p, CG::Color color);
     void drawLine(CG::Coordinate p1, CG::Coordinate p2, CG::Color color);
     void drawPolygon(CG::GObject::Coordinates cs, CG::Color color);
-    double getWidth() { return width; }
-    double getHeight() { return height; }
+    double getWidth() const { return width; }
+    double getHeight() const { return height; }
 
   protected:
     double width, height;

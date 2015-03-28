@@ -24,27 +24,22 @@ namespace CG {
 //    ctx->drawPolygon(vwCoordinates, obj.color);
 //  }
 
-// TODO: this must go to the GUI class
-//  Coordinate Viewport::transformCoordinate(const Coordinate& c) const {
-//    int width = ctx->getWidth();
-//    int height = ctx->getHeight();
-//    double x = width * (c.x - _window->xmin()) / (_window->xmax() - _window->xmin());
-//    double y = height * (1 - ((c.y - _window->ymin()) / (_window->ymax() - _window->ymin())));
-//    return Coordinate(x, y);
-//  }
-//
-//  GObject::Coordinates Viewport::transformCoordinates(GObject::Coordinates coords) const {
-//    CG::GObject::Coordinates vwCoordinates;
-//    for (auto &c : coords) {
-//      vwCoordinates.push_back(transformCoordinate(c));
-//    }
-//
-//    return vwCoordinates;
-//  }
-	void Viewport::applyTransformation(const Transformation &t){
-		for(auto &obj : _windowObjects.objects())
-			obj.second.transform(t);
-	}
+ Coordinate Viewport::transformCoordinate(const Coordinate& c) const {
+   int width = getWidth();
+   int height = getHeight();
+   double x = width * (c.x - _window.xmin()) / (_window.xmax() - _window.xmin());
+   double y = height * (1 - ((c.y - _window.ymin()) / (_window.ymax() - _window.ymin())));
+   return Coordinate(x, y);
+ }
+
+ GObject::Coordinates Viewport::transformCoordinates(GObject::Coordinates coords) const {
+   CG::GObject::Coordinates vwCoordinates;
+   for (auto &c : coords) {
+     vwCoordinates.push_back(transformCoordinate(c));
+   }
+
+   return vwCoordinates;
+ }
 
 	void Viewport::changeWindowZoom(double step){
 		if(_window.zoom(step)){
@@ -74,7 +69,12 @@ namespace CG {
 		//TODO: improve this, only update the objects that changed.
 		_windowObjects = worldObjects;
 		applyTransformation(_window.wo2wiMatrix());
-		redraw();
+		//redraw();
+	}
+
+	void Viewport::applyTransformation(const Transformation &t){
+		for(auto &obj : _windowObjects.objects())
+			obj.second.transform(t);
 	}
 
 }
