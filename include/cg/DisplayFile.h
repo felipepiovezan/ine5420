@@ -18,7 +18,7 @@ namespace CG {
 			mapGObjects& objects() { return _objects;}
 
 			//add, remove and fetch objects
-			GObject& add(std::string name, GObject object) {
+			GObject& add(const std::string& name, const GObject& object) {
 				_objects[name] = object;
 				return _objects[name];
 			}
