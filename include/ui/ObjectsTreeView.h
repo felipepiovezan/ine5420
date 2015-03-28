@@ -10,8 +10,8 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
     ObjectsTreeView(CG::World& scene);
     void refresh(const CG::DisplayFile& displayFile);
 
-    // Scene handlers
-    void onWorldChange(const CG::DisplayFile& displayFile);
+    // World event handlers
+    void onObjectCreation(const std::string& name, const CG::GObject& object);
 
   protected:
     CG::World* world;
