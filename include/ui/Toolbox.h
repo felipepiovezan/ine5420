@@ -2,7 +2,8 @@
 #define TOOLBOX_H_
 
 #include <gtkmm.h>
-#include "cg/Scene.h"
+
+#include "cg/World.h"
 #include "ui/ObjectsTreeView.h"
 
 class Toolbox : public Gtk::Box {
@@ -13,7 +14,7 @@ class Toolbox : public Gtk::Box {
     void set_icon(Gtk::Button& btn, Gtk::Image& img, const Gtk::StockID& id);
 
   public:
-    Toolbox(CG::Scene& scene);
+    Toolbox(CG::World& world);
 
     // Create widgets
     Gtk::Frame _createFrame;

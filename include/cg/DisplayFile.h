@@ -10,23 +10,17 @@ namespace CG {
 	typedef std::map<std::string, GObject> mapGObjects;
 	class DisplayFile {
 		private:
-			mapGObjects _worldObjects;
-			mapGObjects _windowObjects;
+			mapGObjects _objects;
 
 		public:
 			//getter
-			const mapGObjects& windowObjects() const{ return _windowObjects;}
-			const mapGObjects& worldObjects() const{ return _worldObjects;}
+			const mapGObjects& objects() const{ return _objects;}
+			mapGObjects& objects() { return _objects;}
 
 			//add, remove and fetch objects
-			void add(std::string name, GObject object, const Transformation& wo2wiMatrix);
-			mapGObjects::iterator findWorldObject(const std::string& name) {return _worldObjects.find(name);}
-			mapGObjects::iterator findWindowObject(const std::string& name) {return _windowObjects.find(name);}
-			bool isValidWorldIterator(const mapGObjects::iterator it) const {return it!= _worldObjects.end();}
-			bool isValidWindowIterator(const mapGObjects::iterator it) const {return it!= _windowObjects.end();}
-			mapGObjects::size_type removeObject(const std::string& name) {_worldObjects.erase(name); return _windowObjects.erase(name);}
-
-			void updateWindowCoords(const Transformation& wo2wiMatrix);
+			void add(std::string name, GObject object) { _objects[name] = object; }
+			mapGObjects::iterator findObject(const std::string& name) {return _objects.find(name);}
+			bool isValidIterator(const mapGObjects::iterator it) const {return it!= _objects.end();}
   };
 
 }

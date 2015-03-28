@@ -2,47 +2,57 @@
 
 namespace CG {
 
-  void Viewport::onContextChange() {
-    for(const auto &it : displayFile->windowObjects()){
-  		drawObject(it.second);
-  	}
-  }
+ Coordinate Viewport::transformCoordinate(const Coordinate& c) const {
+   int width = getWidth();
+   int height = getHeight();
+   double x = width * (c.x - _window.xmin()) / (_window.xmax() - _window.xmin());
+   double y = height * (1 - ((c.y - _window.ymin()) / (_window.ymax() - _window.ymin())));
+   return Coordinate(x, y);
+ }
 
-  void Viewport::drawObject(const GObject& obj) {
-    if (obj.numPoints() == 0)
-      return;
+ GObject::Coordinates Viewport::transformCoordinates(GObject::Coordinates coords) const {
+   CG::GObject::Coordinates vwCoordinates;
+   for (auto &c : coords) {
+     vwCoordinates.push_back(transformCoordinate(c));
+   }
 
-    // Generate the viewport coordinates
-    CG::GObject::Coordinates vwCoordinates = transformCoordinates(obj.coordinates());
+   return vwCoordinates;
+ }
 
-    if (obj.numPoints() == 1) {
-      ctx->drawPoint(vwCoordinates[0], obj.color);
-      return;
-    }
+	void Viewport::changeWindowZoom(double step){
+		double width = _window.width();
+		double height = _window.height();
+		if(_window.zoom(step)){
+			_window.updateMatrix();
+			applyTransformation(Transformation::newScaling(width/(width+step), height/(height+step)));
+			redraw();
+		}
+	}
 
-    if (obj.numPoints() == 2) {
-      ctx->drawLine(vwCoordinates[0], vwCoordinates[1], obj.color);
-      return;
-    }
+	void Viewport::changeWindowPosition(double sx, double sy){
+		_window.move(sx, sy);
+		_window.updateMatrix();
+		applyTransformation(Transformation::newTranslation(sx/_window.width(), sy/_window.height()));
+		redraw();
+	}
 
-    ctx->drawPolygon(vwCoordinates, obj.color);
-  }
+	void Viewport::rotateWindow(double theta){
+		_window.rotate(Transformation::toRadians(theta));
+		_window.updateMatrix();
+		applyTransformation(Transformation::newRotationAroundOrigin(Transformation::toRadians(theta)));
+		redraw();
+	}
 
-  Coordinate Viewport::transformCoordinate(const Coordinate& c) const {
-    int width = ctx->getWidth();
-    int height = ctx->getHeight();
-    double x = width * (c.x - window->xmin()) / (window->xmax() - window->xmin());
-    double y = height * (1 - ((c.y - window->ymin()) / (window->ymax() - window->ymin())));
-    return Coordinate(x, y);
-  }
+	void Viewport::onWorldChange(const DisplayFile& worldObjects){
+		//TODO: improve this, only update the objects that changed.
+		_windowObjects = worldObjects;
+		applyTransformation(_window.wo2wiMatrix());
+		redraw();
+	}
 
-  GObject::Coordinates Viewport::transformCoordinates(GObject::Coordinates coords) const {
-    CG::GObject::Coordinates vwCoordinates;
-    for (auto &c : coords) {
-      vwCoordinates.push_back(transformCoordinate(c));
-    }
-
-    return vwCoordinates;
-  }
+	void Viewport::applyTransformation(const Transformation &t){
+		for(auto &obj : _windowObjects.objects())
+			obj.second.transform(t);
+	}
 
 }

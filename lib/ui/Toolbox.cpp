@@ -2,9 +2,9 @@
 
 #define TOOLBOX_SPACING 5
 
-Toolbox::Toolbox(CG::Scene& scene) :
+Toolbox::Toolbox(CG::World& world) :
   Gtk::Box(Gtk::ORIENTATION_VERTICAL, TOOLBOX_SPACING),
-  _objectsTreeView(scene) {
+  _objectsTreeView(world) {
   init_create_widgets();
   init_control_widgets();
   init_object_list_widgets();

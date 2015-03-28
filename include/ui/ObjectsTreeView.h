@@ -2,15 +2,19 @@
 #define OBJECTS_TREE_VIEW_H_
 
 #include <gtkmm.h>
-#include "cg/Scene.h"
 
-class ObjectsTreeView : public Gtk::TreeView, public CG::Scene::Listener {
+#include "cg/World.h"
+
+class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
   public:
-    ObjectsTreeView(CG::Scene& scene);
-    void refresh(CG::DisplayFile& displayFile);
+    ObjectsTreeView(CG::World& scene);
+    void refresh(const CG::DisplayFile& displayFile);
+
+    // Scene handlers
+    void onWorldChange(const CG::DisplayFile& displayFile);
 
   protected:
-    CG::Scene* scene;
+    CG::World* world;
 
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {
@@ -40,8 +44,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::Scene::Listener {
     void on_menu_popup_scale();
     void on_menu_popup_rotate();
 
-    // Scene handlers
-    void onObjectChange(CG::DisplayFile& displayFile);
+
 };
 
 #endif
