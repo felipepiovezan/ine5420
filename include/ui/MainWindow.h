@@ -6,13 +6,14 @@
 #include "utils/objIO.h"
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
-#include "ui/GtkDrawingContext.h"
+#include "ui/GtkUIViewport.h"
 #include <iostream>
 
 class MainWindow : public Gtk::Window {
 	private:
-		GtkDrawingContext drawingCtx;
 		CG::World _world;
+		CG::Window _window;
+		GtkUIViewport _viewport;
 
 		Toolbox _toolbox;
 		Gtk::Box _mainBox;

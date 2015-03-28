@@ -3,10 +3,13 @@
 
 #include <gtkmm/drawingarea.h>
 #include "cg/GObject.h"
+#include "cg/Window.h"
 #include "cg/Viewport.h"
 
-class GtkDrawingContext : public CG::Viewport, public Gtk::DrawingArea {
+class GtkUIViewport : public CG::Viewport, public Gtk::DrawingArea {
   public:
+    GtkUIViewport(CG::Window& window) : CG::Viewport(window) {};
+
     void redraw();
     void drawPoint(CG::Coordinate p, CG::Color color);
     void drawLine(CG::Coordinate p1, CG::Coordinate p2, CG::Color color);

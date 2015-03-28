@@ -1,12 +1,12 @@
-#include "ui/GtkDrawingContext.h"
+#include "ui/GtkUIViewport.h"
 
 #include <cairomm/context.h>
 
-void GtkDrawingContext::redraw() {
+void GtkUIViewport::redraw() {
   queue_draw();
 }
 
-void GtkDrawingContext::drawPoint(CG::Coordinate p, CG::Color color) {
+void GtkUIViewport::drawPoint(CG::Coordinate p, CG::Color color) {
   if (!cairoCtx) return;
 
   cairoCtx->set_source_rgb(color.r, color.g, color.b);
@@ -16,7 +16,7 @@ void GtkDrawingContext::drawPoint(CG::Coordinate p, CG::Color color) {
   cairoCtx->stroke();
 }
 
-void GtkDrawingContext::drawLine(CG::Coordinate p1, CG::Coordinate p2, CG::Color color) {
+void GtkUIViewport::drawLine(CG::Coordinate p1, CG::Coordinate p2, CG::Color color) {
   if (!cairoCtx) return;
 
   cairoCtx->set_source_rgb(color.r, color.g, color.b);
@@ -25,7 +25,7 @@ void GtkDrawingContext::drawLine(CG::Coordinate p1, CG::Coordinate p2, CG::Color
   cairoCtx->stroke();
 }
 
-void GtkDrawingContext::drawPolygon(CG::GObject::Coordinates cs, CG::Color color) {
+void GtkUIViewport::drawPolygon(CG::GObject::Coordinates cs, CG::Color color) {
   if (!cairoCtx) return;
 
   cairoCtx->set_source_rgb(color.r, color.g, color.b);
@@ -40,12 +40,12 @@ void GtkDrawingContext::drawPolygon(CG::GObject::Coordinates cs, CG::Color color
   cairoCtx->stroke();
 }
 
-void GtkDrawingContext::updateDimension() {
+void GtkUIViewport::updateDimension() {
   width = get_allocation().get_width();
   height = get_allocation().get_height();
 }
 
-bool GtkDrawingContext::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
+bool GtkUIViewport::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
   cairoCtx = ctx;
   updateDimension();
   return true;

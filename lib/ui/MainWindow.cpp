@@ -4,8 +4,9 @@
 #include "cg/DisplayFile.h"
 
 MainWindow::MainWindow() :
-	drawingCtx(),
 	_world(),
+	_window(0, 0, 20, 20, 0),
+	_viewport(_window),
 	_toolbox(_world) {
 		_world.addListener(_toolbox._objectsTreeView);
 
@@ -23,13 +24,13 @@ MainWindow::MainWindow() :
 
 		_mainBox.pack_start(_toolbox, Gtk::PACK_SHRINK);
 		_toolbox.set_size_request(200, 0);
-		_mainBox.pack_start(drawingCtx, Gtk::PACK_EXPAND_PADDING);
-		drawingCtx.set_size_request(600, 600);
+		_mainBox.pack_start(_viewport, Gtk::PACK_EXPAND_PADDING);
+		_viewport.set_size_request(600, 600);
 
 		set_resizable(false);
 
 		_toolbox.show();
-		drawingCtx.show();
+		_viewport.show();
 }
 
 void MainWindow::init_examples() {
@@ -42,15 +43,15 @@ void MainWindow::init_handlers() {
   _toolbox._newLine.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newLine));
   _toolbox._newPolygon.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPolygon));
 
-  _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::zoomIn));
-  _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::zoomOut));
-  _toolbox._leftBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::left));
-  _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::right));
-  _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::up));
-  _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::down));
+  _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::zoomIn));
+  _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::zoomOut));
+  _toolbox._leftBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::left));
+  _toolbox._rightBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::right));
+  _toolbox._upBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::up));
+  _toolbox._downBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::down));
 
-  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::rotateLeft));
-  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(_world, &CG::World::rotateRight));
+  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::rotateLeft));
+  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::rotateRight));
 }
 
 void MainWindow::init_action_menu() {
