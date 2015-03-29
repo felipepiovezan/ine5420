@@ -1,0 +1,1 @@
+#include "cg/ClippingStrategy.h"

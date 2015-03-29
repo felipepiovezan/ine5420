@@ -5,15 +5,17 @@
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
 #include "cg/World.h"
+#include "cg/ClippingStrategy.h"
+#include <memory>
 
 namespace CG {
 
   class Viewport : public World::WorldListener {
     public:
-      Viewport(Window& window) : _window(window){}
+      Viewport(Window& window, std::shared_ptr<World> world) : _window(window), _world(world){}
 
       Coordinate transformCoordinate(const Coordinate& c) const;
-      GObject::Coordinates transformCoordinates(GObject::Coordinates coords) const;
+      GObject::Coordinates transformCoordinates(const GObject::Coordinates& coords) const;
 
       virtual double getWidth() const = 0;
       virtual double getHeight() const = 0;
@@ -38,9 +40,12 @@ namespace CG {
 
     private:
       Window _window;
+      std::shared_ptr<World> _world;
+      ClippingStrategy<DoNothingPointClipping, DoNothingLineClipping, DoNothingPolygonClipping> _clippingStrategy;
 
     protected:
-      void applyTransformation(const Transformation &t);
+      void transformAndClipAll(const Transformation &t);
+      inline void transformAndClip(GObject &obj, const Transformation &t);
       virtual void redraw() = 0;
       DisplayFile _windowObjects;
   };

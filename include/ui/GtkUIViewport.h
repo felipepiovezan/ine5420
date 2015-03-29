@@ -6,9 +6,10 @@
 #include "cg/Window.h"
 #include "cg/Viewport.h"
 
+
 class GtkUIViewport : public CG::Viewport, public Gtk::DrawingArea {
   public:
-    GtkUIViewport(CG::Window& window) : CG::Viewport(window) {};
+    GtkUIViewport(CG::Window& window, std::shared_ptr<CG::World> world) : CG::Viewport(window, world) {};
 
     void redraw();
     void drawObject(const CG::GObject &obj);

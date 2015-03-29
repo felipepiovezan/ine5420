@@ -12,21 +12,18 @@ namespace CG {
    return Coordinate(x, y);
  }
 
- GObject::Coordinates Viewport::transformCoordinates(GObject::Coordinates coords) const {
+ GObject::Coordinates Viewport::transformCoordinates(const GObject::Coordinates& coords) const {
    CG::GObject::Coordinates vwCoordinates;
-   for (auto &c : coords) {
+   for (const auto &c : coords)
      vwCoordinates.push_back(transformCoordinate(c));
-   }
 
    return vwCoordinates;
  }
 
 	void Viewport::changeWindowZoom(double step){
-		double width = _window.width();
-		double height = _window.height();
 		if(_window.zoom(step)){
 			_window.updateMatrix();
-			applyTransformation(Transformation::newScaling(width/(width+step), height/(height+step)));
+			transformAndClipAll(_window.wo2wiMatrix());
 			redraw();
 		}
 	}
@@ -34,21 +31,21 @@ namespace CG {
 	void Viewport::changeWindowPosition(double sx, double sy){
 		_window.move(sx, sy);
 		_window.updateMatrix();
-		applyTransformation(Transformation::newTranslation(sx/_window.width(), sy/_window.height()));
+		transformAndClipAll(_window.wo2wiMatrix());
 		redraw();
 	}
 
 	void Viewport::rotateWindow(double theta){
 		_window.rotate(Transformation::toRadians(theta));
 		_window.updateMatrix();
-		applyTransformation(Transformation::newRotationAroundOrigin(Transformation::toRadians(theta)));
+		transformAndClipAll(_window.wo2wiMatrix());
 		redraw();
 	}
 
   void Viewport::onObjectCreation(const std::string& name, const GObject& object) {
     assert(!_windowObjects.exists(name));
     auto &windowObj = _windowObjects.add(name, object);
-    windowObj.transform(_window.wo2wiMatrix());
+    transformAndClip(windowObj, _window.wo2wiMatrix());
     redraw();
   }
 
@@ -57,7 +54,7 @@ namespace CG {
   	assert(_windowObjects.isValidIterator(itWindow));
   	auto &windowObj = itWindow->second;
     windowObj = object;
-    windowObj.transform(_window.wo2wiMatrix());
+    transformAndClip(windowObj, _window.wo2wiMatrix());
     redraw();
   }
 
@@ -67,9 +64,24 @@ namespace CG {
     redraw();
   }
 
-	void Viewport::applyTransformation(const Transformation &t){
+  void Viewport::transformAndClip(GObject &obj, const Transformation &t){
+	  obj.transform(t);
+	  switch(obj.type()){
+	  	  case GObject::Type::POINT:
+	  		  _clippingStrategy.clip(static_cast<GPoint&> (obj)); break;
+			case GObject::Type::LINE:
+				_clippingStrategy.clip(static_cast<GLine&> (obj)); break;
+			case GObject::Type::POLYGON:
+				_clippingStrategy.clip(static_cast<GPolygon&> (obj)); break;
+			case GObject::Type::OBJECT:
+				break;
+	  }
+  }
+
+	void Viewport::transformAndClipAll(const Transformation &t){
+		_windowObjects.objects() = _world->getObjects();
 		for(auto &obj : _windowObjects.objects())
-			obj.second.transform(t);
+			transformAndClip(obj.second, t);
 	}
 
 }

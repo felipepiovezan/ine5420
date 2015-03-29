@@ -2,16 +2,19 @@
 #define __MAINWINDOWH
 
 #include <gtkmm.h>
-#include "cg/World.h"
 #include "utils/objIO.h"
 #include "ui/Toolbox.h"
 #include "ui/dialogs.h"
 #include "ui/GtkUIViewport.h"
 #include <iostream>
+#include "cg/World.h"
+#include "cg/Window.h"
+#include "cg/DisplayFile.h"
+#include <memory>
 
 class MainWindow : public Gtk::Window {
 	private:
-		CG::World _world;
+		std::shared_ptr<CG::World> _world;
 		CG::Window _window;
 		GtkUIViewport _viewport;
 

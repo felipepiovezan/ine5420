@@ -2,8 +2,8 @@
 
 #include "ui/dialogs.h"
 
-ObjectsTreeView::ObjectsTreeView(CG::World& world) :
-world(&world) {
+ObjectsTreeView::ObjectsTreeView(std::shared_ptr<CG::World> world) :
+_world(world) {
   _refObjectsTreeModel = Gtk::ListStore::create(_objectsModelColumns);
   set_model(_refObjectsTreeModel);
 
@@ -73,7 +73,7 @@ const std::string ObjectsTreeView::getSelectedObject() {
 
 void ObjectsTreeView::on_menu_popup_remove() {
   const std::string name = getSelectedObject();
-  world->removeObject(name);
+  _world->removeObject(name);
 }
 
 void ObjectsTreeView::on_menu_popup_translate() {
@@ -82,7 +82,7 @@ void ObjectsTreeView::on_menu_popup_translate() {
   TranslateDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate c = dialog.getCoordinate();
-		world->translateObject(name, c.x, c.y);
+		_world->translateObject(name, c.x, c.y);
   }
 }
 
@@ -91,7 +91,7 @@ void ObjectsTreeView::on_menu_popup_scale() {
   ScaleDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate scale = dialog.getCoordinate();
-		world->scaleObject(name, scale.x, scale.y);
+		_world->scaleObject(name, scale.x, scale.y);
   }
 }
 
@@ -104,10 +104,10 @@ void ObjectsTreeView::on_menu_popup_rotate() {
 		double degrees = dialog.getRotation();
 
 		if (dialog.isAroundObjectCenterSelected()) {
-			world->rotateObject(name, degrees);
+			_world->rotateObject(name, degrees);
 		} else {
 			CG::Coordinate rotationCenter = dialog.getRotationCenter();
-			world->rotateObject(name, degrees, rotationCenter);
+			_world->rotateObject(name, degrees, rotationCenter);
 		}
   }
 }

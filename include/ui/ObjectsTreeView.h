@@ -7,7 +7,7 @@
 
 class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
   public:
-    ObjectsTreeView(CG::World& scene);
+    ObjectsTreeView(std::shared_ptr<CG::World> world);
     void refresh(const CG::DisplayFile& displayFile);
 
     // World event handlers
@@ -15,7 +15,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
     void onObjectRemoval(const std::string& name);
 
   protected:
-    CG::World* world;
+    std::shared_ptr<CG::World> _world;
 
     // Objects list widgets
     class ObjectModelColumns : public Gtk::TreeModel::ColumnRecord {

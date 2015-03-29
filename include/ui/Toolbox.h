@@ -14,7 +14,7 @@ class Toolbox : public Gtk::Box {
     void set_icon(Gtk::Button& btn, Gtk::Image& img, const Gtk::StockID& id);
 
   public:
-    Toolbox(CG::World& world);
+    Toolbox(std::shared_ptr<CG::World> world);
 
     // Create widgets
     Gtk::Frame _createFrame;
