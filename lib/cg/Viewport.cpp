@@ -1,5 +1,6 @@
 #include "cg/Viewport.h"
 
+#include<iostream>
 #include <cassert>
 
 namespace CG {
@@ -47,6 +48,17 @@ namespace CG {
     auto &windowObj = _windowObjects.add(name, object);
     transformAndClip(windowObj, _window.wo2wiMatrix());
     drawObject(windowObj); // Draw only the inserted object
+  }
+
+  void Viewport::onObjectCreation(const std::string& baseName, const std::vector<GObject> &objects) {
+	  int i=0;
+	  for(const auto &obj : objects) {
+		  auto name = baseName + std::to_string(i++);
+		  assert(!_windowObjects.exists(name));
+		  auto &windowObj = _windowObjects.add(name, obj);
+	      transformAndClip(windowObj, _window.wo2wiMatrix());
+	  }
+      redraw();
   }
 
   void Viewport::onObjectChange(const std::string& name, const GObject& object) {

@@ -1,6 +1,7 @@
 #include "cg/World.h"
 #include "cg/Transformations.h"
 #include <cassert>
+#include <iostream>
 
 namespace CG {
 
@@ -14,8 +15,8 @@ namespace CG {
     for(const auto &obj : objVector) {
       std::string name = baseName + std::to_string(i++);
       _worldObjects.add(name, obj);
-      notifyObjectCreation(name, obj);
     }
+    notifyObjectCreation(baseName, objVector);
   }
 
   void World::createPoint(std::string name, Color color, Coordinate c) {
@@ -83,7 +84,10 @@ namespace CG {
     for (auto it : _listeners)
       it->onObjectCreation(name, object);
   }
-
+  void World::notifyObjectCreation(const std::string& baseName, const std::vector<GObject>& objects) const{
+	for (auto it : _listeners)
+		it->onObjectCreation(baseName, objects);
+  }
   void World::notifyObjectChange(const std::string& name, const GObject& object) const {
     for (auto it : _listeners)
       it->onObjectChange(name, object);

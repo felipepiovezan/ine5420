@@ -32,6 +32,9 @@ namespace CG {
           // Called when an object is created
           virtual void onObjectCreation(const std::string& name, const GObject& object) {}
 
+          // Called when an object is created
+          virtual void onObjectCreation(const std::string& name, const std::vector<GObject>& objects) {}
+
           // Called when an object is changed
           virtual void onObjectChange(const std::string& name, const GObject& object) {}
 
@@ -47,6 +50,7 @@ namespace CG {
       DisplayFile _worldObjects;
 
       void notifyObjectCreation(const std::string& name, const GObject& object) const;
+      void notifyObjectCreation(const std::string& name, const std::vector<GObject>& objects) const;
       void notifyObjectChange(const std::string& name, const GObject& object) const;
       void notifyObjectRemoval(const std::string& name) const;
   };

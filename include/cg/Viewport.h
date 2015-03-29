@@ -37,6 +37,7 @@ namespace CG {
 
       // World Listener methods
       void onObjectCreation(const std::string& name, const GObject& object);
+      void onObjectCreation(const std::string& name, const std::vector<GObject> &objects);
       void onObjectChange(const std::string& name, const GObject& object);
       void onObjectRemoval(const std::string& name);
 
