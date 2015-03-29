@@ -46,7 +46,7 @@ namespace CG {
     assert(!_windowObjects.exists(name));
     auto &windowObj = _windowObjects.add(name, object);
     transformAndClip(windowObj, _window.wo2wiMatrix());
-    redraw();
+    drawObject(windowObj); // Draw only the inserted object
   }
 
   void Viewport::onObjectChange(const std::string& name, const GObject& object) {

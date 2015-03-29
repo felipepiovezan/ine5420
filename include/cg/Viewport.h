@@ -17,6 +17,8 @@ namespace CG {
       Coordinate transformCoordinate(const Coordinate& c) const;
       GObject::Coordinates transformCoordinates(const GObject::Coordinates& coords) const;
 
+      virtual void redraw() = 0;
+      virtual void drawObject(const GObject& obj) = 0;
       virtual double getWidth() const = 0;
       virtual double getHeight() const = 0;
 
@@ -46,7 +48,6 @@ namespace CG {
     protected:
       void transformAndClipAll(const Transformation &t);
       inline void transformAndClip(GObject &obj, const Transformation &t);
-      virtual void redraw() = 0;
       DisplayFile _windowObjects;
   };
 
