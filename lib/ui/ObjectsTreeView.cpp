@@ -118,6 +118,14 @@ void ObjectsTreeView::onObjectCreation(const std::string& name, const CG::GObjec
   row[_objectsModelColumns.colType] = CG::GObject::TypeNames[object.type()];
 }
 
+void ObjectsTreeView::onObjectCreation(const std::string& baseName, const std::vector<CG::GObject>& objects) {
+  int i = 0;
+  for(const auto &obj : objects) {
+    auto name = baseName + std::to_string(i++);
+    onObjectCreation(name, obj);
+  }
+}
+
 void ObjectsTreeView::onObjectRemoval(const std::string& name) {
   for (auto row : _refObjectsTreeModel->children()) {
     std::string rowName = (*row)[_objectsModelColumns.colName];

@@ -32,7 +32,7 @@ namespace CG {
           // Called when an object is created
           virtual void onObjectCreation(const std::string& name, const GObject& object) {}
 
-          // Called when an object is created
+          // Called when a collection of objects is created
           virtual void onObjectCreation(const std::string& name, const std::vector<GObject>& objects) {}
 
           // Called when an object is changed

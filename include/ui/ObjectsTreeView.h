@@ -12,6 +12,7 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
 
     // World event handlers
     void onObjectCreation(const std::string& name, const CG::GObject& object);
+    void onObjectCreation(const std::string& baseName, const std::vector<CG::GObject>& objects);
     void onObjectRemoval(const std::string& name);
 
   protected:
