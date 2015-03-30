@@ -4,30 +4,34 @@
 #include "cg/GObject.h"
 
 namespace CG{
+	typedef struct {
+		double minX, maxX, minY, maxY;
+	} ClippingRect;
+
 	template <typename PointStrategy, typename LineStrategy, typename PolygonStrategy>
 	class ClippingStrategy : private PointStrategy, private LineStrategy, private PolygonStrategy {
 		using PointStrategy::clipPoint;
 		using LineStrategy::clipLine;
 		using PolygonStrategy::clipPolygon;
 		public:
-			bool clip(GPoint& p) {return clipPoint(p);}
-			bool clip(GLine& l) {return clipLine(l);}
-			bool clip(GPolygon& pol) {return clipPolygon(pol);}
+			bool clip(GPoint& p, ClippingRect& rect) {return clipPoint(p, rect);}
+			bool clip(GLine& l, ClippingRect& rect) {return clipLine(l, rect);}
+			bool clip(GPolygon& pol, ClippingRect& rect) {return clipPolygon(pol, rect);}
 	};
 
-	class DoNothingPointClipping{
+	class SimplePointClipping {
 		protected:
-			bool clipPoint(GPoint& p){ return true;}
+			bool clipPoint(GPoint& p, ClippingRect& rect);
 	};
 
 	class DoNothingLineClipping{
 		protected:
-			bool clipLine(GLine& l){ return true;}
+			bool clipLine(GLine& l, ClippingRect& rect){ return true;}
 	};
 
 	class DoNothingPolygonClipping{
 		protected:
-			bool clipPolygon(GPolygon& pol) { return true; }
+			bool clipPolygon(GPolygon& pol, ClippingRect& rect) { return true; }
 	};
 }
 

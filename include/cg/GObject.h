@@ -40,6 +40,7 @@ namespace CG {
 			Coordinate center() const;
 
 			void transform(const Transformation& t);
+			void clear() { _coordinates.clear(); }
 
 			Color color;
 

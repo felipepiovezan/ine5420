@@ -78,13 +78,20 @@ namespace CG {
 
   void Viewport::transformAndClip(GObject &obj, const Transformation &t){
 	  obj.transform(t);
+    ClippingRect clippingRect = {
+      .minX = -0.5,
+      .maxX = 0.5,
+      .minY = -0.5,
+      .maxY = 0.5
+    };
+
 	  switch(obj.type()){
 	  	  case GObject::Type::POINT:
-	  		  _clippingStrategy.clip(static_cast<GPoint&> (obj)); break;
+	  		  _clippingStrategy.clip(static_cast<GPoint&> (obj), clippingRect); break;
 			case GObject::Type::LINE:
-				_clippingStrategy.clip(static_cast<GLine&> (obj)); break;
+				_clippingStrategy.clip(static_cast<GLine&> (obj), clippingRect); break;
 			case GObject::Type::POLYGON:
-				_clippingStrategy.clip(static_cast<GPolygon&> (obj)); break;
+				_clippingStrategy.clip(static_cast<GPolygon&> (obj), clippingRect); break;
 			case GObject::Type::OBJECT:
 				break;
 	  }

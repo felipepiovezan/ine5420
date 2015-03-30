@@ -8,6 +8,8 @@ void GtkUIViewport::redraw() {
 
 void GtkUIViewport::drawObject(const CG::GObject &obj) {
 	if (!cairoCtx) return;
+  if (obj.numPoints() == 0) return;
+
 	cairoCtx->set_source_rgb(obj.color.r, obj.color.g, obj.color.b);
 
 	CG::Coordinate p = transformCoordinate(obj.coordinates()[0]);
