@@ -17,5 +17,4 @@ namespace CG {
 
     return !onScreen;
   }
-
 }
