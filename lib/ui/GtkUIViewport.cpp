@@ -43,5 +43,7 @@ bool GtkUIViewport::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
   updateDimension();
   for(const auto &obj : _windowObjects.objects())
 	  drawObject(obj.second);
+  
+  drawObject(border);
   return true;
 }

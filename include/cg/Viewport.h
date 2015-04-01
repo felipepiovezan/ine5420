@@ -12,7 +12,8 @@ namespace CG {
 
   class Viewport : public World::WorldListener {
     public:
-      Viewport(Window& window, std::shared_ptr<World> world) : _window(window), _world(world){}
+      Viewport(Window& window, std::shared_ptr<World> world) :
+        _window(window), _world(world), border(clippingRect) {}
 
       Coordinate transformCoordinate(const Coordinate& c) const;
       GObject::Coordinates transformCoordinates(const GObject::Coordinates& coords) const;
@@ -50,6 +51,19 @@ namespace CG {
       void transformAndClipAll(const Transformation &t);
       inline void transformAndClip(GObject &obj, const Transformation &t);
       DisplayFile _windowObjects;
+
+      class Border : public GPolygon {
+        public:
+          Border(const ClippingRect& rect);
+      };
+
+      ClippingRect clippingRect = {
+        .minX = -0.75,
+        .maxX = 0.75,
+        .minY = -0.75,
+        .maxY = 0.75
+      };
+      Border border;
   };
 
 }

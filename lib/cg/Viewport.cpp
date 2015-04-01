@@ -78,12 +78,6 @@ namespace CG {
 
   void Viewport::transformAndClip(GObject &obj, const Transformation &t){
 	  obj.transform(t);
-		ClippingRect clippingRect = {
-		  .minX = -0.5,
-		  .maxX = 0.5,
-		  .minY = -0.5,
-		  .maxY = 0.5
-		};
 
 	  switch(obj.type()){
 	  	  case GObject::Type::POINT:
@@ -103,4 +97,11 @@ namespace CG {
 			transformAndClip(obj.second, t);
 	}
 
+  Viewport::Border::Border(const ClippingRect& rect) {
+    addCoordinate(Coordinate(rect.minX, rect.minY));
+    addCoordinate(Coordinate(rect.minX, rect.maxY));
+    addCoordinate(Coordinate(rect.maxX, rect.maxY));
+    addCoordinate(Coordinate(rect.maxX, rect.minY));
+    color.r = 1;
+  }
 }

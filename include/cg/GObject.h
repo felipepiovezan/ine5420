@@ -87,6 +87,7 @@ namespace CG {
 
 	class GPolygon : public GObject {
 		public:
+			GPolygon() : GObject(Type::POLYGON) {} 
 			GPolygon(const Coordinates& coords) : GObject(Type::POLYGON) {
 				addCoordinate(coords);
 			}
