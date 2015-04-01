@@ -24,9 +24,12 @@ namespace CG{
 			bool clipPoint(GPoint& p, ClippingRect& rect);
 	};
 
-	class DoNothingLineClipping{
+	/**
+	 * Liang-Barsky Line Clipping
+	 */
+	class LBLineClipping{
 		protected:
-			bool clipLine(GLine& l, ClippingRect& rect){ return true;}
+			bool clipLine(GLine& l, ClippingRect& rect);
 	};
 
 	class DoNothingPolygonClipping{
