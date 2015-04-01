@@ -3,11 +3,11 @@
 namespace CG{
   	  #define rotate90c(x,y) {double __t=x; x=y; y=-__t;}
   	  #define rotate180c(x,y) x=-x; y=-y;
-  	  #define rotate270(x,y) {double __t=x; x=-y; y=__t;}
+  	  #define rotate270c(x,y) {double __t=x; x=-y; y=__t;}
   	  #define reflectxminusy(x,y) {double __t=x; x=-y; y=-__t;}
   	  #define reflectxaxis(x,y) y=-y;
 
-	  bool NLNLineClipping::clipLine(GLine& l, ClippingRect& rect){
+	  bool NLNLineClipping::clipLine(GLine& l, const ClippingRect& rect){
 		  const double &xleft = rect.minX,
 				  &xright = rect.maxX,
 				  &ybottom = rect.minY,
@@ -116,4 +116,105 @@ namespace CG{
 		  }
 	  }
 
-  }
+	  void NLNLineClipping::leftedge(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
+	  			  double &x1,double &y1,double &x2,double &y2, bool &display){
+		  if(x2 < xleft) display = false;
+		  else if (y2 > ytop){
+			  reflectxaxis(x1, y1);	  reflectxaxis(x2, y2);
+			  p2bottom(xleft, -ybottom, xright, -ytop, x1, y1, x2, y2, display);
+			  reflectxaxis(x1, y1);	  reflectxaxis(x2, y2);
+		  }
+		  else{
+			 double relx2 = x2 - x1,
+					 rely2 = y2-y1;
+			 if(x2 > xright){
+				 y2 = y1 + rely2 * (xright - x1) / relx2;
+				 x2 = xright;
+			 }
+			 y1 = y1 + rely2 * (xleft - x1)/relx2 ;
+			 x1 = xleft;
+			 display = true;
+		  }
+	  }
+
+		 void NLNLineClipping::p2bottom(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
+	  			  double &x1,double &y1,double &x2,double &y2, bool &display){
+			double relx2 = x2 - x1,
+					rely2 = y2 - y1,
+					leftproduct = (xleft - x1) * rely2,
+					bottomproduct = (ybottom - y1) * relx2;
+			if(bottomproduct > leftproduct) display = false;
+			else{
+				if(x2 <= xright){
+					x2 = x1 + bottomproduct/rely2;
+					y2 = ybottom;
+				}
+				else{
+					double rightproduct = (xright - x1) * rely2;
+					if(bottomproduct > rightproduct){
+						x2 = x1 + bottomproduct / rely2;
+						y2 = ybottom;
+					}
+					else{
+						y2 = y1 + rightproduct/relx2;
+						x2 = xright;
+					}
+				}
+				y1 = y1 + leftproduct/relx2;
+				x1 = xleft;
+				display = true;
+			}
+
+		}
+
+		 void NLNLineClipping::centrecolumn(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
+	  			  double &x1,double &y1,double &x2,double &y2, bool &display){
+			if(y1 > ytop){
+				rotate270c(x1, y1); rotate270c(x2, y2);
+				leftedge (-ytop, xright, -ybottom, xleft,x1, y1, x2, y2, display);
+				rotate90c(x1, y1); rotate90c (x2, y2)
+			}
+			else if(y1 < ybottom){
+				rotate90c(x1, y1); rotate90c (x2, y2);
+				leftedge (ybottom, -xleft, ytop, -xright,x1, y1, x2, y2, display);
+				rotate270c(x1, y1); rotate270c(x2, y2);
+			}
+			else{
+				inside(xleft, ytop, xright, ybottom,x1, y1, x2, y2, display);
+			}
+		}
+
+		 void NLNLineClipping::inside(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
+			  			  double &x1,double &y1,double &x2,double &y2, bool &display){
+
+		}
+
+		 void NLNLineClipping::p2lefttop(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
+			  			  double &x1,double &y1,double &x2,double &y2){
+			 double relx2 = x2 - x1,
+					 rely2 = y2 - y1,
+					 leftproduct = rely2 * (xleft - x1),
+					 topproduct = relx2 * (ytop - y1);
+			 if(topproduct > leftproduct){
+				 x2 = x1 + topproduct / rely2;
+				 y2 = ytop;
+			 }
+			 else{
+				 y2 = y1 + leftproduct / relx2;
+				 x2 = xleft;
+			 }
+		}
+
+		 void NLNLineClipping::p2left(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
+	  			  double &x1,double &y1,double &x2,double &y2){
+			 if(y2 > ytop){
+				 p2lefttop(xleft, ytop, xright, ybottom,x1, y1, x2, y2);
+			 }
+			 else if (y2 < ybottom){
+
+			 }
+		 }
+
+}
+
+

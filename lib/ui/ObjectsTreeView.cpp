@@ -122,7 +122,7 @@ void ObjectsTreeView::onObjectCreation(const std::string& baseName, const std::v
   int i = 0;
   for(const auto &obj : objects) {
     auto name = baseName + std::to_string(i++);
-    onObjectCreation(name, obj);
+   // onObjectCreation(name, obj);
   }
 }
 
