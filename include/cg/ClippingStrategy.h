@@ -14,14 +14,14 @@ namespace CG{
 		using LineStrategy::clipLine;
 		using PolygonStrategy::clipPolygon;
 		public:
-			bool clip(GPoint& p, ClippingRect& rect) {return clipPoint(p, rect);}
-			bool clip(GLine& l, ClippingRect& rect) {return clipLine(l, rect);}
-			bool clip(GPolygon& pol, ClippingRect& rect) {return clipPolygon(pol, rect);}
+			bool clip(GPoint& p, const ClippingRect& rect) {return clipPoint(p, rect);}
+			bool clip(GLine& l, const ClippingRect& rect) {return clipLine(l, rect);}
+			bool clip(GPolygon& pol, const ClippingRect& rect) {return clipPolygon(pol, rect);}
 	};
 
 	class SimplePointClipping {
 		protected:
-			bool clipPoint(GPoint& p, ClippingRect& rect);
+			bool clipPoint(GPoint& p, const ClippingRect& rect);
 	};
 
 	/**
@@ -29,12 +29,12 @@ namespace CG{
 	 */
 	class LBLineClipping{
 		protected:
-			bool clipLine(GLine& l, ClippingRect& rect);
+			bool clipLine(GLine& l, const ClippingRect& rect);
 	};
 
 	class DoNothingPolygonClipping{
 		protected:
-			bool clipPolygon(GPolygon& pol, ClippingRect& rect) { return true; }
+			bool clipPolygon(GPolygon& pol, const ClippingRect& rect) { return true; }
 	};
 }
 

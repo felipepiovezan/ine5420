@@ -5,7 +5,7 @@
 
 namespace CG {
 
-  bool SimplePointClipping::clipPoint(GPoint& p, ClippingRect& rect) {
+  bool SimplePointClipping::clipPoint(GPoint& p, const ClippingRect& rect) {
     assert(p.numPoints() == 1);
 
     auto c = p.coordinates()[0];
@@ -18,7 +18,7 @@ namespace CG {
     return !onScreen;
   }
 
-  bool LBLineClipping::clipLine(GLine& l, ClippingRect& rect) {
+  bool LBLineClipping::clipLine(GLine& l, const ClippingRect& rect) {
     assert(l.numPoints() == 2);
 
     auto c1 = l.coordinates()[0];
