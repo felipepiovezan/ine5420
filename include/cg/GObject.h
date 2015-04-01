@@ -36,6 +36,7 @@ namespace CG {
 			Type type() const { return _type; }
 
 			const Coordinates& coordinates() const {return _coordinates;}
+			Coordinates& coordinates() {return _coordinates;}
 			int numPoints() const {return _coordinates.size();}
 			Coordinate center() const;
 
