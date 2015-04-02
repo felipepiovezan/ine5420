@@ -1,6 +1,8 @@
 #include "ui/GtkUIViewport.h"
 #include <iostream>
 #include <cairomm/context.h>
+#include <ctime>
+
 
 void GtkUIViewport::redraw() {
   queue_draw();
@@ -39,11 +41,17 @@ void GtkUIViewport::updateDimension() {
 }
 
 bool GtkUIViewport::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
+  clock_t time = clock();
+
   cairoCtx = ctx;
   updateDimension();
   for(const auto &obj : _windowObjects.objects())
 	  drawObject(obj.second);
   
   drawObject(border);
+
+  time = clock() - time;
+  std::cout << "Took me " << time << " clock ticks ("<< ((float)time)/CLOCKS_PER_SEC << " seconds) at "
+			<<  CLOCKS_PER_SEC << "Hz to draw all clipped objects" << std::endl;
   return true;
 }
