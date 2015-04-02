@@ -1,4 +1,5 @@
 #include "cg/ClippingStrategy.h"
+#include <iostream>
 
 namespace CG{
   	  #define rotate90c(x,y) {double __t=x; x=y; y=-__t;}
@@ -16,7 +17,7 @@ namespace CG{
 				  &y1 = l.coordinates()[0].y,
 				  &x2 = l.coordinates()[1].x,
 				  &y2 = l.coordinates()[1].y;
-		  bool display=false;
+		  bool display;
 		  if(x1 < xleft){
 			  leftcolumn(xleft, ytop, xright, ybottom,
 					  	  	  	  x1,y1,x2,y2,display);
@@ -55,7 +56,7 @@ namespace CG{
 	  }
 	  void NLNLineClipping::topleftcorner(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
 			  double &x1,double &y1,double &x2,double &y2, bool &display){
-		  if(y2 < ytop) display = false;
+		  if(y2 > ytop) display = false;
 		  else {
 			  double relx2 = x2 - x1,
 					  rely2 = y2 - y1,
@@ -71,7 +72,7 @@ namespace CG{
 				  reflectxminusy(x2, y2);
 				  leftbottomregion(-ytop, -xleft, -ybottom, -xright,
 				  				  x1, y1, x2, y2, display,
-				  				  -relx2, -rely2, topproduct);
+				  				  -rely2, -relx2, topproduct);
 				  reflectxminusy(x1, y1);
 				  reflectxminusy(x2, y2);
 			  }
@@ -186,7 +187,23 @@ namespace CG{
 
 		 void NLNLineClipping::inside(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
 			  			  double &x1,double &y1,double &x2,double &y2, bool &display){
-
+			 display = true;
+			 if(x2 < xleft){
+				 p2left(xleft, ytop, xright, ybottom,x1,y1,x2, y2);
+			 }
+			 else if(x2 > xright){
+				 rotate180c(x1, y1); rotate180c(x2, y2);
+				 p2left(-xright, -ybottom, -xleft, -ytop, x1, y1, x2, y2);
+				 rotate180c(x1, y1); rotate180c (x2, y2);
+			 }
+			 else if(y2 > ytop){
+				 x2 = x1 + (x2 -x1) * (ytop - y1)/(y2 - y1);
+				 y2 = ytop;
+			 }
+			 else if(y2 < ybottom){
+				 x2 = x1 + (x2-x1) * (ybottom-y1)/(y2-y1);
+				 y2 = ybottom;
+			 }
 		}
 
 		 void NLNLineClipping::p2lefttop(const double &xleft,const double &ytop,const double &xright,const double &ybottom,
@@ -211,7 +228,13 @@ namespace CG{
 				 p2lefttop(xleft, ytop, xright, ybottom,x1, y1, x2, y2);
 			 }
 			 else if (y2 < ybottom){
-
+				 rotate90c(x1, y1); rotate90c (x2,y2);
+				 p2lefttop(ybottom, -xleft, ytop, -xright,x1, y1, x2, y2);
+				 rotate270c(x1, y1); rotate270c (x2,y2);
+			 }
+			 else{
+				 y2 = y1 + (y2-y1) * (xleft-x1)/(x2-x1);
+				 x2 = xleft;
 			 }
 		 }
 

@@ -76,19 +76,27 @@ namespace CG {
     redraw();
   }
 
+  std::ostream& operator<<(std::ostream& os, const GObject& rhs){
+	  for(const auto& p : rhs.coordinates())
+		  os << "(" << p.x << ", " << p.y << ", " << p.y << std::endl;
+	  return os;
+  }
+
   void Viewport::transformAndClip(GObject &obj, const Transformation &t){
 	  obj.transform(t);
-
+	  bool draw = true;
 	  switch(obj.type()){
-	  	  case GObject::Type::POINT:
-	  		  _clippingStrategy.clip(static_cast<GPoint&> (obj), clippingRect); break;
+	  	  	case GObject::Type::POINT:
+	  	  		draw = _clippingStrategy.clip(static_cast<GPoint&> (obj), clippingRect); break;
 			case GObject::Type::LINE:
-				_clippingStrategy.clip(static_cast<GLine&> (obj), clippingRect); break;
+				draw = _clippingStrategy.clip(static_cast<GLine&> (obj), clippingRect); break;
 			case GObject::Type::POLYGON:
-				_clippingStrategy.clip(static_cast<GPolygon&> (obj), clippingRect); break;
+				draw = _clippingStrategy.clip(static_cast<GPolygon&> (obj), clippingRect); break;
 			case GObject::Type::OBJECT:
 				break;
 	  }
+	  if(!draw)
+		  obj.coordinates().clear();
   }
 
 	void Viewport::transformAndClipAll(const Transformation &t){
