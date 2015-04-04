@@ -42,8 +42,8 @@ class MainWindow : public Gtk::Window {
 		void on_action_file_open();
 		void on_action_file_save();
 
-		// Keyboard shortcuts
-		bool keyboard_handler(GdkEventKey* event);
+		// Keyboard handlers
+		bool on_key_press_event(GdkEventKey* event);
 };
 
 #endif
