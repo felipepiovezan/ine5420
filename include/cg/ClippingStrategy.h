@@ -24,17 +24,9 @@ namespace CG{
 			bool clipPoint(GPoint& p, const ClippingRect& rect);
 	};
 
-	/**
-	 * Liang-Barsky Line Clipping
-	 */
 	class LBLineClipping{
 		protected:
 			bool clipLine(GLine& l, const ClippingRect& rect);
-	};
-
-	class DoNothingLineClipping{
-		protected:
-				bool clipLine(GLine& l, const ClippingRect& rect){return true;}
 	};
 
 	class NLNLineClipping{
@@ -50,14 +42,23 @@ namespace CG{
 			inline void inside(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
 			inline void p2left(const double &,const double &,const double &,const double &,double &,double &,double &,double &);
 			inline void p2lefttop(const double &,const double &,const double &,const double &,double &,double &,double &,double &);
+	};
 
-
+	class SutherlandHodgmanPolygonClipping{
+		protected:
+			bool clipPolygon(GPolygon& pol, const ClippingRect& rect);
 	};
 
 	class DoNothingPolygonClipping{
 		protected:
 			bool clipPolygon(GPolygon& pol, const ClippingRect& rect) { return true; }
 	};
+
+	class DoNothingLineClipping{
+		protected:
+				bool clipLine(GLine& l, const ClippingRect& rect){return true;}
+	};
+
 }
 
 

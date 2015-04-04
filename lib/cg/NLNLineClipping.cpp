@@ -1,3 +1,10 @@
+/*
+ * Implementation as described by the authors in the original paper:
+ * Tina M. Nicholl, D. T. Lee, Robin A. Nicholl (1987).
+ * "An efficient new algorithm for 2-D line clipping: Its development and analysis". SIGGRAPH '87: 253–262.
+ * Avaiable at: http://dl.acm.org/citation.cfm?id=37432
+ */
+
 #include "cg/ClippingStrategy.h"
 #include <iostream>
 

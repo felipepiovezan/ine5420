@@ -45,7 +45,7 @@ namespace CG {
     private:
       Window _window;
       std::shared_ptr<World> _world;
-      ClippingStrategy<SimplePointClipping, NLNLineClipping, DoNothingPolygonClipping> _clippingStrategy;
+      ClippingStrategy<SimplePointClipping, NLNLineClipping, SutherlandHodgmanPolygonClipping> _clippingStrategy;
 
     protected:
       void transformAndClipAll(const Transformation &t);

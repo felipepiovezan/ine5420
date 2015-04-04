@@ -67,4 +67,124 @@ namespace CG {
     return true;
   }
 
+  /*
+   * Implementation as described in http://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm
+   */
+	bool SutherlandHodgmanPolygonClipping::clipPolygon(GPolygon& pol, const ClippingRect& rect){
+		//pre-allocating output vector
+		std::vector<Coordinate> &output = pol.coordinates();
+		std::vector<Coordinate> input; input.reserve(output.size());
+
+		//clip against left vertical edge
+		{
+			output.swap(input);
+			output.clear();
+			Coordinate S = input.back();
+			for(const Coordinate& E : input){
+				if(E.x > rect.minX){
+					if(S.x < rect.minX){
+						//E inside, S outside, calculate the intersection ES x CLipping Edge
+						double x = rect.minX;
+						double slope = (S.y - E.y) / (S.x - E.x);
+						double y = slope * (x - E.x) + E.y;
+						output.push_back(Coordinate(x,y));
+					}
+					output.push_back(E);
+				}
+				else if (S.x >= rect.minX){
+					//E outside, S inside, calculate the intersection ES x CLipping Edge
+					double x = rect.minX;
+					double slope = (S.y - E.y) / (S.x - E.x);
+					double y = slope * (x - E.x) + E.y;
+					output.push_back(Coordinate(x,y));
+				}
+				S = E;
+			}
+		}
+		//clip against top horizontal edge
+		{
+			output.swap(input);
+			output.clear();
+			Coordinate S = input.back();
+			for(const Coordinate& E : input){
+				if(E.y <= rect.maxY){
+					if(S.y > rect.maxY){
+						//E inside, S outside, calculate the intersection ES x CLipping Edge
+						double y = rect.maxY;
+						double slopeInverse = (S.x - E.x) / (S.y - E.y);
+						double x = slopeInverse * (y - E.y) + E.x;
+						output.push_back(Coordinate(x,y));
+					}
+					output.push_back(E);
+				}
+				else if (S.y <= rect.maxY){
+					//E outside, S inside, calculate the intersection ES x CLipping Edge
+					double y = rect.maxY;
+					double slopeInverse = (S.x - E.x) / (S.y - E.y);
+					double x = slopeInverse * (y - E.y) + E.x;
+					output.push_back(Coordinate(x,y));
+				}
+				S = E;
+			}
+		}
+
+		//clip against right vertical edge
+		{
+			output.swap(input);
+			output.clear();
+			Coordinate S = input.back();
+			for(const Coordinate& E : input){
+				if(E.x <= rect.maxX){
+					if(S.x > rect.maxX){
+						//E inside, S outside, calculate the intersection ES x CLipping Edge
+						double x = rect.maxX;
+						double slope = (S.y - E.y) / (S.x - E.x);
+						double y = slope * (x - E.x) + E.y;
+						output.push_back(Coordinate(x,y));
+					}
+					output.push_back(E);
+				}
+				else if (S.x <= rect.maxX){
+					//E outside, S inside, calculate the intersection ES x CLipping Edge
+					double x = rect.maxX;
+					double slope = (S.y - E.y) / (S.x - E.x);
+					double y = slope * (x - E.x) + E.y;
+					output.push_back(Coordinate(x,y));
+				}
+				S = E;
+			}
+		}
+
+		//clip against bottom horizontal edge
+		{
+			output.swap(input);
+			output.clear();
+			Coordinate S = input.back();
+			for(const Coordinate& E : input){
+				if(E.y >= rect.minY){
+					if(S.y < rect.minY){
+						//E inside, S outside, calculate the intersection ES x CLipping Edge
+						double y = rect.minY;
+						double slopeInverse = (S.x - E.x) / (S.y - E.y);
+						double x = slopeInverse * (y - E.y) + E.x;
+						output.push_back(Coordinate(x,y));
+					}
+					output.push_back(E);
+				}
+				else if (S.y >= rect.minY){
+					//E outside, S inside, calculate the intersection ES x CLipping Edge
+					double y = rect.minY;
+					double slopeInverse = (S.x - E.x) / (S.y - E.y);
+					double x = slopeInverse * (y - E.y) + E.x;
+					output.push_back(Coordinate(x,y));
+				}
+				S = E;
+			}
+		}
+
+		if(pol.numPoints() > 0)
+			return true;
+		else
+			return false;
+	}
 }

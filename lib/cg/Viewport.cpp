@@ -102,9 +102,11 @@ namespace CG {
 
 	void Viewport::transformAndClipAll(const Transformation &t){
 		clock_t time = clock();
-		_windowObjects.objects() = _world->getObjects();
-		for(auto &obj : _windowObjects.objects())
-			transformAndClip(obj.second, t);
+		{	//TODO change to a clear.() followed by an iteration over worldObjects. Test the efficiency of that.
+			_windowObjects.objects() = _world->getObjects();
+			for(auto &obj : _windowObjects.objects())
+				transformAndClip(obj.second, t);
+		}
 		time = clock() - time;
 		std::cout << "Took me " << time << " clock ticks ("<< ((float)time)/CLOCKS_PER_SEC << " seconds) at "
 				<<  CLOCKS_PER_SEC << "Hz to transform and clip all objects" << std::endl;
