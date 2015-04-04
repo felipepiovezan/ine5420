@@ -41,6 +41,9 @@ class MainWindow : public Gtk::Window {
     void on_newPolygon();
 		void on_action_file_open();
 		void on_action_file_save();
+
+		// Keyboard shortcuts
+		bool keyboard_handler(GdkEventKey* event);
 };
 
 #endif

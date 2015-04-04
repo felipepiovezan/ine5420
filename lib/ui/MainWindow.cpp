@@ -1,5 +1,7 @@
 #include "ui/MainWindow.h"
 
+#include <gdk/gdkkeysyms.h>
+
 MainWindow::MainWindow() :
 	_world(new CG::World()),
 	_window(0, 0, 8, 8, 0),
@@ -56,6 +58,8 @@ void MainWindow::init_handlers() {
 
   _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::rotateLeft));
   _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::rotateRight));
+
+  signal_key_release_event().connect(sigc::mem_fun(*this, &MainWindow::keyboard_handler));
 }
 
 void MainWindow::init_action_menu() {
@@ -173,4 +177,33 @@ void MainWindow::on_action_file_save() {
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		ObjWriter(dialog.get_filename()).writeObjects(_world->getObjects());
 	}
+}
+
+bool MainWindow::keyboard_handler(GdkEventKey* event) {
+	switch(event->keyval) {
+		// Window translation
+		case GDK_KEY_Up:
+			_viewport.up();
+			break;
+		case GDK_KEY_Down:
+			_viewport.down();
+			break;
+		case GDK_KEY_Left:
+			_viewport.left();
+			break;
+		case GDK_KEY_Right:
+			_viewport.right();
+			break;
+
+		// Window zoom
+		case GDK_KEY_plus:
+		case GDK_KEY_equal:
+			_viewport.zoomIn();
+			break;
+		case GDK_KEY_minus:
+			_viewport.zoomOut();
+			break;
+	}
+
+	return false;
 }
