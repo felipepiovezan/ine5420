@@ -34,14 +34,14 @@ MainWindow::MainWindow() :
 }
 
 void MainWindow::init_examples() {
-	  CG::GObject::Coordinates c;
-	  c.push_back(CG::Coordinate(-8,-12));
-	  c.push_back(CG::Coordinate(-8,12));
-	  c.push_back(CG::Coordinate(8,12));
-	  c.push_back(CG::Coordinate(8,-12));
-	_world->createPolygon("rectangle", CG::Color(0, 1, 0), c);
-	_world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
-	init_leaf();
+  CG::GObject::Coordinates c;
+  c.push_back(CG::Coordinate(-8, -12));
+  c.push_back(CG::Coordinate(-8, 12));
+  c.push_back(CG::Coordinate(8, 12));
+  c.push_back(CG::Coordinate(8, -12));
+  _world->createPolygon("rectangle", CG::Color(0, 1, 0), c);
+  init_leaf();
+  _world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
 }
 
 void MainWindow::init_handlers() {
@@ -163,7 +163,9 @@ void MainWindow::on_action_file_open() {
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		ObjReader r(dialog.get_filename());
 		std::cout << "read " << r.objects().size() << " objects from file" << std::endl;
-		_world->addObject(dialog.get_filename(), r.objects());
+    std::string basename = dialog.get_filename();
+    basename.erase(0, basename.find_last_of("/") + 1); // get just the filename (erase the path)
+		_world->addObject(basename, r.objects());
 	}
 }
 
