@@ -58,10 +58,10 @@ namespace CG {
       };
 
       ClippingRect clippingRect = {
-        .minX = -0.75,
-        .maxX = 0.75,
-        .minY = -0.75,
-        .maxY = 0.75
+        .minX = -0.9,
+        .maxX = 0.9,
+        .minY = -0.9,
+        .maxY = 0.9
       };
       Border border;
   };
