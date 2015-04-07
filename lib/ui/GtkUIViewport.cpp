@@ -29,8 +29,17 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
 		cairoCtx->line_to(q.x, q.y);
 	}
 
-	if((obj.type() == CG::GObject::Type::POLYGON))
-		cairoCtx->line_to(p.x, p.y);
+	if((obj.type() == CG::GObject::Type::POLYGON)) {
+		cairoCtx->close_path();  // connect the last point with the first one
+
+    if (obj.decoration.isFilled()) {
+      CG::Color fillColor = obj.decoration.getFillColor();
+      cairoCtx->save();
+      cairoCtx->set_source_rgb(fillColor.r, fillColor.g, fillColor.b);
+      cairoCtx->fill_preserve();
+      cairoCtx->restore();
+    }
+  }
 
 	cairoCtx->stroke();
 }

@@ -105,12 +105,15 @@ class PolygonDialog : public Dialog {
     CG::Decoration getDecoration() {
       CG::Decoration decoration;
       decoration.setLineColor(nameBox.getColor());
+      decoration.setFilled(filledCheckBtn.get_active());
+      decoration.setFillColor(nameBox.getColor());
       return decoration;
     }
 
   protected:
     ObjectNameBox nameBox;
     CG::GObject::Coordinates coordinates;
+    Gtk::CheckButton filledCheckBtn;
     void on_addCord_clicked();
     void addCoordinate(CG::Coordinate c);
 

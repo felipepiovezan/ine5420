@@ -116,6 +116,7 @@ LineDialog::LineDialog() {
 PolygonDialog::PolygonDialog() {
   set_title("Polygon");
 
+  filledCheckBtn.set_label("Filled polygon");
   addCoordBtn.set_label("Add coordinate");
   addCoordBtn.signal_clicked().connect(sigc::mem_fun(*this, &PolygonDialog::on_addCord_clicked));
 
@@ -126,10 +127,12 @@ PolygonDialog::PolygonDialog() {
   pointsTree.set_size_request(0, 150);
 
   get_vbox()->pack_start(nameBox);
+  get_vbox()->pack_start(filledCheckBtn);
   get_vbox()->pack_start(pointsTree);
   get_vbox()->pack_start(addCoordBtn);
 
   addCoordBtn.show();
+  filledCheckBtn.show();
   nameBox.show();
   pointsTree.show();
 }
