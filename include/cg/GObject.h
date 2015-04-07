@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include "cg/Transformations.h"
+#include "decorations.h"
 
 namespace CG {
 	class Transformation;
@@ -16,13 +17,6 @@ namespace CG {
 			Coordinate& operator*=(const Transformation& t);
 			friend Coordinate operator+(const Coordinate &c1, const Coordinate &c2);
 			friend Coordinate operator-(const Coordinate &c1, const Coordinate &c2);
-	};
-
-	class Color {
-		public:
-			Color() : r(0), g(0), b(0) {}
-			Color(double r, double g, double b) : r(r), g(g), b(b) {}
-			double r, g, b;
 	};
 
 	class GObject {
@@ -43,7 +37,7 @@ namespace CG {
 			void transform(const Transformation& t);
 			void clear() { _coordinates.clear(); }
 
-			Color color;
+			Decoration decoration;
 
 		protected:
 			Type _type;
@@ -87,7 +81,7 @@ namespace CG {
 
 	class GPolygon : public GObject {
 		public:
-			GPolygon() : GObject(Type::POLYGON) {} 
+			GPolygon() : GObject(Type::POLYGON) {}
 			GPolygon(const Coordinates& coords) : GObject(Type::POLYGON) {
 				addCoordinate(coords);
 			}

@@ -39,7 +39,9 @@ void MainWindow::init_examples() {
   c.push_back(CG::Coordinate(-8, 12));
   c.push_back(CG::Coordinate(8, 12));
   c.push_back(CG::Coordinate(8, -12));
-  _world->createPolygon("rectangle", CG::Color(0, 1, 0), c);
+  CG::Decoration decoration;
+  decoration.setLineColor(CG::Color(0, 1, 0));
+  _world->createPolygon("rectangle", decoration, c);
   init_leaf();
   _world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
 }
@@ -85,23 +87,23 @@ void MainWindow::init_action_menu() {
 }
 
 void MainWindow::on_newPoint() {
-  NamedPointDialog pointDialog;
-  if (pointDialog.run() == Gtk::RESPONSE_OK) {
-    _world->createPoint(pointDialog.getName(), pointDialog.getColor(), pointDialog.getCoordinate());
+  NamedPointDialog dialog;
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+    _world->createPoint(dialog.getName(), dialog.getDecoration(), dialog.getCoordinate());
   }
 }
 
 void MainWindow::on_newLine() {
-  LineDialog lineDialog;
-  if (lineDialog.run() == Gtk::RESPONSE_OK) {
-		_world->createLine(lineDialog.getName(), lineDialog.getColor(), lineDialog.getCoordinate1(), lineDialog.getCoordinate2());
+  LineDialog dialog;
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+		_world->createLine(dialog.getName(), dialog.getDecoration(), dialog.getCoordinate1(), dialog.getCoordinate2());
   }
 }
 
 void MainWindow::on_newPolygon() {
-  PolygonDialog polygonDialog;
-  if (polygonDialog.run() == Gtk::RESPONSE_OK) {
-		_world->createPolygon(polygonDialog.getName(), polygonDialog.getColor(), polygonDialog.getCoordinates());
+  PolygonDialog dialog;
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+		_world->createPolygon(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
   }
 }
 
@@ -149,7 +151,9 @@ void MainWindow::init_leaf(){
   c.push_back(CG::Coordinate(1,-6));
   c.push_back(CG::Coordinate(0,-6));
   c.push_back(CG::Coordinate(-1,-10));
-	_world->createPolygon("leaf", CG::Color(0, 1, 0), c);
+  CG::Decoration decoration;
+  decoration.setLineColor(CG::Color(0, 1, 0));
+	_world->createPolygon("leaf", decoration, c);
 	_world->scaleObject("leaf", 0.1,0.1);
 	_world->translateObject("leaf", 4.3, 6);
 	_world->rotateObject("leaf", 30);

@@ -12,7 +12,7 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
 	if (!cairoCtx) return;
   if (obj.numPoints() == 0) return;
 
-	cairoCtx->set_source_rgb(obj.color.r, obj.color.g, obj.color.b);
+  prepareContext(obj.decoration);
 
 	CG::Coordinate p = transformCoordinate(obj.coordinates()[0]);
 	cairoCtx->move_to(p.x, p.y);
@@ -35,6 +35,12 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
 	cairoCtx->stroke();
 }
 
+
+void GtkUIViewport::prepareContext(const CG::Decoration& decoration) {
+  CG::Color lineColor = decoration.getLineColor();
+  cairoCtx->set_source_rgb(lineColor.r, lineColor.g, lineColor.b);
+}
+
 void GtkUIViewport::updateDimension() {
 	_width = get_allocation().get_width();
 	_height = get_allocation().get_height();
@@ -47,7 +53,7 @@ bool GtkUIViewport::on_draw(const Cairo::RefPtr<Cairo::Context>& ctx) {
   updateDimension();
   for(const auto &obj : _windowObjects.objects())
 	  drawObject(obj.second);
-  
+
   drawObject(border);
 
   time = clock() - time;

@@ -1,6 +1,7 @@
 #ifndef CG_SCENE_H_
 #define CG_SCENE_H_
 
+#include "cg/decorations.h"
 #include "cg/GObject.h"
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
@@ -12,9 +13,9 @@ namespace CG {
       // Object insertion
       void addObject(std::string name, const GObject& obj);
       void addObject(std::string baseName, const std::vector<GObject>& objVector);
-      void createPoint(std::string name, Color color, Coordinate c);
-      void createLine(std::string name, Color color, Coordinate c1, Coordinate c2);
-      void createPolygon(std::string name, Color color, GObject::Coordinates coordinates);
+      void createPoint(std::string name, Decoration decoration, Coordinate c);
+      void createLine(std::string name, Decoration decoration, Coordinate c1, Coordinate c2);
+      void createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates);
 
       void removeObject(const std::string &name);
 

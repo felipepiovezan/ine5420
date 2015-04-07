@@ -60,8 +60,12 @@ class NamedPointDialog : public Dialog {
   public:
     NamedPointDialog();
     std::string getName() { return nameBox.getName(); }
-    CG::Color getColor() { return nameBox.getColor(); }
     CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
+    CG::Decoration getDecoration() {
+      CG::Decoration decoration;
+      decoration.setLineColor(nameBox.getColor());
+      return decoration;
+    }
 
   protected:
     ObjectNameBox nameBox;
@@ -76,9 +80,13 @@ class LineDialog : public Dialog {
     LineDialog();
 
     std::string getName() { return nameBox.getName(); }
-    CG::Color getColor() { return nameBox.getColor(); }
     CG::Coordinate getCoordinate1() { return coordBox1.getCoordinate(); }
     CG::Coordinate getCoordinate2() { return coordBox2.getCoordinate(); }
+    CG::Decoration getDecoration() {
+      CG::Decoration decoration;
+      decoration.setLineColor(nameBox.getColor());
+      return decoration;
+    }
 
   protected:
     ObjectNameBox nameBox;
@@ -93,8 +101,12 @@ class PolygonDialog : public Dialog {
     PolygonDialog();
 
     std::string getName() { return nameBox.getName(); }
-    CG::Color getColor() { return nameBox.getColor(); }
     CG::GObject::Coordinates getCoordinates() { return coordinates; }
+    CG::Decoration getDecoration() {
+      CG::Decoration decoration;
+      decoration.setLineColor(nameBox.getColor());
+      return decoration;
+    }
 
   protected:
     ObjectNameBox nameBox;

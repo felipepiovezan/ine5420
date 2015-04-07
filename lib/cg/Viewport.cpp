@@ -117,6 +117,6 @@ namespace CG {
     addCoordinate(Coordinate(rect.minX, rect.maxY));
     addCoordinate(Coordinate(rect.maxX, rect.maxY));
     addCoordinate(Coordinate(rect.maxX, rect.minY));
-    color.r = 1;
+    decoration.setLineColor(Color(1, 0, 0));
   }
 }

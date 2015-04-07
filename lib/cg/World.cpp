@@ -19,21 +19,21 @@ namespace CG {
     notifyObjectCreation(baseName, objVector);
   }
 
-  void World::createPoint(std::string name, Color color, Coordinate c) {
+  void World::createPoint(std::string name, Decoration decoration, Coordinate c) {
     GPoint point(c);
-    point.color = color;
+    point.decoration = decoration;
     addObject(name, point);
   }
 
-  void World::createLine(std::string name, Color color, Coordinate c1, Coordinate c2) {
+  void World::createLine(std::string name, Decoration decoration, Coordinate c1, Coordinate c2) {
     GLine line(c1, c2);
-    line.color = color;
+    line.decoration = decoration;
     addObject(name, line);
   }
 
-  void World::createPolygon(std::string name, Color color, GObject::Coordinates coordinates) {
+  void World::createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
     GPolygon polygon(coordinates);
-    polygon.color = color;
+    polygon.decoration = decoration;
     addObject(name, polygon);
   }
 

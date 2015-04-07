@@ -19,6 +19,7 @@ class GtkUIViewport : public CG::Viewport, public Gtk::DrawingArea {
   protected:
     double _width, _height;
 
+    void prepareContext(const CG::Decoration& decoration);
     void updateDimension();
     bool on_draw(const Cairo::RefPtr<Cairo::Context>& ctx);
 
