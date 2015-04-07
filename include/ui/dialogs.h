@@ -105,8 +105,9 @@ class PolygonDialog : public Dialog {
     CG::Decoration getDecoration() {
       CG::Decoration decoration;
       decoration.setLineColor(nameBox.getColor());
-      decoration.setFilled(filledCheckBtn.get_active());
-      decoration.setFillColor(nameBox.getColor());
+      if (filledCheckBtn.get_active()) { //  TODO: create a ColorButton for fillColor
+        decoration.setFillColor(nameBox.getColor());
+      }
       return decoration;
     }
 

@@ -5,9 +5,9 @@ namespace CG {
 
 class Color {
  public:
-  Color() : r(0), g(0), b(0) {}
-  Color(double r, double g, double b) : r(r), g(g), b(b) {}
-  double r, g, b;
+  Color() : r(0), g(0), b(0), a(1) {}
+  Color(double r, double g, double b, double a = 1) : r(r), g(g), b(b), a(a) {}
+  double r, g, b, a;
 };
 
 /**
@@ -15,21 +15,20 @@ class Color {
  */
 class Decoration {
  public:
+  Decoration() : fillColor(0, 0, 0, 0) {}  // alpha fill by default
+
+  const Color getFillColor() const { return fillColor; }
   const Color getLineColor() const { return lineColor; }
   const double getLineWidth() const { return lineWidth; }
-  const bool isFilled() const { return filled; }
-  const Color getFillColor() const { return fillColor; }
 
+  void setFillColor(const Color& color) { this->fillColor = color; }
   void setLineColor(const Color& color) { this->lineColor = color; }
   void setLineWidth(double width) { this->lineWidth = width; }
-  void setFilled(bool filled = true) { this->filled = filled; }
-  void setFillColor(const Color& color) { this->fillColor = color; }
 
  protected:
+  Color fillColor;
   Color lineColor;
   double lineWidth = 1.0;
-  bool filled = false;
-  Color fillColor;
 };
 
 }  // namespace CG

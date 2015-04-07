@@ -154,7 +154,6 @@ void MainWindow::init_leaf(){
   CG::Decoration decoration;
   decoration.setLineColor(CG::Color(0, 1, 0));
   decoration.setFillColor(CG::Color(0, 1, 0));
-  decoration.setFilled();
   _world->createPolygon("leaf", decoration, c);
 	_world->scaleObject("leaf", 0.1,0.1);
 	_world->translateObject("leaf", 4.3, 6);

@@ -32,13 +32,11 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
 	if((obj.type() == CG::GObject::Type::POLYGON)) {
 		cairoCtx->close_path();  // connect the last point with the first one
 
-    if (obj.decoration.isFilled()) {
-      CG::Color fillColor = obj.decoration.getFillColor();
-      cairoCtx->save();
-      cairoCtx->set_source_rgb(fillColor.r, fillColor.g, fillColor.b);
-      cairoCtx->fill_preserve();
-      cairoCtx->restore();
-    }
+    // Fill the polygon
+    cairoCtx->save();
+    prepareColorContext(obj.decoration.getFillColor());
+    cairoCtx->fill_preserve();
+    cairoCtx->restore();
   }
 
 	cairoCtx->stroke();
@@ -46,9 +44,12 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
 
 
 void GtkUIViewport::prepareContext(const CG::Decoration& decoration) {
-  CG::Color lineColor = decoration.getLineColor();
-  cairoCtx->set_source_rgb(lineColor.r, lineColor.g, lineColor.b);
+  prepareColorContext(decoration.getLineColor());
   cairoCtx->set_line_width(decoration.getLineWidth());
+}
+
+void GtkUIViewport::prepareColorContext(const CG::Color& color) {
+  cairoCtx->set_source_rgba(color.r, color.g, color.b, color.a);
 }
 
 void GtkUIViewport::updateDimension() {
