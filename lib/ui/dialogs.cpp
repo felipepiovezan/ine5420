@@ -1,11 +1,15 @@
 #include "ui/dialogs.h"
 
+#include <ctime>
+
 // ==========================================================
 // ObjectNameBox
 
 ObjectNameBox::ObjectNameBox() {
   set_orientation(Gtk::ORIENTATION_HORIZONTAL);
   set_spacing(5);
+
+  name.set_text(std::string("obj") + std::to_string(clock() % 100000));  // make a default name because we're too lazy to type
 
   label.set_label("Object name");
   pack_start(label, Gtk::PACK_SHRINK);
