@@ -39,6 +39,7 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
 void GtkUIViewport::prepareContext(const CG::Decoration& decoration) {
   CG::Color lineColor = decoration.getLineColor();
   cairoCtx->set_source_rgb(lineColor.r, lineColor.g, lineColor.b);
+  cairoCtx->set_line_width(decoration.getLineWidth());
 }
 
 void GtkUIViewport::updateDimension() {

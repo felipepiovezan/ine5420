@@ -118,5 +118,6 @@ namespace CG {
     addCoordinate(Coordinate(rect.maxX, rect.maxY));
     addCoordinate(Coordinate(rect.maxX, rect.minY));
     decoration.setLineColor(Color(1, 0, 0));
+    decoration.setLineWidth(3.0);
   }
 }
