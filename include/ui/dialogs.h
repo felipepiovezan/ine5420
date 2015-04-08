@@ -5,6 +5,7 @@
 #include <string>
 
 #include "cg/GObject.h"
+#include "ui/widgets.h"
 #include "ui/MainWindow.h"
 
 /**
@@ -54,54 +55,56 @@ class PointDialog : public Dialog {
 };
 
 /**
+ * Generic dialog for object creation or modification
+ */
+class ObjectDialog : public Dialog {
+ public:
+  ObjectDialog();
+
+  virtual std::string getName() { return nameBox.getName(); }
+  virtual CG::Decoration getDecoration() {
+    CG::Decoration decoration;
+    decoration.setLineColor(nameBox.getColor());
+    return decoration;
+  }
+
+ protected:
+  ObjectNameBox nameBox;
+};
+
+/**
  * Dialog window to request a coordinate and the point name
  */
-class NamedPointDialog : public Dialog {
+class NamedPointDialog : public ObjectDialog {
   public:
     NamedPointDialog();
-    std::string getName() { return nameBox.getName(); }
     CG::Coordinate getCoordinate() { return coordBox.getCoordinate(); }
-    CG::Decoration getDecoration() {
-      CG::Decoration decoration;
-      decoration.setLineColor(nameBox.getColor());
-      return decoration;
-    }
 
   protected:
-    ObjectNameBox nameBox;
     CoordinateBox coordBox;
 };
 
 /**
  * Dialog window to request data for a Line
  */
-class LineDialog : public Dialog {
+class LineDialog : public ObjectDialog {
   public:
     LineDialog();
-
-    std::string getName() { return nameBox.getName(); }
     CG::Coordinate getCoordinate1() { return coordBox1.getCoordinate(); }
     CG::Coordinate getCoordinate2() { return coordBox2.getCoordinate(); }
-    CG::Decoration getDecoration() {
-      CG::Decoration decoration;
-      decoration.setLineColor(nameBox.getColor());
-      return decoration;
-    }
 
   protected:
-    ObjectNameBox nameBox;
     CoordinateBox coordBox1, coordBox2;
 };
 
 /**
  * Dialog window to request data for a polygon
  */
-class PolygonDialog : public Dialog {
+class PolygonDialog : public ObjectDialog {
   public:
     PolygonDialog();
 
-    std::string getName() { return nameBox.getName(); }
-    CG::GObject::Coordinates getCoordinates() { return coordinates; }
+    CG::GObject::Coordinates getCoordinates() { return coordPanel.getCoordinates(); }
     CG::Decoration getDecoration() {
       CG::Decoration decoration;
       decoration.setLineColor(nameBox.getColor());
@@ -112,24 +115,20 @@ class PolygonDialog : public Dialog {
     }
 
   protected:
-    ObjectNameBox nameBox;
-    CG::GObject::Coordinates coordinates;
     Gtk::CheckButton filledCheckBtn;
-    void on_addCord_clicked();
-    void addCoordinate(CG::Coordinate c);
+    CoordinatesPanel coordPanel;
+};
 
-    class PointsColumns : public Gtk::TreeModel::ColumnRecord {
-      public:
-        PointsColumns() { add(x); add(y); }
+/**
+ * Dialog window to request data for a polygon
+ */
+class CurveDialog : public ObjectDialog {
+  public:
+    CurveDialog();
+    CG::GObject::Coordinates getCoordinates() { return coordPanel.getCoordinates(); }
 
-        Gtk::TreeModelColumn<double> x;
-        Gtk::TreeModelColumn<double> y;
-    };
-
-    PointsColumns pointsColumns;
-    Gtk::TreeView pointsTree;
-    Glib::RefPtr<Gtk::ListStore> pointsModel;
-    Gtk::Button addCoordBtn;
+  protected:
+    CoordinatesPanel coordPanel;
 };
 
 /**

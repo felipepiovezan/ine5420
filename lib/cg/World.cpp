@@ -37,6 +37,13 @@ namespace CG {
     addObject(name, polygon);
   }
 
+  void World::createCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
+    // TODO(felipepiovezan): change GPolygon for GCurve
+    GPolygon polygon(coordinates);
+    polygon.decoration = decoration;
+    addObject(name, polygon);
+  }
+
   void World::removeObject(const std::string &name) {
     assert(_worldObjects.exists(name));
     _worldObjects.remove(name);

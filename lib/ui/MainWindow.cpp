@@ -50,6 +50,7 @@ void MainWindow::init_handlers() {
   _toolbox._newPoint.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPoint));
   _toolbox._newLine.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newLine));
   _toolbox._newPolygon.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPolygon));
+  _toolbox._newCurve.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newCurve));
 
   _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::zoomIn));
   _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::zoomOut));
@@ -104,6 +105,13 @@ void MainWindow::on_newPolygon() {
   PolygonDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
 		_world->createPolygon(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+  }
+}
+
+void MainWindow::on_newCurve() {
+  CurveDialog dialog;
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+    _world->createCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
   }
 }
 

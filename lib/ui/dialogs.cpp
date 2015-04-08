@@ -64,7 +64,6 @@ CG::Coordinate CoordinateBox::getCoordinate() {
   return CG::Coordinate(x, y);
 }
 
-
 // ==========================================================
 // Generic Dialog
 
@@ -74,6 +73,13 @@ Dialog::Dialog() {
 
   add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
   add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+}
+
+// ==========================================================
+// ObjectDialog Dialog
+
+ObjectDialog::ObjectDialog() : Dialog() {
+
 }
 
 // ==========================================================
@@ -121,38 +127,27 @@ PolygonDialog::PolygonDialog() {
   set_title("Polygon");
 
   filledCheckBtn.set_label("Filled polygon");
-  addCoordBtn.set_label("Add coordinate");
-  addCoordBtn.signal_clicked().connect(sigc::mem_fun(*this, &PolygonDialog::on_addCord_clicked));
-
-  pointsModel = Gtk::ListStore::create(pointsColumns);
-	pointsTree.set_model(pointsModel);
-  pointsTree.append_column("x", pointsColumns.x);
-  pointsTree.append_column("y", pointsColumns.y);
-  pointsTree.set_size_request(0, 150);
 
   get_vbox()->pack_start(nameBox);
   get_vbox()->pack_start(filledCheckBtn);
-  get_vbox()->pack_start(pointsTree);
-  get_vbox()->pack_start(addCoordBtn);
+  get_vbox()->pack_start(coordPanel);
 
-  addCoordBtn.show();
-  filledCheckBtn.show();
   nameBox.show();
-  pointsTree.show();
+  filledCheckBtn.show();
+  coordPanel.show();
 }
 
-void PolygonDialog::on_addCord_clicked() {
-  PointDialog pointDialog;
-  if (pointDialog.run() == Gtk::RESPONSE_OK) {
-    addCoordinate(pointDialog.getCoordinate());
-  }
-}
+// ==========================================================
+// CurveDialog
 
-void PolygonDialog::addCoordinate(CG::Coordinate c) {
-  coordinates.push_back(c);
-  Gtk::TreeModel::Row row = *(pointsModel->append());
-	row[pointsColumns.x] = c.x;
-	row[pointsColumns.y] = c.y;
+CurveDialog::CurveDialog() {
+  set_title("Curve");
+
+  get_vbox()->pack_start(nameBox);
+  get_vbox()->pack_start(coordPanel);
+
+  nameBox.show();
+  coordPanel.show();
 }
 
 // ==========================================================

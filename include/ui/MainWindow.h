@@ -36,6 +36,7 @@ class MainWindow : public Gtk::Window {
     void on_newPoint();
     void on_newLine();
     void on_newPolygon();
+    void on_newCurve();
 		void on_action_file_open();
 		void on_action_file_save();
 

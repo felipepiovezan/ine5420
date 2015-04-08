@@ -15,22 +15,27 @@ void Toolbox::init_create_widgets() {
   _newPoint.set_label("Point");
   _newLine.set_label("Line");
   _newPolygon.set_label("Polygon");
+  _newCurve.set_label("Curve");
 
   pack_start(_createFrame, Gtk::PACK_SHRINK);
-  _createFrame.add(_createBox);
+  _createFrame.add(_createGrid);
 
-  _createBox.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-  _createBox.set_spacing(TOOLBOX_SPACING);
-  _createBox.set_border_width(TOOLBOX_SPACING);
+  _createGrid.set_border_width(TOOLBOX_SPACING);
+  _createGrid.set_row_spacing(TOOLBOX_SPACING);
+  _createGrid.set_column_spacing(TOOLBOX_SPACING);
+  _createGrid.set_row_homogeneous(true);
+  _createGrid.set_column_homogeneous(true);
 
-  _createBox.pack_start(_newPoint, Gtk::PACK_EXPAND_WIDGET);
-  _createBox.pack_start(_newLine, Gtk::PACK_EXPAND_WIDGET);
-  _createBox.pack_start(_newPolygon, Gtk::PACK_EXPAND_WIDGET);
+  _createGrid.attach(_newPoint, 0, 0, 1, 1);
+  _createGrid.attach(_newLine, 1, 0, 1, 1);
+  _createGrid.attach(_newPolygon, 0, 1, 1, 1);
+  _createGrid.attach(_newCurve, 1, 1, 1, 1);
 
-  _createBox.show();
   _newPoint.show();
   _newLine.show();
   _newPolygon.show();
+  _newCurve.show();
+  _createGrid.show();
   _createFrame.show();
 }
 

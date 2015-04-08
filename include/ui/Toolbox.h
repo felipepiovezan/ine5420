@@ -18,8 +18,8 @@ class Toolbox : public Gtk::Box {
 
     // Create widgets
     Gtk::Frame _createFrame;
-    Gtk::Box _createBox;
-    Gtk::Button _newPoint, _newLine, _newPolygon;
+    Gtk::Grid _createGrid;
+    Gtk::Button _newPoint, _newLine, _newPolygon, _newCurve;
 
     // Control widgets
     Gtk::Frame _controlFrame;
