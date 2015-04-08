@@ -25,9 +25,6 @@ class MainWindow : public Gtk::Window {
 
 	public:
 		MainWindow();
-		void createPoint(std::string name, CG::Color color, CG::Coordinate c);
-		void createLine(std::string name, CG::Color color, CG::Coordinate c1, CG::Coordinate c2);
-		void createPolygon(std::string name, CG::Color color, CG::GObject::Coordinates coordinates);
 
 	protected:
 		void init_examples();
