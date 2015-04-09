@@ -143,11 +143,28 @@ PolygonDialog::PolygonDialog() {
 CurveDialog::CurveDialog() {
   set_title("Curve");
 
+  Gtk::RadioButton::Group group = bezierRB.get_group();
+  splineRB.set_group(group);
+  bezierRB.set_label("Bezier curve (uses blending function)");
+  splineRB.set_label("Spline curve (uses forward distances)");
+
   get_vbox()->pack_start(nameBox);
+  get_vbox()->pack_start(bezierRB);
+  get_vbox()->pack_start(splineRB);
   get_vbox()->pack_start(coordPanel);
 
   nameBox.show();
+  bezierRB.show();
+  splineRB.show();
   coordPanel.show();
+}
+
+CG::GObject::Type CurveDialog::getCurveType() const {
+  if (bezierRB.get_active()) {
+    return CG::GObject::Type::BEZIER_CURVE;
+  } else {
+    return CG::GObject::Type::SPLINE_CURVE;
+  }
 }
 
 // ==========================================================

@@ -22,7 +22,7 @@ namespace CG {
 	class GObject {
 		public:
 			typedef std::vector<Coordinate> Coordinates;
-			enum Type { OBJECT, POINT, LINE, POLYGON };
+			enum Type { OBJECT, POINT, LINE, POLYGON, BEZIER_CURVE, SPLINE_CURVE };
 
 			static const std::string TypeNames[];
 

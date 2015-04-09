@@ -87,13 +87,18 @@ namespace CG {
 	  obj.transform(t);
 	  bool draw = true;
 	  switch(obj.type()){
-	  	  	case GObject::Type::POINT:
-	  	  		draw = _clippingStrategy.clip(static_cast<GPoint&> (obj), clippingRect); break;
-			case GObject::Type::LINE:
-				draw = _clippingStrategy.clip(static_cast<GLine&> (obj), clippingRect); break;
-			case GObject::Type::POLYGON:
-				draw = _clippingStrategy.clip(static_cast<GPolygon&> (obj), clippingRect); break;
-			case GObject::Type::OBJECT:
+	  	case GObject::Type::POINT:
+	  	  draw = _clippingStrategy.clip(static_cast<GPoint&> (obj), clippingRect);
+        break;
+      case GObject::Type::LINE:
+        draw = _clippingStrategy.clip(static_cast<GLine&> (obj), clippingRect);
+        break;
+      case GObject::Type::POLYGON:
+        draw = _clippingStrategy.clip(static_cast<GPolygon&> (obj), clippingRect);
+        break;
+      case GObject::Type::BEZIER_CURVE:
+      case GObject::Type::SPLINE_CURVE:
+      case GObject::Type::OBJECT:
 				break;
 	  }
 	  if(!draw)

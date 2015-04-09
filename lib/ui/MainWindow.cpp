@@ -111,6 +111,7 @@ void MainWindow::on_newPolygon() {
 void MainWindow::on_newCurve() {
   CurveDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
+    // dialog.getCurveType();
     _world->createCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
   }
 }

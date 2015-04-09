@@ -126,9 +126,11 @@ class CurveDialog : public ObjectDialog {
   public:
     CurveDialog();
     CG::GObject::Coordinates getCoordinates() { return coordPanel.getCoordinates(); }
+    CG::GObject::Type getCurveType() const;
 
   protected:
     CoordinatesPanel coordPanel;
+    Gtk::RadioButton bezierRB, splineRB;
 };
 
 /**
