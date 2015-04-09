@@ -242,10 +242,12 @@ bool MainWindow::on_key_press_event(GdkEventKey* event) {
 }
 
 bool MainWindow::on_scroll_event(GdkEventScroll* event) {
-  if (event->direction == GDK_SCROLL_UP) {
-    _viewport.zoomIn();
-  } else if (event->direction == GDK_SCROLL_DOWN) {
-    _viewport.zoomOut();
+  if (event->x > _toolbox.get_width()) {
+    if (event->direction == GDK_SCROLL_UP) {
+      _viewport.zoomIn();
+    } else if (event->direction == GDK_SCROLL_DOWN) {
+      _viewport.zoomOut();
+    }
   }
 
   return false;
