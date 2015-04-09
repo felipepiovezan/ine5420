@@ -14,6 +14,12 @@ MainWindow::MainWindow() :
 		init_handlers();
 		init_action_menu();
 
+    // Setup events
+    add_events(Gdk::KEY_PRESS_MASK |
+               Gdk::POINTER_MOTION_MASK |
+               Gdk::BUTTON_PRESS_MASK |
+               Gdk::SCROLL_MASK);
+
 		// Layouting
 		set_title("Computer Graphics Interactive System");
 		set_border_width(10);
@@ -233,4 +239,14 @@ bool MainWindow::on_key_press_event(GdkEventKey* event) {
 	}
 
 	return false;
+}
+
+bool MainWindow::on_scroll_event(GdkEventScroll* event) {
+  if (event->direction == GDK_SCROLL_UP) {
+    _viewport.zoomIn();
+  } else if (event->direction == GDK_SCROLL_DOWN) {
+    _viewport.zoomOut();
+  }
+
+  return false;
 }
