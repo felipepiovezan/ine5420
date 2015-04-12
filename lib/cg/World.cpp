@@ -5,12 +5,12 @@
 
 namespace CG {
 
-  void World::addObject(std::string name, const GObject& obj) {
+  void World::addObject(std::string name, std::shared_ptr<GObject> obj) {
     _worldObjects.add(name, obj);
     notifyObjectCreation(name, obj);
   }
 
-  void World::addObject(std::string baseName, const std::vector<GObject>& objVector) {
+  void World::addObject(std::string baseName, const std::vector<std::shared_ptr<GObject>>& objVector) {
     int i=0;
     for(const auto &obj : objVector) {
       std::string name = baseName + std::to_string(i++);
@@ -20,28 +20,28 @@ namespace CG {
   }
 
   void World::createPoint(std::string name, Decoration decoration, Coordinate c) {
-    GPoint point(c);
-    point.decoration = decoration;
+	std::shared_ptr<GObject> point(new GPoint (c));
+    point->decoration = decoration;
     addObject(name, point);
   }
 
   void World::createLine(std::string name, Decoration decoration, Coordinate c1, Coordinate c2) {
-    GLine line(c1, c2);
-    line.decoration = decoration;
+	std::shared_ptr<GObject> line( new GLine(c1, c2));
+    line->decoration = decoration;
     addObject(name, line);
   }
 
   void World::createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
-    GPolygon polygon(coordinates);
-    polygon.decoration = decoration;
+	std::shared_ptr<GObject> polygon(new GPolygon(coordinates));
+    polygon->decoration = decoration;
     addObject(name, polygon);
   }
 
   void World::createCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
-    // TODO(felipepiovezan): change GPolygon for GCurve
-    GPolygon polygon(coordinates);
-    polygon.decoration = decoration;
-    addObject(name, polygon);
+	  //todo change to curve.
+	  std::shared_ptr<GObject> polygon(new GPolygon(coordinates));
+      polygon->decoration = decoration;
+      addObject(name, polygon);
   }
 
   void World::removeObject(const std::string &name) {
@@ -54,24 +54,24 @@ namespace CG {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
-    worldObject.transform(Transformation::newTranslation(dx, dy));
-    notifyObjectChange(name, worldObject);
+    worldObject->transform(Transformation::newTranslation(dx, dy));
+    notifyObjectChange(name, *worldObject);
   }
 
   void World::scaleObject(const std::string &name, double sx, double sy) {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
-    worldObject.transform(Transformation::newScalingAroundObjCenter(sx, sy, worldObject));
-    notifyObjectChange(name, worldObject);
+    worldObject->transform(Transformation::newScalingAroundObjCenter(sx, sy, *worldObject));
+    notifyObjectChange(name, *worldObject);
   }
 
   void World::rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter) {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
     auto &worldObject = itWorld->second;
-    worldObject.transform(Transformation::newRotationAroundPoint(Transformation::toRadians(theta), rotationCenter));
-    notifyObjectChange(name, worldObject);
+    worldObject->transform(Transformation::newRotationAroundPoint(Transformation::toRadians(theta), rotationCenter));
+    notifyObjectChange(name, *worldObject);
   }
 
   void World::rotateObject(const std::string &name, double theta) {
@@ -79,19 +79,19 @@ namespace CG {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
-    worldObject.transform(Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), worldObject));
-    notifyObjectChange(name, worldObject);
+    worldObject->transform(Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), *worldObject));
+    notifyObjectChange(name, *worldObject);
   }
 
   void World::addListener(WorldListener& listener) {
     _listeners.push_back(&listener);
   }
 
-  void World::notifyObjectCreation(const std::string& name, const GObject& object) const {
+  void World::notifyObjectCreation(const std::string& name, std::shared_ptr<GObject> object) const {
     for (auto it : _listeners)
-      it->onObjectCreation(name, object);
+      it->onObjectCreation(name, *object);
   }
-  void World::notifyObjectCreation(const std::string& baseName, const std::vector<GObject>& objects) const{
+  void World::notifyObjectCreation(const std::string& baseName, const std::vector<std::shared_ptr<GObject>>& objects) const{
 	for (auto it : _listeners)
 		it->onObjectCreation(baseName, objects);
   }

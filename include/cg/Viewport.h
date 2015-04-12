@@ -37,19 +37,19 @@ namespace CG {
       void rotateRight() { rotateWindow(+15);}
 
       // World Listener methods
-      void onObjectCreation(const std::string& name, const GObject& object);
-      void onObjectCreation(const std::string& name, const std::vector<GObject> &objects);
-      void onObjectChange(const std::string& name, const GObject& object);
+      void onObjectCreation(const std::string& name, std::shared_ptr<GObject> object);
+      void onObjectCreation(const std::string& name, const std::vector<std::shared_ptr<GObject>> &objects);
+      void onObjectChange(const std::string& name, std::shared_ptr<GObject> object);
       void onObjectRemoval(const std::string& name);
 
     private:
       Window _window;
-      std::shared_ptr<World> _world;
+      std::shared_ptr<const World> _world;
       ClippingStrategy<SimplePointClipping, NLNLineClipping, SutherlandHodgmanPolygonClipping> _clippingStrategy;
 
     protected:
       void transformAndClipAll(const Transformation &t);
-      inline void transformAndClip(GObject &obj, const Transformation &t);
+      inline void transformAndClip(std::shared_ptr<GObject>, const Transformation &t);
       DisplayFile _windowObjects;
 
       class Border : public GPolygon {

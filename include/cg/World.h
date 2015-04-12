@@ -11,8 +11,8 @@ namespace CG {
   class World {
     public:
       // Object insertion
-      void addObject(std::string name, const GObject& obj);
-      void addObject(std::string baseName, const std::vector<GObject>& objVector);
+      void addObject(std::string name, std::shared_ptr<GObject> obj);
+      void addObject(std::string baseName, const std::vector<std::shared_ptr<GObject>>& objVector);
       void createPoint(std::string name, Decoration decoration, Coordinate c);
       void createLine(std::string name, Decoration decoration, Coordinate c1, Coordinate c2);
       void createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates);
@@ -35,7 +35,7 @@ namespace CG {
           virtual void onObjectCreation(const std::string& name, const GObject& object) {}
 
           // Called when a collection of objects is created
-          virtual void onObjectCreation(const std::string& name, const std::vector<GObject>& objects) {}
+          virtual void onObjectCreation(const std::string& name, const std::vector<std::shared_ptr<GObject>>& objects) {}
 
           // Called when an object is changed
           virtual void onObjectChange(const std::string& name, const GObject& object) {}
@@ -51,8 +51,8 @@ namespace CG {
       std::vector<WorldListener*> _listeners;
       DisplayFile _worldObjects;
 
-      void notifyObjectCreation(const std::string& name, const GObject& object) const;
-      void notifyObjectCreation(const std::string& name, const std::vector<GObject>& objects) const;
+      void notifyObjectCreation(const std::string& name, std::shared_ptr<GObject> object) const;
+      void notifyObjectCreation(const std::string& name, const std::vector<std::shared_ptr<GObject>>& objects) const;
       void notifyObjectChange(const std::string& name, const GObject& object) const;
       void notifyObjectRemoval(const std::string& name) const;
   };
