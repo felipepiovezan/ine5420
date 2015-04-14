@@ -55,7 +55,7 @@ namespace CG {
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
     worldObject->transform(Transformation::newTranslation(dx, dy));
-    notifyObjectChange(name, *worldObject);
+    notifyObjectChange(name, worldObject);
   }
 
   void World::scaleObject(const std::string &name, double sx, double sy) {
@@ -63,7 +63,7 @@ namespace CG {
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
     worldObject->transform(Transformation::newScalingAroundObjCenter(sx, sy, *worldObject));
-    notifyObjectChange(name, *worldObject);
+    notifyObjectChange(name, worldObject);
   }
 
   void World::rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter) {
@@ -71,7 +71,7 @@ namespace CG {
   	assert(_worldObjects.isValidIterator(itWorld));
     auto &worldObject = itWorld->second;
     worldObject->transform(Transformation::newRotationAroundPoint(Transformation::toRadians(theta), rotationCenter));
-    notifyObjectChange(name, *worldObject);
+    notifyObjectChange(name, worldObject);
   }
 
   void World::rotateObject(const std::string &name, double theta) {
@@ -80,7 +80,7 @@ namespace CG {
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
     worldObject->transform(Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), *worldObject));
-    notifyObjectChange(name, *worldObject);
+    notifyObjectChange(name, worldObject);
   }
 
   void World::addListener(WorldListener& listener) {
@@ -89,13 +89,13 @@ namespace CG {
 
   void World::notifyObjectCreation(const std::string& name, std::shared_ptr<GObject> object) const {
     for (auto it : _listeners)
-      it->onObjectCreation(name, *object);
+      it->onObjectCreation(name, object);
   }
   void World::notifyObjectCreation(const std::string& baseName, const std::vector<std::shared_ptr<GObject>>& objects) const{
 	for (auto it : _listeners)
 		it->onObjectCreation(baseName, objects);
   }
-  void World::notifyObjectChange(const std::string& name, const GObject& object) const {
+  void World::notifyObjectChange(const std::string& name, std::shared_ptr<GObject> object) const {
     for (auto it : _listeners)
       it->onObjectChange(name, object);
   }

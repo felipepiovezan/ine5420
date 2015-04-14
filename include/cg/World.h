@@ -32,13 +32,13 @@ namespace CG {
       class WorldListener {
         public:
           // Called when an object is created
-          virtual void onObjectCreation(const std::string& name, const GObject& object) {}
+          virtual void onObjectCreation(const std::string& name, std::shared_ptr<GObject> object) {}
 
           // Called when a collection of objects is created
           virtual void onObjectCreation(const std::string& name, const std::vector<std::shared_ptr<GObject>>& objects) {}
 
           // Called when an object is changed
-          virtual void onObjectChange(const std::string& name, const GObject& object) {}
+          virtual void onObjectChange(const std::string& name, std::shared_ptr<GObject> object) {}
 
           // Called when an object is removed from the world
           virtual void onObjectRemoval(const std::string& name) {}
@@ -53,7 +53,7 @@ namespace CG {
 
       void notifyObjectCreation(const std::string& name, std::shared_ptr<GObject> object) const;
       void notifyObjectCreation(const std::string& name, const std::vector<std::shared_ptr<GObject>>& objects) const;
-      void notifyObjectChange(const std::string& name, const GObject& object) const;
+      void notifyObjectChange(const std::string& name, std::shared_ptr<GObject> object) const;
       void notifyObjectRemoval(const std::string& name) const;
   };
 
