@@ -115,7 +115,7 @@ void ObjectsTreeView::on_menu_popup_rotate() {
 void ObjectsTreeView::onObjectCreation(const std::string& name, CG::ObjRef object) {
   Gtk::TreeModel::Row row = *(_refObjectsTreeModel->append());
   row[_objectsModelColumns.colName] = name;
-  row[_objectsModelColumns.colType] = CG::GObject::TypeNames[object->type()];
+  row[_objectsModelColumns.colType] = object->typeName();
 }
 
 void ObjectsTreeView::onObjectCreation(const std::string& baseName, const std::vector<CG::ObjRef>& objects) {

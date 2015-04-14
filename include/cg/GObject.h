@@ -9,7 +9,11 @@
 #include "decorations.h"
 
 namespace CG {
+	class GObject;
 	class Transformation;
+
+	typedef std::shared_ptr<GObject> ObjRef;
+
 	class Coordinate {
 		public:
 			Coordinate(double dx, double dy) : x(dx), y(dy), w(1) {}
@@ -25,11 +29,6 @@ namespace CG {
 			typedef std::vector<Coordinate> Coordinates;
 			enum Type { OBJECT, POINT, LINE, POLYGON, BEZIER_CURVE, SPLINE_CURVE };
 
-			static const std::string TypeNames[];
-
-			GObject(Type t = Type::OBJECT) : _type(t) {}
-			Type type() const { return _type; }
-
 			const Coordinates& coordinates() const {return _coordinates;}
 			Coordinates& coordinates() {return _coordinates;}
 			int numPoints() const {return _coordinates.size();}
@@ -38,61 +37,95 @@ namespace CG {
 			void transform(const Transformation& t);
 			void clear() { _coordinates.clear(); }
 
+			virtual ObjRef clone() const = 0;
+			virtual Type type() const { return Type::OBJECT; }
+			virtual std::string typeName() const { return "Object"; }
+
 			Decoration decoration;
 
 		protected:
-			Type _type;
+			Coordinates _coordinates;
 
 			void addCoordinate(int x, int y) {_coordinates.emplace_back(x,y);}
 			void addCoordinate(const Coordinate& p) {_coordinates.push_back(p);}
 			void addCoordinate(Coordinate&& p) {_coordinates.push_back(p);}
 			void addCoordinate(const Coordinates& coords){_coordinates.insert(_coordinates.end(), coords.begin(), coords.end());}
-		private:
-			Coordinates _coordinates;
 	};
-
-	typedef std::shared_ptr<GObject> ObjRef;
 
 	class GPoint : public GObject {
 		public:
-			GPoint(int x, int y) : GObject(Type::POINT) {
+			GPoint(int x, int y) {
 				addCoordinate(x,y);
 			}
-			GPoint(const Coordinate& p) : GObject(Type::POINT) {
+			GPoint(const Coordinate& p) {
 				addCoordinate(p);
 			}
-			GPoint(Coordinate&& p) : GObject(Type::POINT) {
+			GPoint(Coordinate&& p) {
 				addCoordinate(p);
+			}
+
+			Type type() const { return Type::POINT; }
+			std::string typeName() const { return "Point"; }
+
+			ObjRef clone() const {
+				ObjRef obj = ObjRef(new GPoint(coordinates()[0]));
+				obj->decoration = decoration;
+				return obj;
 			}
 	};
 
 	class GLine : public GObject {
 		public:
-			GLine(int x1, int y1, int x2, int y2) : GObject(Type::LINE) {
+			GLine(int x1, int y1, int x2, int y2) {
 				addCoordinate(x1,y1);
 				addCoordinate(x2,y2);
 			}
-			GLine(const Coordinate& p1, const Coordinate& p2) : GObject(Type::LINE) {
+			GLine(const Coordinate& p1, const Coordinate& p2) {
 				addCoordinate(p1);
 				addCoordinate(p2);
 			}
-			GLine(Coordinate&& p1, Coordinate&& p2) : GObject(Type::LINE) {
+			GLine(Coordinate&& p1, Coordinate&& p2) {
 				addCoordinate(p1);
 				addCoordinate(p2);
+			}
+
+			Type type() const { return Type::LINE; }
+			std::string typeName() const { return "Line"; }
+
+			ObjRef clone() const {
+				ObjRef obj = ObjRef(new GLine(coordinates()[0], coordinates()[1]));
+				obj->decoration = decoration;
+				return obj;
 			}
 	};
 
 	class GPolygon : public GObject {
 		public:
-			GPolygon() : GObject(Type::POLYGON) {}
-			GPolygon(const Coordinates& coords) : GObject(Type::POLYGON) {
+			GPolygon() {}
+			GPolygon(const Coordinates& coords) {
 				addCoordinate(coords);
+			}
+			Type type() const { return Type::POLYGON; }
+			std::string typeName() const { return "Polygon"; }
+
+			ObjRef clone() const {
+				ObjRef obj = ObjRef(new GPolygon(coordinates()));
+				obj->decoration = decoration;
+				return obj;
 			}
 	};
 
 	class GBezier : public GObject{
-	public:
-			GBezier(const Coordinates& coords, double step) : GObject(Type::BEZIER_CURVE) {}
+		public:
+		GBezier(const Coordinates& coords, double step) {}
+		Type type() const { return Type::BEZIER_CURVE; }
+		std::string typeName() const { return "Bezier Curve"; }
+
+		ObjRef clone() const {
+			ObjRef obj = ObjRef(new GBezier(coordinates(), 0));
+			obj->decoration = decoration;
+			return obj;
+		}
 	};
 
 }

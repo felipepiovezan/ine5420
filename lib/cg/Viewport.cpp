@@ -1,9 +1,9 @@
 #include "cg/Viewport.h"
 
-#include<iostream>
+#include <iostream>
 #include <cassert>
-
 #include <ctime>
+
 namespace CG {
 
  Coordinate Viewport::transformCoordinate(const Coordinate& c) const {
@@ -56,7 +56,7 @@ namespace CG {
 
   void Viewport::onObjectCreation(const std::string& name, ObjRef object) {
     assert(!_windowObjects.exists(name));
-    auto windowObj = _windowObjects.add(name, ObjRef (new GObject(*object)));
+    auto windowObj = _windowObjects.add(name, object->clone());
     transformAndClip(windowObj, _window.wo2wiMatrix());
     drawObject(*windowObj); // Draw only the inserted object
   }
@@ -66,16 +66,16 @@ namespace CG {
 	  for(const auto obj : objects) {
 		  auto name = baseName + std::to_string(i++);
 		  assert(!_windowObjects.exists(name));
-		  auto windowObj = _windowObjects.add(name,  ObjRef (new GObject(*obj)));
+		  auto windowObj = _windowObjects.add(name, obj->clone());
 	      transformAndClip(windowObj, _window.wo2wiMatrix());
 	  }
-      redraw();
+    redraw();
   }
 
   void Viewport::onObjectChange(const std::string& name, ObjRef object) {
     auto itWindow = _windowObjects.findObject(name);
   	assert(_windowObjects.isValidIterator(itWindow));
-  	itWindow->second.reset(new GObject(*object));
+  	itWindow->second = object->clone();
     transformAndClip(itWindow->second, _window.wo2wiMatrix());
     redraw();
   }
@@ -119,7 +119,7 @@ namespace CG {
 		{
 			_windowObjects.objects().clear();
 			for(auto &obj : _world->getObjects()){
-				ObjRef winObj(new GObject(*obj.second));
+				ObjRef winObj = obj.second->clone();
 				_windowObjects.objects()[obj.first] = winObj;
 				transformAndClip(winObj, t);
 			}

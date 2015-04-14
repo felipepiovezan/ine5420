@@ -23,8 +23,6 @@ namespace CG {
 		return Coordinate(c1.x - c2.x, c1.y - c2.y);
 	}
 
-	const std::string GObject::TypeNames[] = {"Object", "Point", "Line", "Polygon"};
-
 	Coordinate GObject::center() const {
 		Coordinate r(0, 0);
 		int n = numPoints();
