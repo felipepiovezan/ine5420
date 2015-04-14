@@ -87,6 +87,11 @@ namespace CG {
 			}
 	};
 
+	class GBezier : public GObject{
+	public:
+			GBezier(const Coordinates& coords, double step) : GObject(Type::BEZIER_CURVE) {}
+	};
+
 }
 
 #endif

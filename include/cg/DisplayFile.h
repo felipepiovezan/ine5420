@@ -4,10 +4,11 @@
 #include <map>
 #include <string>
 #include "cg/GObject.h"
+#include <memory>
 
 namespace CG {
 
-	typedef std::map<std::string, GObject> mapGObjects;
+	typedef std::map<std::string, std::shared_ptr<GObject>> mapGObjects;
 	class DisplayFile {
 		private:
 			mapGObjects _objects;
@@ -18,7 +19,7 @@ namespace CG {
 			mapGObjects& objects() { return _objects;}
 
 			//add, remove and fetch objects
-			GObject& add(const std::string& name, const GObject& object) {
+			std::shared_ptr<GObject> add(const std::string& name, std::shared_ptr<GObject> object) {
 				_objects[name] = object;
 				return _objects[name];
 			}

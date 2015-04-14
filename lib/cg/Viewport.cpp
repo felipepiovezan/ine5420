@@ -54,30 +54,29 @@ namespace CG {
 		redraw();
 	}
 
-  void Viewport::onObjectCreation(const std::string& name, const GObject& object) {
+  void Viewport::onObjectCreation(const std::string& name, std::shared_ptr<GObject> object) {
     assert(!_windowObjects.exists(name));
-    auto &windowObj = _windowObjects.add(name, object);
+    auto windowObj = _windowObjects.add(name, std::shared_ptr<GObject> (new GObject(*object)));
     transformAndClip(windowObj, _window.wo2wiMatrix());
-    drawObject(windowObj); // Draw only the inserted object
+    drawObject(*windowObj); // Draw only the inserted object
   }
 
-  void Viewport::onObjectCreation(const std::string& baseName, const std::vector<GObject> &objects) {
+  void Viewport::onObjectCreation(const std::string& baseName, const std::vector<std::shared_ptr<GObject>> &objects) {
 	  int i=0;
-	  for(const auto &obj : objects) {
+	  for(const auto obj : objects) {
 		  auto name = baseName + std::to_string(i++);
 		  assert(!_windowObjects.exists(name));
-		  auto &windowObj = _windowObjects.add(name, obj);
+		  auto windowObj = _windowObjects.add(name,  std::shared_ptr<GObject> (new GObject(*obj)));
 	      transformAndClip(windowObj, _window.wo2wiMatrix());
 	  }
       redraw();
   }
 
-  void Viewport::onObjectChange(const std::string& name, const GObject& object) {
+  void Viewport::onObjectChange(const std::string& name, std::shared_ptr<GObject> object) {
     auto itWindow = _windowObjects.findObject(name);
   	assert(_windowObjects.isValidIterator(itWindow));
-  	auto &windowObj = itWindow->second;
-    windowObj = object;
-    transformAndClip(windowObj, _window.wo2wiMatrix());
+  	itWindow->second.reset(new GObject(*object));
+    transformAndClip(itWindow->second, _window.wo2wiMatrix());
     redraw();
   }
 
@@ -93,18 +92,18 @@ namespace CG {
 	  return os;
   }
 
-  void Viewport::transformAndClip(GObject &obj, const Transformation &t){
-	  obj.transform(t);
+  void Viewport::transformAndClip(std::shared_ptr<GObject> obj, const Transformation &t){
+	  obj->transform(t);
 	  bool draw = true;
-	  switch(obj.type()){
+	  switch(obj->type()){
 	  	case GObject::Type::POINT:
-	  	  draw = _clippingStrategy.clip(static_cast<GPoint&> (obj), clippingRect);
+	  	  draw = _clippingStrategy.clip(*static_cast<GPoint*> (obj.get()), clippingRect);
         break;
       case GObject::Type::LINE:
-        draw = _clippingStrategy.clip(static_cast<GLine&> (obj), clippingRect);
+        draw = _clippingStrategy.clip(*static_cast<GLine*> (obj.get()), clippingRect);
         break;
       case GObject::Type::POLYGON:
-        draw = _clippingStrategy.clip(static_cast<GPolygon&> (obj), clippingRect);
+        draw = _clippingStrategy.clip(*static_cast<GPolygon*> (obj.get()), clippingRect);
         break;
       case GObject::Type::BEZIER_CURVE:
       case GObject::Type::SPLINE_CURVE:
@@ -112,15 +111,18 @@ namespace CG {
 				break;
 	  }
 	  if(!draw)
-		  obj.coordinates().clear();
+		  obj->coordinates().clear();
   }
 
 	void Viewport::transformAndClipAll(const Transformation &t){
 		clock_t time = clock();
-		{	//TODO change to a clear.() followed by an iteration over worldObjects. Test the efficiency of that.
-			_windowObjects.objects() = _world->getObjects();
-			for(auto &obj : _windowObjects.objects())
-				transformAndClip(obj.second, t);
+		{
+			_windowObjects.objects().clear();
+			for(auto &obj : _world->getObjects()){
+				std::shared_ptr<GObject> winObj(new GObject(*obj.second));
+				_windowObjects.objects()[obj.first] = winObj;
+				transformAndClip(winObj, t);
+			}
 		}
 		time = clock() - time;
 		std::cout << "Took me " << time << " clock ticks ("<< ((float)time)/CLOCKS_PER_SEC << " seconds) at "

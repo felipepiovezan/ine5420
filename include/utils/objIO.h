@@ -7,19 +7,20 @@
 #include <vector>
 #include "cg/GObject.h"
 #include <cassert>
+#include <memory>
 
 class ObjReader {
 	public:
 		ObjReader(const std::string& filename);
 
-		const std::vector<CG::GObject>& objects() {return _objects;}
+		const std::vector<std::shared_ptr<CG::GObject>>& objects() {return _objects;}
 	private:
 		typedef std::string string;
 
 		std::ifstream ifs;
 		bool good;
 		std::vector<CG::Coordinate> _vertices;
-		std::vector<CG::GObject> _objects;
+		std::vector<std::shared_ptr<CG::GObject>> _objects;
 
 		void init();
 		void processComment(std::stringstream& line);
@@ -33,7 +34,7 @@ class ObjReader {
 class ObjWriter{
 	public:
 		ObjWriter(const std::string& filename);
-		void writeObjects(const std::map<std::string, CG::GObject>& objects);
+		void writeObjects(const std::map<std::string, std::shared_ptr<CG::GObject>>& objects);
 
 	private:
 		std::ofstream ofs;
