@@ -17,6 +17,8 @@ namespace CG {
 
       Coordinate transformCoordinate(const Coordinate& c) const;
       GObject::Coordinates transformCoordinates(const GObject::Coordinates& coords) const;
+      double screenToWindowTransformX(double x_screen);
+      double screenToWindowTransformY(double y_screen);
 
       virtual void redraw() = 0;
       virtual void drawObject(const GObject& obj) = 0;

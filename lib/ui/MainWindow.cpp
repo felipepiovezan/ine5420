@@ -14,6 +14,8 @@ MainWindow::MainWindow() :
 		init_handlers();
 		init_action_menu();
 
+    tool = std::shared_ptr<CG::Tool>(new CG::HandTool(_viewport)); // TODO: make better management for another tools
+
     // Setup events
     add_events(Gdk::KEY_PRESS_MASK |
                Gdk::POINTER_MOTION_MASK |
@@ -250,5 +252,31 @@ bool MainWindow::on_scroll_event(GdkEventScroll* event) {
     }
   }
 
+  return false;
+}
+
+/**
+ * Fired when mouse is pressed (any button)
+ */
+bool MainWindow::on_button_press_event(GdkEventButton* event) {
+  tool->init(event->x, event->y);
+  return false;
+}
+
+/**
+ * Fired when mouse is released (any button)
+ */
+bool MainWindow::on_button_release_event(GdkEventButton* event) {
+  tool->end(event->x, event->y);
+  return false;
+}
+
+/**
+ * Fired when mouse is moved
+ */
+bool MainWindow::on_motion_notify_event(GdkEventMotion* event) {
+  if (event->state & GDK_BUTTON1_MASK) {
+    tool->update(event->x, event->y);
+  }
   return false;
 }

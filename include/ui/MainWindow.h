@@ -2,15 +2,16 @@
 #define __MAINWINDOWH
 
 #include <gtkmm.h>
-#include "utils/objIO.h"
-#include "ui/Toolbox.h"
-#include "ui/dialogs.h"
-#include "ui/GtkUIViewport.h"
 #include <iostream>
+#include <memory>
+#include "utils/objIO.h"
 #include "cg/World.h"
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
-#include <memory>
+#include "cg/tools.h"
+#include "ui/Toolbox.h"
+#include "ui/dialogs.h"
+#include "ui/GtkUIViewport.h"
 
 class MainWindow : public Gtk::Window {
 	private:
@@ -22,6 +23,7 @@ class MainWindow : public Gtk::Window {
 		Gtk::Box _mainBox;
 		Glib::RefPtr<Gtk::ActionGroup> _actionGroup;
 		Glib::RefPtr<Gtk::UIManager> _uiManager;
+    std::shared_ptr<CG::Tool> tool;
 
 	public:
 		MainWindow();
@@ -45,6 +47,9 @@ class MainWindow : public Gtk::Window {
 
     // Mouse handlers
     bool on_scroll_event(GdkEventScroll* event);
+    bool on_button_press_event(GdkEventButton* event);
+    bool on_button_release_event(GdkEventButton* event);
+    bool on_motion_notify_event(GdkEventMotion* event);
 };
 
 #endif

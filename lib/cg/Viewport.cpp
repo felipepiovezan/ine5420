@@ -22,6 +22,16 @@ namespace CG {
    return vwCoordinates;
  }
 
+  double Viewport::screenToWindowTransformX(double x_screen) {
+    int width = getWidth();
+    return (x_screen / width) * _window.width() * (_window.xmax() - _window.xmin());
+  }
+
+  double Viewport::screenToWindowTransformY(double y_screen) {
+    int height = getHeight();
+    return (y_screen / height) * _window.height() * (_window.ymax() - _window.ymin());
+  }
+
 	void Viewport::changeWindowZoom(double step){
 		if(_window.zoom(step)){
 			_window.updateMatrix();
