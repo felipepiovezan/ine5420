@@ -54,25 +54,25 @@ namespace CG {
 		redraw();
 	}
 
-  void Viewport::onObjectCreation(const std::string& name, std::shared_ptr<GObject> object) {
+  void Viewport::onObjectCreation(const std::string& name, ObjRef object) {
     assert(!_windowObjects.exists(name));
-    auto windowObj = _windowObjects.add(name, std::shared_ptr<GObject> (new GObject(*object)));
+    auto windowObj = _windowObjects.add(name, ObjRef (new GObject(*object)));
     transformAndClip(windowObj, _window.wo2wiMatrix());
     drawObject(*windowObj); // Draw only the inserted object
   }
 
-  void Viewport::onObjectCreation(const std::string& baseName, const std::vector<std::shared_ptr<GObject>> &objects) {
+  void Viewport::onObjectCreation(const std::string& baseName, const std::vector<ObjRef> &objects) {
 	  int i=0;
 	  for(const auto obj : objects) {
 		  auto name = baseName + std::to_string(i++);
 		  assert(!_windowObjects.exists(name));
-		  auto windowObj = _windowObjects.add(name,  std::shared_ptr<GObject> (new GObject(*obj)));
+		  auto windowObj = _windowObjects.add(name,  ObjRef (new GObject(*obj)));
 	      transformAndClip(windowObj, _window.wo2wiMatrix());
 	  }
       redraw();
   }
 
-  void Viewport::onObjectChange(const std::string& name, std::shared_ptr<GObject> object) {
+  void Viewport::onObjectChange(const std::string& name, ObjRef object) {
     auto itWindow = _windowObjects.findObject(name);
   	assert(_windowObjects.isValidIterator(itWindow));
   	itWindow->second.reset(new GObject(*object));
@@ -92,7 +92,7 @@ namespace CG {
 	  return os;
   }
 
-  void Viewport::transformAndClip(std::shared_ptr<GObject> obj, const Transformation &t){
+  void Viewport::transformAndClip(ObjRef obj, const Transformation &t){
 	  obj->transform(t);
 	  bool draw = true;
 	  switch(obj->type()){
@@ -119,7 +119,7 @@ namespace CG {
 		{
 			_windowObjects.objects().clear();
 			for(auto &obj : _world->getObjects()){
-				std::shared_ptr<GObject> winObj(new GObject(*obj.second));
+				ObjRef winObj(new GObject(*obj.second));
 				_windowObjects.objects()[obj.first] = winObj;
 				transformAndClip(winObj, t);
 			}

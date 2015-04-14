@@ -39,9 +39,9 @@ namespace CG {
       void rotateRight() { rotateWindow(+15);}
 
       // World Listener methods
-      void onObjectCreation(const std::string& name, std::shared_ptr<GObject> object);
-      void onObjectCreation(const std::string& name, const std::vector<std::shared_ptr<GObject>> &objects);
-      void onObjectChange(const std::string& name, std::shared_ptr<GObject> object);
+      void onObjectCreation(const std::string& name, ObjRef object);
+      void onObjectCreation(const std::string& name, const std::vector<ObjRef> &objects);
+      void onObjectChange(const std::string& name, ObjRef object);
       void onObjectRemoval(const std::string& name);
 
     private:
@@ -51,7 +51,7 @@ namespace CG {
 
     protected:
       void transformAndClipAll(const Transformation &t);
-      inline void transformAndClip(std::shared_ptr<GObject>, const Transformation &t);
+      inline void transformAndClip(ObjRef, const Transformation &t);
       DisplayFile _windowObjects;
 
       class Border : public GPolygon {

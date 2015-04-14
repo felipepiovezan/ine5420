@@ -112,13 +112,13 @@ void ObjectsTreeView::on_menu_popup_rotate() {
   }
 }
 
-void ObjectsTreeView::onObjectCreation(const std::string& name, const CG::GObject& object) {
+void ObjectsTreeView::onObjectCreation(const std::string& name, CG::ObjRef object) {
   Gtk::TreeModel::Row row = *(_refObjectsTreeModel->append());
   row[_objectsModelColumns.colName] = name;
-  row[_objectsModelColumns.colType] = CG::GObject::TypeNames[object.type()];
+  row[_objectsModelColumns.colType] = CG::GObject::TypeNames[object->type()];
 }
 
-void ObjectsTreeView::onObjectCreation(const std::string& baseName, const std::vector<CG::GObject>& objects) {
+void ObjectsTreeView::onObjectCreation(const std::string& baseName, const std::vector<CG::ObjRef>& objects) {
   int i = 0;
   for(const auto &obj : objects) {
     auto name = baseName + std::to_string(i++);

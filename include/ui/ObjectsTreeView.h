@@ -4,6 +4,7 @@
 #include <gtkmm.h>
 
 #include "cg/World.h"
+#include "cg/GObject.h"
 
 class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
   public:
@@ -11,8 +12,8 @@ class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
     void refresh(const CG::DisplayFile& displayFile);
 
     // World event handlers
-    void onObjectCreation(const std::string& name, const CG::GObject& object);
-    void onObjectCreation(const std::string& baseName, const std::vector<CG::GObject>& objects);
+    void onObjectCreation(const std::string& name, CG::ObjRef object);
+    void onObjectCreation(const std::string& baseName, const std::vector<CG::ObjRef>& objects);
     void onObjectRemoval(const std::string& name);
 
   protected:

@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <memory>
 #include "cg/Transformations.h"
 #include "decorations.h"
 
@@ -49,6 +50,8 @@ namespace CG {
 		private:
 			Coordinates _coordinates;
 	};
+
+	typedef std::shared_ptr<GObject> ObjRef;
 
 	class GPoint : public GObject {
 		public:

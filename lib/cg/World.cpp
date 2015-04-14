@@ -5,12 +5,12 @@
 
 namespace CG {
 
-  void World::addObject(std::string name, std::shared_ptr<GObject> obj) {
+  void World::addObject(std::string name, ObjRef obj) {
     _worldObjects.add(name, obj);
     notifyObjectCreation(name, obj);
   }
 
-  void World::addObject(std::string baseName, const std::vector<std::shared_ptr<GObject>>& objVector) {
+  void World::addObject(std::string baseName, const std::vector<ObjRef>& objVector) {
     int i=0;
     for(const auto &obj : objVector) {
       std::string name = baseName + std::to_string(i++);
@@ -20,26 +20,26 @@ namespace CG {
   }
 
   void World::createPoint(std::string name, Decoration decoration, Coordinate c) {
-	std::shared_ptr<GObject> point(new GPoint (c));
+	ObjRef point(new GPoint (c));
     point->decoration = decoration;
     addObject(name, point);
   }
 
   void World::createLine(std::string name, Decoration decoration, Coordinate c1, Coordinate c2) {
-	std::shared_ptr<GObject> line( new GLine(c1, c2));
+	ObjRef line( new GLine(c1, c2));
     line->decoration = decoration;
     addObject(name, line);
   }
 
   void World::createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
-	std::shared_ptr<GObject> polygon(new GPolygon(coordinates));
+	ObjRef polygon(new GPolygon(coordinates));
     polygon->decoration = decoration;
     addObject(name, polygon);
   }
 
   void World::createCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
 	  //todo change to curve.
-	  std::shared_ptr<GObject> polygon(new GPolygon(coordinates));
+	  ObjRef polygon(new GPolygon(coordinates));
       polygon->decoration = decoration;
       addObject(name, polygon);
   }
@@ -87,15 +87,15 @@ namespace CG {
     _listeners.push_back(&listener);
   }
 
-  void World::notifyObjectCreation(const std::string& name, std::shared_ptr<GObject> object) const {
+  void World::notifyObjectCreation(const std::string& name, ObjRef object) const {
     for (auto it : _listeners)
       it->onObjectCreation(name, object);
   }
-  void World::notifyObjectCreation(const std::string& baseName, const std::vector<std::shared_ptr<GObject>>& objects) const{
+  void World::notifyObjectCreation(const std::string& baseName, const std::vector<ObjRef>& objects) const{
 	for (auto it : _listeners)
 		it->onObjectCreation(baseName, objects);
   }
-  void World::notifyObjectChange(const std::string& name, std::shared_ptr<GObject> object) const {
+  void World::notifyObjectChange(const std::string& name, ObjRef object) const {
     for (auto it : _listeners)
       it->onObjectChange(name, object);
   }

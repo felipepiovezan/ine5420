@@ -93,11 +93,11 @@ void ObjReader::processFace(std::stringstream& line){
 	//TODO: this is ugly. We need an universal constructor for GObjects which receives a vector<Coords>.
 	// this can't be done right now thanks to the way the "object type" is instanciated.
 	if(coords.size() == 1)
-		_objects.push_back(std::shared_ptr<CG::GObject>(new CG::GPoint(coords[0])));
+		_objects.push_back(CG::ObjRef(new CG::GPoint(coords[0])));
 	else if (coords.size() == 2)
-		_objects.push_back(std::shared_ptr<CG::GObject>(new CG::GLine(coords[0], coords[1])));
+		_objects.push_back(CG::ObjRef(new CG::GLine(coords[0], coords[1])));
 	else if (coords.size() > 2)
-		_objects.push_back(std::shared_ptr<CG::GObject>(new CG::GPolygon(coords)));
+		_objects.push_back(CG::ObjRef(new CG::GPolygon(coords)));
 }
 
 ObjWriter::ObjWriter (const std::string &filename) : ofs(filename), good(true), end(1) {
@@ -108,7 +108,7 @@ ObjWriter::ObjWriter (const std::string &filename) : ofs(filename), good(true), 
 	}
 }
 
-void ObjWriter::writeObjects(const std::map<std::string, std::shared_ptr<CG::GObject>>& objects){
+void ObjWriter::writeObjects(const std::map<std::string, CG::ObjRef>& objects){
 	if(!good){
 		std::cerr << "Object writer was not successfully opened" << std::endl;
 		return;
