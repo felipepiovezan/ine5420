@@ -6,7 +6,8 @@
 #include <map>
 #include <memory>
 #include "cg/Transformations.h"
-#include "decorations.h"
+#include "cg/decorations.h"
+#include "cg/exceptions.h"
 
 namespace CG {
 	class GObject;
@@ -115,14 +116,21 @@ namespace CG {
 			}
 	};
 
-	class GBezier : public GObject{
+	class BezierCurve : public GObject{
 		public:
-		GBezier(const Coordinates& coords, double step) {}
+		BezierCurve(const Coordinates& coords) {
+			if (coords.size() < 4) {
+				throw CGException("A bezier curve must have at least 4 coordinates");
+			}
+
+			addCoordinate(coords);
+		}
+
 		Type type() const { return Type::BEZIER_CURVE; }
 		std::string typeName() const { return "Bezier Curve"; }
 
 		ObjRef clone() const {
-			ObjRef obj = ObjRef(new GBezier(coordinates(), 0));
+			ObjRef obj = ObjRef(new BezierCurve(coordinates()));
 			obj->decoration = decoration;
 			return obj;
 		}

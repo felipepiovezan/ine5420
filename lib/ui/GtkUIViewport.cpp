@@ -1,8 +1,8 @@
 #include "ui/GtkUIViewport.h"
+
 #include <iostream>
 #include <cairomm/context.h>
 #include <ctime>
-
 
 void GtkUIViewport::redraw() {
   queue_draw();
@@ -12,36 +12,76 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
 	if (!cairoCtx) return;
   if (obj.numPoints() == 0) return;
 
-  prepareContext(obj.decoration);
+  switch (obj.type()) {
+    case CG::GObject::Type::OBJECT:
+      break;
 
-	CG::Coordinate p = transformCoordinate(obj.coordinates()[0]);
-	cairoCtx->move_to(p.x, p.y);
+    case CG::GObject::Type::POINT:
+      drawPoint((const CG::GPoint&) obj);
+      break;
 
-	if(obj.type() == CG::GObject::Type::POINT){
-		cairoCtx->arc(p.x, p.y, 1.0, 0.0, 2.0 * M_PI);
-		cairoCtx->fill_preserve();
-		cairoCtx->stroke();
-		return;
-	}
+    case CG::GObject::Type::LINE:
+      drawLine((const CG::GLine&) obj);
+      break;
 
-	for(const auto &it : obj.coordinates()){
-		CG::Coordinate q = transformCoordinate(it);
-		cairoCtx->line_to(q.x, q.y);
-	}
+    case CG::GObject::Type::POLYGON:
+      drawPolygon((const CG::GPolygon&) obj);
+      break;
 
-	if((obj.type() == CG::GObject::Type::POLYGON)) {
-		cairoCtx->close_path();  // connect the last point with the first one
+    case CG::GObject::Type::BEZIER_CURVE:
+      drawBezierCurve((const CG::BezierCurve&) obj);
+      break;
 
-    // Fill the polygon
-    cairoCtx->save();
-    prepareColorContext(obj.decoration.getFillColor());
-    cairoCtx->fill_preserve();
-    cairoCtx->restore();
+    case CG::GObject::Type::SPLINE_CURVE:
+      // TODO
+      break;
   }
-
-	cairoCtx->stroke();
 }
 
+void GtkUIViewport::drawPoint(const CG::GPoint& point) {
+  auto coord = transformCoordinate(point.coordinates()[0]);
+  prepareContext(point.decoration);
+  cairoCtx->move_to(coord.x, coord.y);
+  cairoCtx->arc(coord.x, coord.y, 1.0, 0.0, 2.0 * M_PI);
+  cairoCtx->fill_preserve();
+  cairoCtx->stroke();
+}
+
+void GtkUIViewport::drawLine(const CG::GLine& line) {
+  auto coords = transformCoordinates(line.coordinates());
+  prepareContext(line.decoration);
+  cairoCtx->move_to(coords[0].x, coords[0].y);
+  cairoCtx->line_to(coords[1].x, coords[1].y);
+  cairoCtx->stroke();
+}
+
+void GtkUIViewport::drawPolygon(const CG::GPolygon& polygon) {
+  auto coords = transformCoordinates(polygon.coordinates());
+  prepareContext(polygon.decoration);
+
+  cairoCtx->move_to(coords[0].x, coords[0].y);
+  for (unsigned int i = 0; i < coords.size(); i++) {
+    cairoCtx->line_to(coords[i].x, coords[i].y);
+  }
+  cairoCtx->close_path();  // connect the last point with the first one
+
+  // Fill the polygon
+  cairoCtx->save();
+  prepareColorContext(polygon.decoration.getFillColor());
+  cairoCtx->fill_preserve();
+  cairoCtx->restore();
+  cairoCtx->stroke();
+}
+
+void GtkUIViewport::drawBezierCurve(const CG::BezierCurve& curve) {
+  auto coords = transformCoordinates(curve.coordinates());
+  prepareContext(curve.decoration);
+  cairoCtx->move_to(coords[0].x, coords[0].y);
+  cairoCtx->curve_to(coords[1].x, coords[1].y,
+                     coords[2].x, coords[2].y,
+                     coords[3].x, coords[3].y);
+  cairoCtx->stroke();
+}
 
 void GtkUIViewport::prepareContext(const CG::Decoration& decoration) {
   prepareColorContext(decoration.getLineColor());

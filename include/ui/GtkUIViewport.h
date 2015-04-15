@@ -16,6 +16,11 @@ class GtkUIViewport : public CG::Viewport, public Gtk::DrawingArea {
     double getWidth() const { return _width; }
     double getHeight() const { return _height; }
 
+    void drawPoint(const CG::GPoint& point);
+    void drawLine(const CG::GLine& line);
+    void drawPolygon(const CG::GPolygon& polygon);
+    void drawBezierCurve(const CG::BezierCurve& curve);
+
   protected:
     double _width, _height;
 

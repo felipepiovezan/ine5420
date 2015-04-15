@@ -39,9 +39,9 @@ namespace CG {
 
   void World::createCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
 	  //todo change to curve.
-	  ObjRef polygon(new GPolygon(coordinates));
-      polygon->decoration = decoration;
-      addObject(name, polygon);
+	  ObjRef curve(new BezierCurve(coordinates));
+    curve->decoration = decoration;
+    addObject(name, curve);
   }
 
   void World::removeObject(const std::string &name) {

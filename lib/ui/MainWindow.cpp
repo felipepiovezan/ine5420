@@ -42,6 +42,7 @@ MainWindow::MainWindow() :
 }
 
 void MainWindow::init_examples() {
+  // Rectangle
   CG::GObject::Coordinates c;
   c.push_back(CG::Coordinate(-8, -12));
   c.push_back(CG::Coordinate(-8, 12));
@@ -50,7 +51,19 @@ void MainWindow::init_examples() {
   CG::Decoration decoration;
   decoration.setLineColor(CG::Color(0, 1, 0));
   _world->createPolygon("rectangle", decoration, c);
+
+  // Leaf
   init_leaf();
+
+  // Curve example
+  c.clear();
+  c.push_back(CG::Coordinate(0, 0));
+  c.push_back(CG::Coordinate(0, 6));
+  c.push_back(CG::Coordinate(7, 8));
+  c.push_back(CG::Coordinate(10, 8));
+  _world->createCurve("curve1", decoration, c);
+
+  // Man
   _world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
 }
 
