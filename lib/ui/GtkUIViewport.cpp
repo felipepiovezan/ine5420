@@ -74,13 +74,26 @@ void GtkUIViewport::drawPolygon(const CG::GPolygon& polygon) {
 }
 
 void GtkUIViewport::drawBezierCurve(const CG::BezierCurve& curve) {
-  auto coords = transformCoordinates(curve.coordinates());
   prepareContext(curve.decoration);
-  cairoCtx->move_to(coords[0].x, coords[0].y);
-  cairoCtx->curve_to(coords[1].x, coords[1].y,
-                     coords[2].x, coords[2].y,
-                     coords[3].x, coords[3].y);
+  auto c1 = transformCoordinate(curve.coordinates()[0]);
+  cairoCtx->move_to(c1.x, c1.y);
+
+  double step = _window.width() / 1000;
+  for (double t = 0; t < 1; t += step) {
+    CG::Coordinate c = transformCoordinate(curve.calc(t));
+    std::cout << c.x << " " << c.y << std::endl;
+    cairoCtx->line_to(c.x, c.y);
+  }
+  // Make sure the last point is reached
+  auto c2 = transformCoordinate(curve.coordinates()[3]);
+  cairoCtx->line_to(c2.x, c2.y);
   cairoCtx->stroke();
+
+  // cairoCtx->move_to(coords[0].x, coords[0].y);
+  // cairoCtx->curve_to(coords[1].x, coords[1].y,
+  //                    coords[2].x, coords[2].y,
+  //                    coords[3].x, coords[3].y);
+  // cairoCtx->stroke();
 }
 
 void GtkUIViewport::prepareContext(const CG::Decoration& decoration) {

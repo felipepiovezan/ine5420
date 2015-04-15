@@ -45,14 +45,15 @@ namespace CG {
       void onObjectRemoval(const std::string& name);
 
     private:
-      Window _window;
-      std::shared_ptr<const World> _world;
       ClippingStrategy<SimplePointClipping, NLNLineClipping, SutherlandHodgmanPolygonClipping> _clippingStrategy;
 
     protected:
+      Window _window;
+      std::shared_ptr<const World> _world;
+      DisplayFile _windowObjects;
+
       void transformAndClipAll(const Transformation &t);
       inline void transformAndClip(ObjRef, const Transformation &t);
-      DisplayFile _windowObjects;
 
       class Border : public GPolygon {
         public:
