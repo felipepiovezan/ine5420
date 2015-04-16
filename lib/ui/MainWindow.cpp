@@ -61,7 +61,22 @@ void MainWindow::init_examples() {
   c.push_back(CG::Coordinate(0, 6));
   c.push_back(CG::Coordinate(7, 8));
   c.push_back(CG::Coordinate(10, 8));
+  decoration.setLineColor(CG::Color(.3, .5, .8));
+  decoration.setLineWidth(3.0);
   _world->createCurve("curve1", decoration, c);
+
+  // Curve 2 example
+  c.clear();
+  c.push_back(CG::Coordinate(-1, -1));
+  c.push_back(CG::Coordinate(-3, -6));
+  c.push_back(CG::Coordinate(-7, -8));
+  c.push_back(CG::Coordinate(-7, -8));
+  c.push_back(CG::Coordinate(-10, -7));
+  c.push_back(CG::Coordinate(-3, -5));
+  c.push_back(CG::Coordinate(-10, -7));
+  decoration.setLineColor(CG::Color(.5, .8, .3));
+  decoration.setLineWidth(3.0);
+  _world->createCurve("curve2", decoration, c);
 
   // Man
   _world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());

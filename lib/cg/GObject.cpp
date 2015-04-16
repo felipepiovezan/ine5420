@@ -55,8 +55,9 @@ namespace CG {
 	/**
 	 * Blending function to calculate the path of the bezier curve
 	 * t must be between 0 and 1
+	 * initCoord indicates the index of the coordinate to take as initial point of current cubic curve interaction
 	 */
-	Coordinate BezierCurve::calc(double t) const {
+	Coordinate BezierCurve::calc(double t, int initCoord = 0) const {
 		double t2 = t * t;     // t square
 		double t3 = t2 * t; 	 // t cube
 		double ti = 1 - t;     // t inverse
@@ -64,9 +65,8 @@ namespace CG {
 		double ti3 = ti2 * ti; // ti cube
 		auto coords = coordinates();
 
-		double x = ti3 * coords[0].x + 3 * ti2 * t * coords[1].x + 3 * ti * t2 * coords[2].x + t3 * coords[3].x;
-		double y = ti3 * coords[0].y + 3 * ti2 * t * coords[1].y + 3 * ti * t2 * coords[2].y + t3 * coords[3].y;
-		//double z = ti3 * coords[0].z + 3 * ti2 * t * coords[1].z + 3 * ti * t2 * coords[2].z + t3 * coords[3].z;
+		double x = ti3 * coords[initCoord].x + 3 * ti2 * t * coords[initCoord + 1].x + 3 * ti * t2 * coords[initCoord + 2].x + t3 * coords[initCoord + 3].x;
+		double y = ti3 * coords[initCoord].y + 3 * ti2 * t * coords[initCoord + 1].y + 3 * ti * t2 * coords[initCoord + 2].y + t3 * coords[initCoord + 3].y;
 		return Coordinate(x, y);
 	}
 
@@ -74,13 +74,18 @@ namespace CG {
 	 * Recalculate the generated coordinates of the curve with specified step (0 to 1)
 	 */
 	void BezierCurve::regeneratePath(double step) {
-		// TODO: consider multiple curves
+		// The number of cubic curves to generate (4 points make 1 curve, 7 points make 2 curves etc)
+		int curves = ((coordinates().size() - 4) / 3) + 1;
+
 		path.clear();
-	  for (double t = 0; t < 1; t += step) {
-	    Coordinate c = this->calc(t);
-	    path.push_back(c);
-	  }
-		path.push_back(coordinates()[3]); // Make sure the last point is included
+		for (int i = 0; i < curves; i++) {
+	  	for (double t = 0; t < 1; t += step) {
+	    	Coordinate c = this->calc(t, i * 3);
+	    	path.push_back(c);
+	  	}
+		}
+
+		path.push_back(coordinates()[curves * 3]); // Make sure the last point is included
 	}
 
 }

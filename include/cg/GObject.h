@@ -129,7 +129,7 @@ namespace CG {
 			return obj;
 		}
 
-		Coordinate calc(double t) const;
+		Coordinate calc(double t, int initCoord) const;
 		void regeneratePath(double step);
 		const GObject::Coordinates getPath() const { return path; }
 
