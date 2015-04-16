@@ -42,4 +42,45 @@ namespace CG {
 			p*=(t);
 		}
 	}
+
+	BezierCurve::BezierCurve(const Coordinates& coords) {
+		if (coords.size() < 4 || (coords.size() - 4) % 3 != 0) {
+			throw CGException("A bezier curve must be defined with 4, 7, 10, 13, 16, ... coordinates");
+		}
+
+		addCoordinate(coords);
+		regeneratePath(0.1);
+	}
+
+	/**
+	 * Blending function to calculate the path of the bezier curve
+	 * t must be between 0 and 1
+	 */
+	Coordinate BezierCurve::calc(double t) const {
+		double t2 = t * t;     // t square
+		double t3 = t2 * t; 	 // t cube
+		double ti = 1 - t;     // t inverse
+		double ti2 = ti * ti;  // ti square
+		double ti3 = ti2 * ti; // ti cube
+		auto coords = coordinates();
+
+		double x = ti3 * coords[0].x + 3 * ti2 * t * coords[1].x + 3 * ti * t2 * coords[2].x + t3 * coords[3].x;
+		double y = ti3 * coords[0].y + 3 * ti2 * t * coords[1].y + 3 * ti * t2 * coords[2].y + t3 * coords[3].y;
+		//double z = ti3 * coords[0].z + 3 * ti2 * t * coords[1].z + 3 * ti * t2 * coords[2].z + t3 * coords[3].z;
+		return Coordinate(x, y);
+	}
+
+	/**
+	 * Recalculate the generated coordinates of the curve with specified step (0 to 1)
+	 */
+	void BezierCurve::regeneratePath(double step) {
+		// TODO: consider multiple curves
+		path.clear();
+	  for (double t = 0; t < 1; t += step) {
+	    Coordinate c = this->calc(t);
+	    path.push_back(c);
+	  }
+		path.push_back(coordinates()[3]); // Make sure the last point is included
+	}
+
 }

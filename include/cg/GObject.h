@@ -117,14 +117,8 @@ namespace CG {
 	};
 
 	class BezierCurve : public GObject{
-		public:
-		BezierCurve(const Coordinates& coords) {
-			if (coords.size() < 4) {
-				throw CGException("A bezier curve must have at least 4 coordinates");
-			}
-
-			addCoordinate(coords);
-		}
+	 public:
+		BezierCurve(const Coordinates& coords);
 
 		Type type() const { return Type::BEZIER_CURVE; }
 		std::string typeName() const { return "Bezier Curve"; }
@@ -135,23 +129,12 @@ namespace CG {
 			return obj;
 		}
 
-		/**
-		 * Blending function to calculate the path of the bezier curve
-		 * t must be between 0 and 1
-		 */
-		Coordinate calc(double t) const {
-			double t2 = t * t;     // t square
-			double t3 = t2 * t; 	 // t cube
-			double ti = 1 - t;     // t inverse
-			double ti2 = ti * ti;  // ti square
-			double ti3 = ti2 * ti; // ti cube
-			auto coords = coordinates();
+		Coordinate calc(double t) const;
+		void regeneratePath(double step);
+		const GObject::Coordinates getPath() const { return path; }
 
-			double x = ti3 * coords[0].x + 3 * ti2 * t * coords[1].x + 3 * ti * t2 * coords[2].x + t3 * coords[3].x;
-			double y = ti3 * coords[0].y + 3 * ti2 * t * coords[1].y + 3 * ti * t2 * coords[2].y + t3 * coords[3].y;
-			//double z = ti3 * coords[0].z + 3 * ti2 * t * coords[1].z + 3 * ti * t2 * coords[2].z + t3 * coords[3].z;
-			return Coordinate(x, y);
-		}
+	 protected:
+	 	GObject::Coordinates path; // Holds generated coordinates of curve with specified precision
 	};
 
 }

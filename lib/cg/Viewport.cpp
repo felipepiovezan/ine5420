@@ -95,23 +95,35 @@ namespace CG {
   void Viewport::transformAndClip(ObjRef obj, const Transformation &t){
 	  obj->transform(t);
 	  bool draw = true;
-	  switch(obj->type()){
-	  	case GObject::Type::POINT:
-	  	  draw = _clippingStrategy.clip(*static_cast<GPoint*> (obj.get()), clippingRect);
+
+	  switch (obj->type()) {
+      case GObject::Type::OBJECT:
+      case GObject::Type::SPLINE_CURVE:
         break;
+
+      case GObject::Type::POINT:
+        draw = _clippingStrategy.clip(*static_cast<GPoint*> (obj.get()), clippingRect);
+        break;
+
       case GObject::Type::LINE:
         draw = _clippingStrategy.clip(*static_cast<GLine*> (obj.get()), clippingRect);
         break;
+
       case GObject::Type::POLYGON:
         draw = _clippingStrategy.clip(*static_cast<GPolygon*> (obj.get()), clippingRect);
         break;
+
       case GObject::Type::BEZIER_CURVE:
-      case GObject::Type::SPLINE_CURVE:
-      case GObject::Type::OBJECT:
-				break;
+        BezierCurve* curve = static_cast<BezierCurve*> (obj.get());
+        double step = _window.width() / 1000;
+        curve->regeneratePath(step);
+        // TODO: clip
+        break;
 	  }
-	  if(!draw)
+
+	  if (!draw) {
 		  obj->coordinates().clear();
+    }
   }
 
 	void Viewport::transformAndClipAll(const Transformation &t){
