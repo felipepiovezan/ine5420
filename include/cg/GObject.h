@@ -17,6 +17,7 @@ namespace CG {
 
 	class Coordinate {
 		public:
+			Coordinate() : x(0), y(0), w(1) {}
 			Coordinate(double dx, double dy) : x(dx), y(dy), w(1) {}
 			double x, y, w;
 
@@ -132,6 +133,7 @@ namespace CG {
 		Coordinate calc(double t, int initCoord) const;
 		void regeneratePath(double step);
 		const GObject::Coordinates getPath() const { return path; }
+		void setPath(GObject::Coordinates& newPath) { path = newPath; }
 
 	 protected:
 	 	GObject::Coordinates path; // Holds generated coordinates of curve with specified precision

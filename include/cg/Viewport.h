@@ -45,7 +45,7 @@ namespace CG {
       void onObjectRemoval(const std::string& name);
 
     private:
-      ClippingStrategy<SimplePointClipping, NLNLineClipping, SutherlandHodgmanPolygonClipping> _clippingStrategy;
+      ClippingStrategy<SimplePointClipping, NLNLineClipping, SutherlandHodgmanPolygonClipping, CurveClipping> _clippingStrategy;
 
     protected:
       Window _window;

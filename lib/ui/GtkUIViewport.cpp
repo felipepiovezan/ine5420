@@ -86,12 +86,6 @@ void GtkUIViewport::drawBezierCurve(const CG::BezierCurve& curve) {
     cairoCtx->line_to(coords[i].x, coords[i].y);
   }
   cairoCtx->stroke();
-
-  // cairoCtx->move_to(coords[0].x, coords[0].y);
-  // cairoCtx->curve_to(coords[1].x, coords[1].y,
-  //                    coords[2].x, coords[2].y,
-  //                    coords[3].x, coords[3].y);
-  // cairoCtx->stroke();
 }
 
 void GtkUIViewport::prepareContext(const CG::Decoration& decoration) {

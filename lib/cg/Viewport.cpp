@@ -115,9 +115,9 @@ namespace CG {
 
       case GObject::Type::BEZIER_CURVE:
         BezierCurve* curve = static_cast<BezierCurve*> (obj.get());
-        double step = _window.width() / 1000;
+        double step = _window.width() / 1000.0;
         curve->regeneratePath(step);
-        // TODO: clip
+        draw = _clippingStrategy.clip(*curve, clippingRect);
         break;
 	  }
 

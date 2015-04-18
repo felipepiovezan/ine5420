@@ -6,69 +6,65 @@
 namespace CG {
 
 typedef struct {
-    double minX, maxX, minY, maxY;
+  double minX, maxX, minY, maxY;
 }
 ClippingRect;
 
-template <typename PointStrategy, typename LineStrategy, typename PolygonStrategy>
-class ClippingStrategy : private PointStrategy, private LineStrategy, private PolygonStrategy {
-    using PointStrategy::clipPoint;
-    using LineStrategy::clipLine;
-    using PolygonStrategy::clipPolygon;
+template <typename PointStrategy, typename LineStrategy, typename PolygonStrategy, typename CurveStrategy>
+class ClippingStrategy : private PointStrategy, private LineStrategy, private PolygonStrategy, private CurveStrategy {
+  using PointStrategy::clipPoint;
+  using LineStrategy::clipLine;
+  using PolygonStrategy::clipPolygon;
+  using CurveStrategy::clipCurve;
+
 public:
-    bool clip(GPoint& p, const ClippingRect& rect) {
-        return clipPoint(p, rect);
-    }
-    bool clip(GLine& l, const ClippingRect& rect) {
-        return clipLine(l, rect);
-    }
-    bool clip(GPolygon& pol, const ClippingRect& rect) {
-        return clipPolygon(pol, rect);
-    }
+  bool clip(GPoint& p, const ClippingRect& rect) {
+    return clipPoint(p, rect);
+  }
+  bool clip(GLine& l, const ClippingRect& rect) {
+    return clipLine(l, rect);
+  }
+  bool clip(GPolygon& pol, const ClippingRect& rect) {
+    return clipPolygon(pol, rect);
+  }
+  bool clip(BezierCurve& curve, const ClippingRect& rect) {
+    return clipCurve(curve, rect);
+  }
 };
 
 class SimplePointClipping {
-protected:
-    bool clipPoint(GPoint& p, const ClippingRect& rect);
+public:
+  bool clipPoint(GPoint& p, const ClippingRect& rect);
 };
 
 class LBLineClipping {
-protected:
-    bool clipLine(GLine& l, const ClippingRect& rect);
+public:
+  bool clipLine(GLine& l, const ClippingRect& rect);
 };
 
 class NLNLineClipping {
-protected:
-    bool clipLine(GLine& l, const ClippingRect& rect);
+public:
+  bool clipLine(GLine& l, const ClippingRect& rect);
 private:
-    inline void leftcolumn(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
-    inline void centrecolumn(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
-    inline void topleftcorner(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
-    inline void leftedge(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
-    inline void leftbottomregion(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&, const double &,const double &,const double &);
-    inline void p2bottom(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
-    inline void inside(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
-    inline void p2left(const double &,const double &,const double &,const double &,double &,double &,double &,double &);
-    inline void p2lefttop(const double &,const double &,const double &,const double &,double &,double &,double &,double &);
+  inline void leftcolumn(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
+  inline void centrecolumn(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
+  inline void topleftcorner(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
+  inline void leftedge(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
+  inline void leftbottomregion(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&, const double &,const double &,const double &);
+  inline void p2bottom(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
+  inline void inside(const double &,const double &,const double &,const double &,double &,double &,double &,double &, bool&);
+  inline void p2left(const double &,const double &,const double &,const double &,double &,double &,double &,double &);
+  inline void p2lefttop(const double &,const double &,const double &,const double &,double &,double &,double &,double &);
 };
 
 class SutherlandHodgmanPolygonClipping {
-protected:
-    bool clipPolygon(GPolygon& pol, const ClippingRect& rect);
+public:
+  bool clipPolygon(GPolygon& pol, const ClippingRect& rect);
 };
 
-class DoNothingPolygonClipping {
-protected:
-    bool clipPolygon(GPolygon& pol, const ClippingRect& rect) {
-        return true;
-    }
-};
-
-class DoNothingLineClipping {
-protected:
-    bool clipLine(GLine& l, const ClippingRect& rect) {
-        return true;
-    }
+class CurveClipping {
+public:
+  bool clipCurve(BezierCurve& curve, const ClippingRect& rect);
 };
 
 }
