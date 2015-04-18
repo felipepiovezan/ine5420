@@ -3,7 +3,7 @@
 
 #include <gtkmm.h>
 #include <vector>
-#include "cg/GObject.h"
+#include "cg/objects.h"
 
 /**
  * A panel for managing a collection of coordinates

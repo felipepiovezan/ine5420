@@ -1,4 +1,4 @@
-#include "cg/GObject.h"
+#include "cg/objects.h"
 
 namespace CG {
 	Coordinate& Coordinate::operator*=(const Transformation& rhs){

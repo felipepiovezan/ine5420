@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 #include <string>
 
-#include "cg/GObject.h"
+#include "cg/objects.h"
 #include "ui/widgets.h"
 #include "ui/MainWindow.h"
 

@@ -2,7 +2,7 @@
 #define CG_SCENE_H_
 
 #include "cg/decorations.h"
-#include "cg/GObject.h"
+#include "cg/objects.h"
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
 

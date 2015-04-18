@@ -1,5 +1,5 @@
-#ifndef CG_GOBJECT_H_
-#define CG_GOBJECT_H_
+#ifndef CG_OBJECTS_H_
+#define CG_OBJECTS_H_
 
 #include <vector>
 #include <string>

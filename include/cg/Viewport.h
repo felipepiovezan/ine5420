@@ -1,7 +1,7 @@
 #ifndef CG_VIEWPORT_H_
 #define CG_VIEWPORT_H_
 
-#include "cg/GObject.h"
+#include "cg/objects.h"
 #include "cg/Window.h"
 #include "cg/DisplayFile.h"
 #include "cg/World.h"

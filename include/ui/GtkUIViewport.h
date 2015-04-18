@@ -2,7 +2,7 @@
 #define GTK_DRAWING_CONTEXT_H
 
 #include <gtkmm/drawingarea.h>
-#include "cg/GObject.h"
+#include "cg/objects.h"
 #include "cg/Window.h"
 #include "cg/Viewport.h"
 

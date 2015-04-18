@@ -1,7 +1,7 @@
 #ifndef INCLUDE_CG_CLIPPINGSTRATEGY_H_
 #define INCLUDE_CG_CLIPPINGSTRATEGY_H_
 
-#include "cg/GObject.h"
+#include "cg/objects.h"
 
 namespace CG {
 

@@ -3,7 +3,7 @@
 
 #include <array>
 #include <ctgmath>
-#include "cg/GObject.h"
+#include "cg/objects.h"
 
 namespace CG{
 	class Coordinate;

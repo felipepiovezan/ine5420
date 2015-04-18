@@ -4,7 +4,7 @@
 #include <gtkmm.h>
 
 #include "cg/World.h"
-#include "cg/GObject.h"
+#include "cg/objects.h"
 
 class ObjectsTreeView : public Gtk::TreeView, public CG::World::WorldListener {
   public:

@@ -1,7 +1,7 @@
 #ifndef CG_WINDOW_H_
 #define CG_WINDOW_H_
 
-#include "cg/GObject.h"
+#include "cg/objects.h"
 
 namespace CG {
 

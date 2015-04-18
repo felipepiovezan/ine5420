@@ -5,8 +5,8 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include "cg/GObject.h"
 #include <cassert>
+#include "cg/objects.h"
 
 class ObjReader {
 	public:
