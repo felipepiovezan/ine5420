@@ -29,11 +29,8 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
       break;
 
     case CG::GObject::Type::BEZIER_CURVE:
-      drawBezierCurve((const CG::BezierCurve&) obj);
-      break;
-
     case CG::GObject::Type::SPLINE_CURVE:
-      // TODO
+      drawCurve((const CG::Curve&) obj);
       break;
   }
 }
@@ -73,7 +70,7 @@ void GtkUIViewport::drawPolygon(const CG::GPolygon& polygon) {
   cairoCtx->stroke();
 }
 
-void GtkUIViewport::drawBezierCurve(const CG::BezierCurve& curve) {
+void GtkUIViewport::drawCurve(const CG::Curve& curve) {
   auto coords = transformCoordinates(curve.getPath());
 
   if (coords.size() == 0) {

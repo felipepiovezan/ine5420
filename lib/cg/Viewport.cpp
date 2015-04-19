@@ -98,7 +98,6 @@ namespace CG {
 
 	  switch (obj->type()) {
       case GObject::Type::OBJECT:
-      case GObject::Type::SPLINE_CURVE:
         break;
 
       case GObject::Type::POINT:
@@ -114,7 +113,8 @@ namespace CG {
         break;
 
       case GObject::Type::BEZIER_CURVE:
-        BezierCurve* curve = static_cast<BezierCurve*> (obj.get());
+      case GObject::Type::SPLINE_CURVE:
+        Curve* curve = static_cast<Curve*> (obj.get());
         double step = _window.width() / 1000.0;
         curve->regeneratePath(step);
         draw = _clippingStrategy.clip(*curve, clippingRect);

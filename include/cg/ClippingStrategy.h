@@ -27,7 +27,7 @@ public:
   bool clip(GPolygon& pol, const ClippingRect& rect) {
     return clipPolygon(pol, rect);
   }
-  bool clip(BezierCurve& curve, const ClippingRect& rect) {
+  bool clip(Curve& curve, const ClippingRect& rect) {
     return clipCurve(curve, rect);
   }
 };
@@ -64,7 +64,7 @@ public:
 
 class CurveClipping {
 public:
-  bool clipCurve(BezierCurve& curve, const ClippingRect& rect);
+  bool clipCurve(Curve& curve, const ClippingRect& rect);
 };
 
 }

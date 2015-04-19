@@ -188,7 +188,7 @@ bool SutherlandHodgmanPolygonClipping::clipPolygon(GPolygon& pol, const Clipping
 		return false;
 }
 
-bool CurveClipping::clipCurve(BezierCurve& curve, const ClippingRect& rect) {
+bool CurveClipping::clipCurve(Curve& curve, const ClippingRect& rect) {
   auto originalPath = curve.getPath();
   std::vector<Coordinate> newPath;
   newPath.reserve(originalPath.size());

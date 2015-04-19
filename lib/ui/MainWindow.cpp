@@ -55,7 +55,7 @@ void MainWindow::init_examples() {
   // Leaf
   init_leaf();
 
-  // Curve example
+  // Bezier example
   c.clear();
   c.push_back(CG::Coordinate(0, 0));
   c.push_back(CG::Coordinate(0, 6));
@@ -63,9 +63,9 @@ void MainWindow::init_examples() {
   c.push_back(CG::Coordinate(10, 8));
   decoration.setLineColor(CG::Color(.3, .5, .8));
   decoration.setLineWidth(3.0);
-  _world->createCurve("curve1", decoration, c);
+  _world->createBezierCurve("curve1", decoration, c);
 
-  // Curve 2 example
+  // Bezier 2 example
   c.clear();
   c.push_back(CG::Coordinate(-1, -1));
   c.push_back(CG::Coordinate(-3, -6));
@@ -76,7 +76,33 @@ void MainWindow::init_examples() {
   c.push_back(CG::Coordinate(-10, -7));
   decoration.setLineColor(CG::Color(.5, .8, .3));
   decoration.setLineWidth(3.0);
-  _world->createCurve("curve2", decoration, c);
+  _world->createBezierCurve("curve2", decoration, c);
+
+  // Spline example
+  c.clear();
+  c.push_back(CG::Coordinate(5, 0));
+  c.push_back(CG::Coordinate(0, -5));
+  c.push_back(CG::Coordinate(-5, 0));
+  c.push_back(CG::Coordinate(0, 5));
+  c.push_back(CG::Coordinate(5, 0));
+  c.push_back(CG::Coordinate(0, -5));
+  c.push_back(CG::Coordinate(-5, 0));
+  decoration.setLineColor(CG::Color(.8, .1, .3));
+  decoration.setLineWidth(3.0);
+  _world->createSplineCurve("curve3", decoration, c);
+
+  // Spline 2 example
+  c.clear();
+  c.push_back(CG::Coordinate(-6, -4));
+  c.push_back(CG::Coordinate(-4, -4));
+  c.push_back(CG::Coordinate(-2, -4));
+  c.push_back(CG::Coordinate(0, 0));
+  c.push_back(CG::Coordinate(2, -4));
+  c.push_back(CG::Coordinate(4, -4));
+  c.push_back(CG::Coordinate(6, -4));
+  decoration.setLineColor(CG::Color(.8, .1, .99));
+  decoration.setLineWidth(3.0);
+  _world->createSplineCurve("curve4", decoration, c);
 
   // Man
   _world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
@@ -147,8 +173,11 @@ void MainWindow::on_newPolygon() {
 void MainWindow::on_newCurve() {
   CurveDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
-    // dialog.getCurveType();
-    _world->createCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+    if (dialog.getCurveType() == CG::GObject::BEZIER_CURVE) {
+      _world->createBezierCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+    } else {
+      _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+    }
   }
 }
 

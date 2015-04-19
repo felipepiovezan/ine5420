@@ -20,26 +20,31 @@ namespace CG {
   }
 
   void World::createPoint(std::string name, Decoration decoration, Coordinate c) {
-	ObjRef point(new GPoint (c));
+    ObjRef point(new GPoint (c));
     point->decoration = decoration;
     addObject(name, point);
   }
 
   void World::createLine(std::string name, Decoration decoration, Coordinate c1, Coordinate c2) {
-	ObjRef line( new GLine(c1, c2));
+    ObjRef line( new GLine(c1, c2));
     line->decoration = decoration;
     addObject(name, line);
   }
 
   void World::createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
-	ObjRef polygon(new GPolygon(coordinates));
+    ObjRef polygon(new GPolygon(coordinates));
     polygon->decoration = decoration;
     addObject(name, polygon);
   }
 
-  void World::createCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
-	  //todo change to curve.
+  void World::createBezierCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
 	  ObjRef curve(new BezierCurve(coordinates));
+    curve->decoration = decoration;
+    addObject(name, curve);
+  }
+
+  void World::createSplineCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates) {
+    ObjRef curve(new SplineCurve(coordinates));
     curve->decoration = decoration;
     addObject(name, curve);
   }

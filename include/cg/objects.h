@@ -117,7 +117,21 @@ namespace CG {
 			}
 	};
 
-	class BezierCurve : public GObject{
+	class Curve : public GObject {
+	 public:
+		const GObject::Coordinates getPath() const { return path; }
+		void setPath(GObject::Coordinates& newPath) { path = newPath; }
+
+		/**
+		 * Must regenerate the parametric curve with t varying between 0 and 1 with defined step (for each sub-curve)
+		 */
+		virtual void regeneratePath(double step) = 0;
+
+	 protected:
+	 	GObject::Coordinates path; // Holds generated coordinates of curve with specified precision
+	};
+
+	class BezierCurve : public Curve {
 	 public:
 		BezierCurve(const Coordinates& coords);
 
@@ -132,11 +146,25 @@ namespace CG {
 
 		Coordinate calc(double t, int initCoord) const;
 		void regeneratePath(double step);
-		const GObject::Coordinates getPath() const { return path; }
-		void setPath(GObject::Coordinates& newPath) { path = newPath; }
+	};
 
-	 protected:
-	 	GObject::Coordinates path; // Holds generated coordinates of curve with specified precision
+	class SplineCurve : public Curve {
+	 public:
+		SplineCurve(const Coordinates& coords);
+
+		Type type() const { return Type::SPLINE_CURVE; }
+		std::string typeName() const { return "Spline Curve"; }
+
+		ObjRef clone() const {
+			ObjRef obj = ObjRef(new SplineCurve(coordinates()));
+			obj->decoration = decoration;
+			return obj;
+		}
+
+		void regeneratePath(double step);
+
+		void coefficients(double, double, double, double, double&, double&, double&, double&);
+		void differences(double, double, double, double, double, double, double, double&, double&, double&);
 	};
 
 }

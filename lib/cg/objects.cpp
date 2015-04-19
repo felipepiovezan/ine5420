@@ -88,4 +88,82 @@ namespace CG {
 		path.push_back(coordinates()[curves * 3]); // Make sure the last point is included
 	}
 
+	SplineCurve::SplineCurve(const Coordinates& coords) {
+		if (coords.size() < 4) {
+			throw CGException("A spline curve must have at least 4 coordinates");
+		}
+
+		addCoordinate(coords);
+		regeneratePath(0.1);
+	}
+
+	void SplineCurve::regeneratePath(double step) {
+		path.clear();
+		double step2 = step  * step;
+		double step3 = step2 * step;
+
+		auto coordinates = this->coordinates();
+		int nCurves = coordinates.size() - 3; // number of curves defined on the spline
+
+		for(int curve = 0; curve < nCurves; curve++) {
+			auto c1 = coordinates[curve];
+			auto c2 = coordinates[curve + 1];
+			auto c3 = coordinates[curve + 2];
+			auto c4 = coordinates[curve + 3];
+
+			double Ax, Bx, Cx, Dx, deltaX, delta2X, delta3X;
+			coefficients(c1.x, c2.x, c3.x, c4.x, Ax, Bx, Cx, Dx);
+			differences(Ax, Bx, Cx, Dx, step, step2, step3, deltaX, delta2X, delta3X);
+
+			double Ay, By, Cy, Dy, deltaY, delta2Y, delta3Y;
+			coefficients(c1.y, c2.y, c3.y, c4.y, Ay, By, Cy, Dy);
+			differences(Ay, By, Cy, Dy, step, step2, step3, deltaY, delta2Y, delta3Y);
+
+			// double Az, Bz, Cz, Dz, deltaZ, delta2Z, delta3Z;
+			// coefficients(c1.z, c2.z, c3.z, c4.z, Az, Bz, Cz, Dz);
+			// differences(Az, Bz, Cz, Dz, step, step2, step3, deltaZ, delta2Z, delta3Z);
+
+			Coordinate oldCoord(Dx, Dy);
+			path.push_back(oldCoord);
+
+			for (double t = 0.0; t <= 1; t += step) {
+				Coordinate newCoord = oldCoord;
+				newCoord.x += deltaX;
+				newCoord.y += deltaY;
+				//newCoord.z += deltaZ;
+				deltaX += delta2X;
+				delta2X += delta3X;
+
+				deltaY += delta2Y;
+				delta2Y += delta3Y;
+
+				//deltaZ += delta2Z;
+				//delta2Z += delta3Z;
+
+				path.push_back(newCoord);
+				oldCoord = newCoord;
+			}
+		}
+	}
+
+	void SplineCurve::coefficients(double c1, double c2, double c3, double c4,
+																 double &A, double &B, double &C, double &D)
+	{
+		double d16 = 1.0 / 6.0;
+		double d46 = 4.0 / 6.0;
+
+		A = -d16 * c1 + 0.5 * c2 - 0.5 * c3 + d16 * c4;
+		B =  0.5 * c1 -       c2 + 0.5 * c3;
+		C = -0.5 * c1            + 0.5 * c3;
+		D =  d16 * c1 + d46 * c2 + d16 * c3;
+	}
+
+	void SplineCurve::differences(double A, double B, double C, double D,
+																double step, double step2, double step3,
+																double &delta, double &delta2, double &delta3)
+	{
+		delta  = A * step3 + B * step2 + C * step;
+		delta3 = 6 * A * step3;
+		delta2 = delta3 + 2 * B * step2;
+	}
 }

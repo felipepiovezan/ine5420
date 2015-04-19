@@ -16,7 +16,8 @@ namespace CG {
       void createPoint(std::string name, Decoration decoration, Coordinate c);
       void createLine(std::string name, Decoration decoration, Coordinate c1, Coordinate c2);
       void createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates);
-      void createCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates);
+      void createBezierCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates);
+      void createSplineCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates);
 
       void removeObject(const std::string &name);
 
