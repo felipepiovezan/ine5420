@@ -139,8 +139,6 @@ namespace CG {
 		ObjRef clone() const & {return ObjRef(new BezierCurve(*this));}
 		ObjRef clone() && {return ObjRef(new BezierCurve(std::move(*this)));}
 
-
-		Coordinate calc(double t, int initCoord) const;
 		void regeneratePath(double step);
 	};
 
@@ -153,7 +151,6 @@ namespace CG {
 
 		ObjRef clone() const & {return ObjRef(new SplineCurve(*this));}
 		ObjRef clone() && {return ObjRef(new SplineCurve(std::move(*this)));}
-
 
 		void regeneratePath(double step);
 

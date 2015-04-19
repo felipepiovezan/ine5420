@@ -53,35 +53,37 @@ namespace CG {
 	}
 
 	/**
-	 * Blending function to calculate the path of the bezier curve
-	 * t must be between 0 and 1
-	 * initCoord indicates the index of the coordinate to take as initial point of current cubic curve iteration
-	 */
-	Coordinate BezierCurve::calc(double t, int initCoord = 0) const {
-		double t2 = t * t;     // t square
-		double t3 = t2 * t; 	 // t cube
-		double ti = 1 - t;     // t inverse << not really an inverse :D
-		double ti2 = ti * ti;  // ti square
-		double ti3 = ti2 * ti; // ti cube
-		const auto &coords = coordinates();
-
-		double x = ti3 * coords[initCoord].x + 3 * ti2 * t * coords[initCoord + 1].x + 3 * ti * t2 * coords[initCoord + 2].x + t3 * coords[initCoord + 3].x;
-		double y = ti3 * coords[initCoord].y + 3 * ti2 * t * coords[initCoord + 1].y + 3 * ti * t2 * coords[initCoord + 2].y + t3 * coords[initCoord + 3].y;
-		return Coordinate(x, y);
-	}
-
-	/**
 	 * Recalculate the generated coordinates of the curve with specified step (0 to 1)
 	 */
 	void BezierCurve::regeneratePath(double step) {
 		// The number of cubic curves to generate (4 points make 1 curve, 7 points make 2 curves etc)
 		int curves = ((coordinates().size() - 4) / 3) + 1;
-
+		const auto &coords = coordinates();
 		path.clear();
+		
 		for (int i = 0; i < curves; i++) {
+			/* calculate the polynomial coefficients */
+			double   ax, bx, cx, dx;
+			double   ay, by, cy, dy;
+			cx = 3.0 * (coords[i*3 + 1].x - coords[i*3 + 0].x);
+			bx = 3.0 * (coords[i*3 + 2].x - coords[i*3 + 1].x) - cx;
+			ax = coords[i*3 + 3].x - coords[i*3 + 0].x - cx - bx;
+			dx = coords[i*3 + 0].x;
+
+			cy = 3.0 * (coords[i*3 + 1].y - coords[i*3 + 0].y);
+			by = 3.0 * (coords[i*3 + 2].y - coords[i*3 + 1].y) - cy;
+			ay = coords[i*3 + 3].y - coords[i*3 + 0].y - cy - by;
+			dy = coords[i*3 + 0].y;
+			/* calculate the curve point at parameter value t */
 			for (double t = 0; t < 1; t += step) {
-				Coordinate c = this->calc(t, i * 3);
-				path.push_back(c);
+				double   tSquared, tCubed;
+				double x,y;
+				tSquared = t * t;
+				tCubed = tSquared * t;
+
+				x = (ax * tCubed) + (bx * tSquared) + (cx * t) + dx;
+				y = (ay * tCubed) + (by * tSquared) + (cy * t) + dy;
+				path.emplace_back(x,y);
 			}
 		}
 
