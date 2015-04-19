@@ -55,15 +55,15 @@ namespace CG {
 	/**
 	 * Blending function to calculate the path of the bezier curve
 	 * t must be between 0 and 1
-	 * initCoord indicates the index of the coordinate to take as initial point of current cubic curve interaction
+	 * initCoord indicates the index of the coordinate to take as initial point of current cubic curve iteration
 	 */
 	Coordinate BezierCurve::calc(double t, int initCoord = 0) const {
 		double t2 = t * t;     // t square
 		double t3 = t2 * t; 	 // t cube
-		double ti = 1 - t;     // t inverse
+		double ti = 1 - t;     // t inverse << not really an inverse :D
 		double ti2 = ti * ti;  // ti square
 		double ti3 = ti2 * ti; // ti cube
-		auto coords = coordinates();
+		const auto &coords = coordinates();
 
 		double x = ti3 * coords[initCoord].x + 3 * ti2 * t * coords[initCoord + 1].x + 3 * ti * t2 * coords[initCoord + 2].x + t3 * coords[initCoord + 3].x;
 		double y = ti3 * coords[initCoord].y + 3 * ti2 * t * coords[initCoord + 1].y + 3 * ti * t2 * coords[initCoord + 2].y + t3 * coords[initCoord + 3].y;
@@ -79,10 +79,10 @@ namespace CG {
 
 		path.clear();
 		for (int i = 0; i < curves; i++) {
-	  	for (double t = 0; t < 1; t += step) {
-	    	Coordinate c = this->calc(t, i * 3);
-	    	path.push_back(c);
-	  	}
+			for (double t = 0; t < 1; t += step) {
+				Coordinate c = this->calc(t, i * 3);
+				path.push_back(c);
+			}
 		}
 
 		path.push_back(coordinates()[curves * 3]); // Make sure the last point is included

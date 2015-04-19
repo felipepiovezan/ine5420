@@ -71,6 +71,7 @@ void GtkUIViewport::drawPolygon(const CG::GPolygon& polygon) {
 }
 
 void GtkUIViewport::drawCurve(const CG::Curve& curve) {
+	/*TODO: let's transform each coordinate individually instead of allocating a new vector. Let's do this in each DrawSomething() method*/
   auto coords = transformCoordinates(curve.getPath());
 
   if (coords.size() == 0) {
