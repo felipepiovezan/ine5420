@@ -39,11 +39,15 @@ namespace CG {
 			void transform(const Transformation& t);
 			void clear() { _coordinates.clear(); }
 
-			virtual ObjRef clone() const = 0;
+			virtual ObjRef clone() const & = 0;
+			virtual ObjRef clone() && = 0;
+
 			virtual Type type() const { return Type::OBJECT; }
 			virtual std::string typeName() const { return "Object"; }
 
 			Decoration decoration;
+
+			virtual ~GObject(){}
 
 		protected:
 			Coordinates _coordinates;
@@ -69,11 +73,9 @@ namespace CG {
 			Type type() const { return Type::POINT; }
 			std::string typeName() const { return "Point"; }
 
-			ObjRef clone() const {
-				ObjRef obj = ObjRef(new GPoint(coordinates()[0]));
-				obj->decoration = decoration;
-				return obj;
-			}
+			ObjRef clone() const & {return ObjRef(new GPoint(*this));}
+			ObjRef clone() && {return ObjRef(new GPoint(std::move(*this)));}
+
 	};
 
 	class GLine : public GObject {
@@ -94,11 +96,9 @@ namespace CG {
 			Type type() const { return Type::LINE; }
 			std::string typeName() const { return "Line"; }
 
-			ObjRef clone() const {
-				ObjRef obj = ObjRef(new GLine(coordinates()[0], coordinates()[1]));
-				obj->decoration = decoration;
-				return obj;
-			}
+			ObjRef clone() const & {return ObjRef(new GLine(*this));}
+			ObjRef clone() && {return ObjRef(new GLine(std::move(*this)));}
+
 	};
 
 	class GPolygon : public GObject {
@@ -110,11 +110,9 @@ namespace CG {
 			Type type() const { return Type::POLYGON; }
 			std::string typeName() const { return "Polygon"; }
 
-			ObjRef clone() const {
-				ObjRef obj = ObjRef(new GPolygon(coordinates()));
-				obj->decoration = decoration;
-				return obj;
-			}
+			ObjRef clone() const & {return ObjRef(new GPolygon(*this));}
+			ObjRef clone() && {return ObjRef(new GPolygon(std::move(*this)));}
+
 	};
 
 	class Curve : public GObject {
@@ -138,11 +136,9 @@ namespace CG {
 		Type type() const { return Type::BEZIER_CURVE; }
 		std::string typeName() const { return "Bezier Curve"; }
 
-		ObjRef clone() const {
-			ObjRef obj = ObjRef(new BezierCurve(coordinates()));
-			obj->decoration = decoration;
-			return obj;
-		}
+		ObjRef clone() const & {return ObjRef(new BezierCurve(*this));}
+		ObjRef clone() && {return ObjRef(new BezierCurve(std::move(*this)));}
+
 
 		Coordinate calc(double t, int initCoord) const;
 		void regeneratePath(double step);
@@ -155,11 +151,9 @@ namespace CG {
 		Type type() const { return Type::SPLINE_CURVE; }
 		std::string typeName() const { return "Spline Curve"; }
 
-		ObjRef clone() const {
-			ObjRef obj = ObjRef(new SplineCurve(coordinates()));
-			obj->decoration = decoration;
-			return obj;
-		}
+		ObjRef clone() const & {return ObjRef(new SplineCurve(*this));}
+		ObjRef clone() && {return ObjRef(new SplineCurve(std::move(*this)));}
+
 
 		void regeneratePath(double step);
 
