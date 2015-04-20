@@ -117,7 +117,7 @@ namespace CG {
 
 	class Curve : public GObject {
 	 public:
-		const GObject::Coordinates getPath() const { return path; }
+		const GObject::Coordinates& getPath() const { return path; }
 		void setPath(GObject::Coordinates& newPath) { path = newPath; }
 
 		/**

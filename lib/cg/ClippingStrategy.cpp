@@ -189,27 +189,32 @@ bool SutherlandHodgmanPolygonClipping::clipPolygon(GPolygon& pol, const Clipping
 }
 
 bool CurveClipping::clipCurve(Curve& curve, const ClippingRect& rect) {
-  auto originalPath = curve.getPath();
+  const auto &originalPath = curve.getPath();
   std::vector<Coordinate> newPath;
   newPath.reserve(originalPath.size());
   LBLineClipping lineClipper;
+  SutherlandHodgmanPolygonClipping polygonClipper;
 
   Coordinate prevCoord;  // the previous coordinate
   bool prevInside = true; // whether the previous coordinate was inside the clippingRect or not
+  std::vector<Coordinate> outsideCoords; // Used to detect curves that go outside a border and come from another border
 
   for(auto &c : originalPath) {
     if (c.x >= rect.minX && c.x <= rect.maxX &&
         c.y >= rect.minY && c.y <= rect.maxY)  // Coordinate inside
     {
       if (!prevInside) { // Previous coordinate outside, current inside
-        GLine lineToClip(prevCoord, c);
-        lineClipper.clipLine(lineToClip, rect);
-        auto clippedCoords = lineToClip.coordinates();
-        newPath.push_back(clippedCoords[0]);
-        newPath.push_back(clippedCoords[1]);
+        outsideCoords.push_back(c);
+        GPolygon polygonToClip(outsideCoords);
+        polygonClipper.clipPolygon(polygonToClip, rect);
+        const auto &clippedCoords = polygonToClip.coordinates();
+
+        newPath.insert(newPath.end(), clippedCoords.begin(), clippedCoords.end());
       } else {
         newPath.push_back(c);
       }
+
+      outsideCoords.clear();
       prevInside = true;
     }
     else // Coordinate outside
@@ -220,6 +225,8 @@ bool CurveClipping::clipCurve(Curve& curve, const ClippingRect& rect) {
         auto clippedCoords = lineToClip.coordinates();
         newPath.push_back(clippedCoords[1]); // add just the new coordinate, last one already inserted
       }
+
+      outsideCoords.push_back(c);
       prevInside = false;
     }
     prevCoord = c;
