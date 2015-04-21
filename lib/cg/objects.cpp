@@ -24,16 +24,18 @@ namespace CG {
 	}
 
 	Coordinate GObject::center() const {
-		Coordinate r(0, 0);
+		Coordinate r(0, 0, 0);
 		int n = numPoints();
 
 		for(auto &p : _coordinates){
 			r.x += p.x;
 			r.y += p.y;
+			r.z += p.z;
 		}
 
 		r.x /= n;
 		r.y /= n;
+		r.z /= n;
 		return r;
 	}
 

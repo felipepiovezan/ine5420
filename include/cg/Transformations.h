@@ -11,7 +11,7 @@ namespace CG{
 
 	class Transformation{
 		public:
-			typedef std::array<std::array<double, 3>, 3> TransformationMatrix;
+			typedef std::array<std::array<double, 4>, 4> TransformationMatrix;
 		private:
 			TransformationMatrix _m;
 
@@ -24,13 +24,13 @@ namespace CG{
 			const TransformationMatrix& m() const {return _m;}
 
 			//new transformations
-			static Transformation newTranslation(double dx, double dy);
-			static Transformation newScaling(double sx, double sy);
-			static Transformation newScalingAroundObjCenter(double sx, double sy, const GObject& obj);
-			static Transformation newRotationAroundOrigin(double theta);
-			static Transformation newRotationAroundPoint(double theta, const Coordinate& p);
-			static Transformation newRotationAroundObjCenter(double theta, const GObject& obj);
-
+			static Transformation newTranslation(double dx, double dy, double dz);
+			static Transformation newScaling(double sx, double sy, double xz);
+			static Transformation newScalingAroundObjCenter(double sx, double sy, double sz, const GObject& obj);
+			static Transformation newRx(double theta);
+			static Transformation newRy(double theta);
+			static Transformation newRz(double theta);
+			static Transformation newRotation(double thetaY, double thetaZ, const Coordinate& p, double theta);
 
 			//utils TODO: figure out where to put this
 			static constexpr double pi() { return std::atan(1)*4; }

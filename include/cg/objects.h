@@ -17,9 +17,9 @@ namespace CG {
 
 	class Coordinate {
 		public:
-			Coordinate() : x(0), y(0), w(1) {}
-			Coordinate(double dx, double dy) : x(dx), y(dy), w(1) {}
-			double x, y, w;
+			Coordinate() : x(0), y(0), z(0), w(1) {}
+			Coordinate(double dx, double dy, double dz) : x(dx), y(dy), z(dz), w(1) {}
+			double x, y, z, w;
 
 			Coordinate& operator*=(const Transformation& t);
 			friend Coordinate operator+(const Coordinate &c1, const Coordinate &c2);
