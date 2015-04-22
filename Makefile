@@ -1,6 +1,6 @@
 CC=g++
 INCLUDES=include/
-CFLAGS=-Wall -std=c++11 -O3
+CFLAGS=-Wall -std=c++11 -g
 CPP_FILES=$(wildcard lib/cg/*.cpp) $(wildcard lib/ui/*.cpp)  $(wildcard lib/utils/*.cpp)
 OBJ_FILES=$(addprefix build/,$(subst lib/,,$(CPP_FILES:.cpp=.o)))
 

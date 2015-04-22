@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <memory>
+#include <utility>
 #include "cg/Transformations.h"
 #include "cg/decorations.h"
 #include "cg/exceptions.h"
@@ -18,7 +19,7 @@ namespace CG {
 	class Coordinate {
 		public:
 			Coordinate() : x(0), y(0), z(0), w(1) {}
-			Coordinate(double dx, double dy, double dz) : x(dx), y(dy), z(dz), w(1) {}
+			Coordinate(double dx, double dy, double dz = 0) : x(dx), y(dy), z(dz), w(1) {}
 			double x, y, z, w;
 
 			Coordinate& operator*=(const Transformation& t);
@@ -51,6 +52,9 @@ namespace CG {
 
 		protected:
 			Coordinates _coordinates;
+
+			GObject(){}
+			GObject(const Coordinates& coords) : _coordinates(coords){}
 
 			void addCoordinate(double x, double y, double z) {_coordinates.emplace_back(x,y,z);}
 			void addCoordinate(const Coordinate& p) {_coordinates.push_back(p);}
@@ -153,6 +157,18 @@ namespace CG {
 
 		void coefficients(double, double, double, double, double&, double&, double&, double&);
 		void differences(double, double, double, double, double, double, double, double&, double&, double&);
+	};
+
+	class General3dObject : public GObject{
+	public:
+		typedef std::vector<std::pair<int, int>> EdgeList;
+
+		General3dObject(const Coordinates& coords, const EdgeList edgeList) : _edgeList(edgeList){}
+
+		const EdgeList& edgeList() const {return _edgeList;}
+		EdgeList& edgeList() {return _edgeList;}
+	private:
+		EdgeList _edgeList;
 	};
 
 }

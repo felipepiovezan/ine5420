@@ -20,8 +20,8 @@ bool Window::zoom(double step) {
     return true;
 }
 
-void Window::move(double dx, double dy) {
-    Coordinate c(dx, dy);
+void Window::move(double dx, double dy, double dz) {
+    Coordinate c(dx, dy, dz);
     c *= Transformation::newRotationAroundOrigin(-_theta);
     _center.x -= c.x;
     _center.y -= c.y;
@@ -29,9 +29,9 @@ void Window::move(double dx, double dy) {
 
 void Window::updateMatrix() {
     _wo2wiMatrix = Transformation();
-    _wo2wiMatrix *= Transformation::newTranslation(-_center.x, -_center.y);
+    _wo2wiMatrix *= Transformation::newTranslation(-_center.x, -_center.y, 0);
     _wo2wiMatrix *= Transformation::newRotationAroundOrigin(_theta);
-    _wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height);
+    _wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height, 1.0);
 }
 
 }

@@ -22,8 +22,8 @@ namespace CG {
       void removeObject(const std::string &name);
 
       // Object manipulation
-      void translateObject(const std::string &name, double dx, double dy);
-      void scaleObject(const std::string &name, double sx, double sy);
+      void translateObject(const std::string &name, double dx, double dy, double dz);
+      void scaleObject(const std::string &name, double sx, double sy, double sz);
       void rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter);
       void rotateObject(const std::string &name, double theta);
 

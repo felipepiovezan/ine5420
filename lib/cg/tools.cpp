@@ -10,7 +10,7 @@ void HandTool::init(double x, double y) {
 void HandTool::update(double x, double y) {
   double x_window = viewport->screenToWindowTransformX(x);
   double y_window = viewport->screenToWindowTransformY(y);
-  viewport->changeWindowPosition(x_window - x_init, y_init - y_window);
+  viewport->changeWindowPosition(x_window - x_init, y_init - y_window, 0);
   x_init = x_window;
   y_init = y_window;
 }

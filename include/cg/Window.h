@@ -36,7 +36,7 @@ public:
 
     //methods related to window transformations
     void updateMatrix();
-    void move(double dx, double dy);
+    void move(double dx, double dy, double dz);
     bool zoom(double step);
     void rotate(double theta) {
         _theta += theta;

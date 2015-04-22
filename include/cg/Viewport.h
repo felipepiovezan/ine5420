@@ -27,14 +27,14 @@ namespace CG {
 
       // Window manipulation
       void changeWindowZoom(double step);
-      void changeWindowPosition(double sx, double sy);
+      void changeWindowPosition(double sx, double sy, double sz);
       void rotateWindow(double theta);
       void zoomIn()  { changeWindowZoom(-1); }
       void zoomOut() { changeWindowZoom(1); }
-      void left()    { changeWindowPosition(1,0);}
-      void right()   { changeWindowPosition(-1,0);}
-      void up()      { changeWindowPosition(0,-1);}
-      void down()    { changeWindowPosition(0,1);}
+      void left()    { changeWindowPosition(1,0,0);}
+      void right()   { changeWindowPosition(-1,0,0);}
+      void up()      { changeWindowPosition(0,-1,0);}
+      void down()    { changeWindowPosition(0,1,0);}
       void rotateLeft()  { rotateWindow(-15);}
       void rotateRight() { rotateWindow(+15);}
 

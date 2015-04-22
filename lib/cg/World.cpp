@@ -55,19 +55,19 @@ namespace CG {
     notifyObjectRemoval(name);
   }
 
-  void World::translateObject(const std::string &name, double dx, double dy) {
+  void World::translateObject(const std::string &name, double dx, double dy, double dz) {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
-    worldObject->transform(Transformation::newTranslation(dx, dy));
+    worldObject->transform(Transformation::newTranslation(dx, dy, dz));
     notifyObjectChange(name, worldObject);
   }
 
-  void World::scaleObject(const std::string &name, double sx, double sy) {
+  void World::scaleObject(const std::string &name, double sx, double sy, double sz) {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
-    worldObject->transform(Transformation::newScalingAroundObjCenter(sx, sy, *worldObject));
+    worldObject->transform(Transformation::newScalingAroundObjCenter(sx, sy, sz, *worldObject));
     notifyObjectChange(name, worldObject);
   }
 

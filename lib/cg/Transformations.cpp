@@ -2,6 +2,15 @@
 
 namespace CG {
 
+	std::ostream& operator<<(std::ostream& os, const Transformation& rhs){
+		  for(int i=0; i<4; i++){
+			  for(int j=0; j<4; j++)
+				  os << os.width(8) << rhs.m()[i][j] << " ";
+			  os << std::endl;
+		  }
+		  return os;
+	 }
+
 	Transformation::Transformation(){
 		for(int i=0; i<4; i++)
 			for(int j=0; j<4; j++)
@@ -59,7 +68,7 @@ namespace CG {
 					{0, 0         , 0          , 1}}});
 	}
 
-	Transformation Transformation::newRx(double theta){
+	Transformation Transformation::newRy(double theta){
 			return Transformation
 				({{ {cos(theta) , 0, sin(theta), 0},
 					{0          , 1, 0         , 0},
@@ -80,5 +89,18 @@ namespace CG {
 				newTranslation(p.x, p.y, p.z);
 
 	}
+
+	Transformation Transformation::newRotationAroundOrigin(double theta){
+		return Transformation::newRz(theta);
+	}
+
+	Transformation Transformation::newRotationAroundPoint(double theta, const Coordinate &p){
+		return Transformation::newRotation(pi()/2, 0, p, theta);
+	}
+
+	Transformation Transformation::newRotationAroundObjCenter(double theta, const GObject& obj){
+		return newRotationAroundPoint(theta, obj.center());
+	}
+
 
 }

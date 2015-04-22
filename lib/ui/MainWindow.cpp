@@ -52,60 +52,73 @@ void MainWindow::init_examples() {
   decoration.setLineColor(CG::Color(0, 1, 0));
   _world->createPolygon("rectangle", decoration, c);
 
-  // Leaf
-  init_leaf();
-
-  // Bezier example
+  // Bezier 3 exmaple
   c.clear();
-  c.push_back(CG::Coordinate(0, 0));
-  c.push_back(CG::Coordinate(0, 6));
-  c.push_back(CG::Coordinate(7, 8));
-  c.push_back(CG::Coordinate(10, 8));
+  c.emplace_back(0, 0);
+  c.emplace_back(1, 1);
+  c.emplace_back(2, 2);
+  c.emplace_back(2, -1);
+  c.emplace_back(4, -1);
+  c.emplace_back(4, -4);
+  c.emplace_back(2, -5);
   decoration.setLineColor(CG::Color(.3, .5, .8));
   decoration.setLineWidth(3.0);
-  _world->createBezierCurve("curve1", decoration, c);
+  _world->createBezierCurve("curve3", decoration, c);
 
-  // Bezier 2 example
-  c.clear();
-  c.push_back(CG::Coordinate(-1, -1));
-  c.push_back(CG::Coordinate(-3, -6));
-  c.push_back(CG::Coordinate(-7, -8));
-  c.push_back(CG::Coordinate(-7, -8));
-  c.push_back(CG::Coordinate(-10, -7));
-  c.push_back(CG::Coordinate(-3, -5));
-  c.push_back(CG::Coordinate(-10, -7));
-  decoration.setLineColor(CG::Color(.5, .8, .3));
-  decoration.setLineWidth(3.0);
-  _world->createBezierCurve("curve2", decoration, c);
-
-  // Spline example
-  c.clear();
-  c.push_back(CG::Coordinate(5, 0));
-  c.push_back(CG::Coordinate(0, -5));
-  c.push_back(CG::Coordinate(-5, 0));
-  c.push_back(CG::Coordinate(0, 5));
-  c.push_back(CG::Coordinate(5, 0));
-  c.push_back(CG::Coordinate(0, -5));
-  c.push_back(CG::Coordinate(-5, 0));
-  decoration.setLineColor(CG::Color(.8, .1, .3));
-  decoration.setLineWidth(3.0);
-  _world->createSplineCurve("curve3", decoration, c);
-
-  // Spline 2 example
-  c.clear();
-  c.push_back(CG::Coordinate(-6, -4));
-  c.push_back(CG::Coordinate(-4, -4));
-  c.push_back(CG::Coordinate(-2, -4));
-  c.push_back(CG::Coordinate(0, 0));
-  c.push_back(CG::Coordinate(2, -4));
-  c.push_back(CG::Coordinate(4, -4));
-  c.push_back(CG::Coordinate(6, -4));
-  decoration.setLineColor(CG::Color(.8, .1, .99));
-  decoration.setLineWidth(3.0);
-  _world->createSplineCurve("curve4", decoration, c);
-
-  // Man
-  _world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
+//  // Leaf
+//  init_leaf();
+//
+//  // Bezier example
+//  c.clear();
+//  c.push_back(CG::Coordinate(0, 0));
+//  c.push_back(CG::Coordinate(0, 6));
+//  c.push_back(CG::Coordinate(7, 8));
+//  c.push_back(CG::Coordinate(10, 8));
+//  decoration.setLineColor(CG::Color(.3, .5, .8));
+//  decoration.setLineWidth(3.0);
+//  _world->createBezierCurve("curve1", decoration, c);
+//
+//  // Bezier 2 example
+//  c.clear();
+//  c.push_back(CG::Coordinate(-1, -1));
+//  c.push_back(CG::Coordinate(-3, -6));
+//  c.push_back(CG::Coordinate(-7, -8));
+//  c.push_back(CG::Coordinate(-7, -8));
+//  c.push_back(CG::Coordinate(-10, -7));
+//  c.push_back(CG::Coordinate(-3, -5));
+//  c.push_back(CG::Coordinate(-10, -7));
+//  decoration.setLineColor(CG::Color(.5, .8, .3));
+//  decoration.setLineWidth(3.0);
+//  _world->createBezierCurve("curve2", decoration, c);
+//
+//  // Spline example
+//  c.clear();
+//  c.push_back(CG::Coordinate(5, 0));
+//  c.push_back(CG::Coordinate(0, -5));
+//  c.push_back(CG::Coordinate(-5, 0));
+//  c.push_back(CG::Coordinate(0, 5));
+//  c.push_back(CG::Coordinate(5, 0));
+//  c.push_back(CG::Coordinate(0, -5));
+//  c.push_back(CG::Coordinate(-5, 0));
+//  decoration.setLineColor(CG::Color(.8, .1, .3));
+//  decoration.setLineWidth(3.0);
+//  _world->createSplineCurve("curve3", decoration, c);
+//
+//  // Spline 2 example
+//  c.clear();
+//  c.push_back(CG::Coordinate(-6, -4));
+//  c.push_back(CG::Coordinate(-4, -4));
+//  c.push_back(CG::Coordinate(-2, -4));
+//  c.push_back(CG::Coordinate(0, 0));
+//  c.push_back(CG::Coordinate(2, -4));
+//  c.push_back(CG::Coordinate(4, -4));
+//  c.push_back(CG::Coordinate(6, -4));
+//  decoration.setLineColor(CG::Color(.8, .1, .99));
+//  decoration.setLineWidth(3.0);
+//  _world->createSplineCurve("curve4", decoration, c);
+//
+//  // Man
+//  _world->addObject("zBasicMan", ObjReader("./ObjTestFiles/basicman.obj").objects());
 }
 
 void MainWindow::init_handlers() {
@@ -229,8 +242,8 @@ void MainWindow::init_leaf(){
   decoration.setLineColor(CG::Color(0, 1, 0));
   decoration.setFillColor(CG::Color(0, 1, 0));
   _world->createPolygon("leaf", decoration, c);
-	_world->scaleObject("leaf", 0.1,0.1);
-	_world->translateObject("leaf", 4.3, 6);
+	_world->scaleObject("leaf", 0.1,0.1, 1);
+	_world->translateObject("leaf", 4.3, 6, 0);
 	_world->rotateObject("leaf", 30);
 }
 

@@ -40,9 +40,11 @@ namespace CG {
 		}
 	}
 
-	void Viewport::changeWindowPosition(double sx, double sy){
-		_window.move(sx, sy);
+	void Viewport::changeWindowPosition(double dx, double dy, double dz){
+		_window.move(dx, dy, dz);
+		std::cout << _window.wo2wiMatrix() <<std::endl;
 		_window.updateMatrix();
+		std::cout << _window.wo2wiMatrix() <<std::endl;
 		transformAndClipAll(_window.wo2wiMatrix());
 		redraw();
 	}
