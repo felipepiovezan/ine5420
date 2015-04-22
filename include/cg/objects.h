@@ -52,7 +52,7 @@ namespace CG {
 		protected:
 			Coordinates _coordinates;
 
-			void addCoordinate(int x, int y) {_coordinates.emplace_back(x,y);}
+			void addCoordinate(double x, double y, double z) {_coordinates.emplace_back(x,y,z);}
 			void addCoordinate(const Coordinate& p) {_coordinates.push_back(p);}
 			void addCoordinate(Coordinate&& p) {_coordinates.push_back(p);}
 			void addCoordinate(const Coordinates& coords){_coordinates.insert(_coordinates.end(), coords.begin(), coords.end());}
@@ -60,8 +60,8 @@ namespace CG {
 
 	class GPoint : public GObject {
 		public:
-			GPoint(int x, int y) {
-				addCoordinate(x,y);
+			GPoint(double x, double y, double z) {
+				addCoordinate(x,y,z);
 			}
 			GPoint(const Coordinate& p) {
 				addCoordinate(p);
@@ -75,14 +75,13 @@ namespace CG {
 
 			ObjRef clone() const & {return ObjRef(new GPoint(*this));}
 			ObjRef clone() && {return ObjRef(new GPoint(std::move(*this)));}
-
 	};
 
 	class GLine : public GObject {
 		public:
-			GLine(int x1, int y1, int x2, int y2) {
-				addCoordinate(x1,y1);
-				addCoordinate(x2,y2);
+			GLine(double x1, double y1, double x2, double y2, double z1, double z2) {
+				addCoordinate(x1,y1,z1);
+				addCoordinate(x2,y2,z2);
 			}
 			GLine(const Coordinate& p1, const Coordinate& p2) {
 				addCoordinate(p1);
@@ -98,7 +97,6 @@ namespace CG {
 
 			ObjRef clone() const & {return ObjRef(new GLine(*this));}
 			ObjRef clone() && {return ObjRef(new GLine(std::move(*this)));}
-
 	};
 
 	class GPolygon : public GObject {
@@ -112,7 +110,6 @@ namespace CG {
 
 			ObjRef clone() const & {return ObjRef(new GPolygon(*this));}
 			ObjRef clone() && {return ObjRef(new GPolygon(std::move(*this)));}
-
 	};
 
 	class Curve : public GObject {
