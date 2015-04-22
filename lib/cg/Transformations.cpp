@@ -2,15 +2,6 @@
 
 namespace CG {
 
-	std::ostream& operator<<(std::ostream& os, const Transformation& rhs){
-		  for(int i=0; i<4; i++){
-			  for(int j=0; j<4; j++)
-				  os << os.width(8) << rhs.m()[i][j] << " ";
-			  os << std::endl;
-		  }
-		  return os;
-	 }
-
 	Transformation::Transformation(){
 		for(int i=0; i<4; i++)
 			for(int j=0; j<4; j++)

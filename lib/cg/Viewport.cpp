@@ -40,6 +40,15 @@ namespace CG {
 		}
 	}
 
+
+	std::ostream& operator<<(std::ostream& os, const Transformation& rhs){
+		  for(int i=0; i<4; i++){
+			  for(int j=0; j<4; j++)
+				  os << os.width(8) << rhs.m()[i][j] << " ";
+			  os << std::endl;
+		  }
+		  return os;
+	 }
 	void Viewport::changeWindowPosition(double dx, double dy, double dz){
 		_window.move(dx, dy, dz);
 		std::cout << _window.wo2wiMatrix() <<std::endl;
