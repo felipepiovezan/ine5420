@@ -2,6 +2,7 @@
 #define TRANSFORMATIONS__
 
 #include <array>
+#include <iostream>
 #include <ctgmath>
 #include "cg/objects.h"
 
@@ -50,6 +51,8 @@ namespace CG{
 			Transformation& operator*=(const Transformation& rhs);
 
 	};
+
+	std::ostream& operator<<(std::ostream& os, const Transformation& rhs);
 }
 
 #endif
