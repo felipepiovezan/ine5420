@@ -39,9 +39,8 @@ namespace CG {
       void rotateRight() { rotateWindow(0,0,+15);}
       void bendForwards()  { rotateWindow(-15,0,0);}
       void bendBackwards() { rotateWindow(+15,0,0);}
-      void turnLeft()	{ rotateWindow(0,+15,0);}
-      void turnRight()	{ rotateWindow(0,-15,0);}
-
+      void bendLeft()	{ rotateWindow(0,-15,0);}
+      void bendRight()	{ rotateWindow(0,+15,0);}
 
       // World Listener methods
       void onObjectCreation(const std::string& name, ObjRef object);

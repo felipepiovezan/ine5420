@@ -1,9 +1,18 @@
 #ifndef WIDGETS_H_
 #define WIDGETS_H_
 
-#include <gtkmm.h>
 #include <vector>
+#include <string>
+#include <gtkmm.h>
 #include "cg/objects.h"
+
+/**
+ * The default application grid
+ */
+class Grid : public Gtk::Grid {
+ public:
+  Grid();
+};
 
 /**
  * A panel for managing a collection of coordinates

@@ -2,6 +2,14 @@
 
 #include "ui/dialogs.h"
 
+Grid::Grid() {
+  set_border_width(5);
+  set_row_spacing(5);
+  set_column_spacing(5);
+  set_row_homogeneous(true);
+  set_column_homogeneous(true);
+}
+
 CoordinatesPanel::CoordinatesPanel() {
   addCoordBtn.set_label("Add coordinate");
   addCoordBtn.signal_clicked().connect(

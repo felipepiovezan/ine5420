@@ -137,11 +137,10 @@ void MainWindow::init_handlers() {
   _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::rotateLeft));
   _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::rotateRight));
 
-  //TODO: add some buttonz dat do dis plz and see some magic stuff happening
-//  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::bendForwards));
-//  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::bendBackwards));
-//  _toolbox._rotateLeftBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::turnLeft));
-//  _toolbox._rotateRightBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::turnRight));
+  _toolbox._bendForwardBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::bendForwards));
+  _toolbox._bendBackwardBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::bendBackwards));
+  _toolbox._bendLeftBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::bendLeft));
+  _toolbox._bendRightBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::bendRight));
 }
 
 void MainWindow::init_action_menu() {

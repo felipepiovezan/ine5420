@@ -2,9 +2,8 @@
 
 #define TOOLBOX_SPACING 5
 
-Toolbox::Toolbox(std::shared_ptr<CG::World> world) :
-  Gtk::Box(Gtk::ORIENTATION_VERTICAL, TOOLBOX_SPACING),
-  _objectsTreeView(world) {
+Toolbox::Toolbox(std::shared_ptr<CG::World> world) : _objectsTreeView(world) {
+  set_spacing(TOOLBOX_SPACING);
   init_create_widgets();
   init_control_widgets();
   init_object_list_widgets();
@@ -19,12 +18,6 @@ void Toolbox::init_create_widgets() {
 
   pack_start(_createFrame, Gtk::PACK_SHRINK);
   _createFrame.add(_createGrid);
-
-  _createGrid.set_border_width(TOOLBOX_SPACING);
-  _createGrid.set_row_spacing(TOOLBOX_SPACING);
-  _createGrid.set_column_spacing(TOOLBOX_SPACING);
-  _createGrid.set_row_homogeneous(true);
-  _createGrid.set_column_homogeneous(true);
 
   _createGrid.attach(_newPoint, 0, 0, 1, 1);
   _createGrid.attach(_newLine, 1, 0, 1, 1);
@@ -49,36 +42,38 @@ void Toolbox::init_control_widgets() {
   set_icon(_zoomOutBtn, _zoomOutImg, Gtk::Stock::ZOOM_OUT);
   set_icon(_rotateLeftBtn, _rotateLeftImg, Gtk::Stock::UNDO);
   set_icon(_rotateRightBtn, _rotateRightImg, Gtk::Stock::REDO);
+  set_icon(_bendLeftBtn, _bendLeftImg, Gtk::Stock::GOTO_FIRST);
+  set_icon(_bendRightBtn, _bendRightImg, Gtk::Stock::GOTO_LAST);
+  set_icon(_bendForwardBtn, _bendForwardImg, Gtk::Stock::GOTO_TOP);
+  set_icon(_bendBackwardBtn, _bendBackwardImg, Gtk::Stock::GOTO_BOTTOM);
 
   pack_start(_controlFrame, Gtk::PACK_SHRINK);
-  _controlFrame.add(_controlBox);
-  _controlBox.set_orientation(Gtk::ORIENTATION_VERTICAL);
-  _controlBox.set_spacing(TOOLBOX_SPACING);
-  _controlBox.set_border_width(TOOLBOX_SPACING);
+  _controlFrame.add(_controlsGrid);
 
-  _cBox1.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-  _cBox2.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-  _cBox3.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-  _controlBox.pack_start(_cBox1, Gtk::PACK_SHRINK);
-  _controlBox.pack_start(_cBox2, Gtk::PACK_SHRINK);
-  _controlBox.pack_start(_cBox3, Gtk::PACK_SHRINK);
+  int line = 0;
+  _controlsGrid.attach(_zoomInBtn, 0, line, 2, 1);
+  _controlsGrid.attach(_upBtn, 2, line, 2, 1);
+  _controlsGrid.attach(_zoomOutBtn, 4, line, 2, 1);
 
-  _cBox1.pack_start(_zoomInBtn, Gtk::PACK_EXPAND_WIDGET);
-  _cBox1.pack_start(_upBtn, Gtk::PACK_EXPAND_WIDGET);
-  _cBox1.pack_start(_zoomOutBtn, Gtk::PACK_EXPAND_WIDGET);
+  line++;
+  _controlsGrid.attach(_leftBtn, 0, line, 3, 1);
+  _controlsGrid.attach(_rightBtn, 3, line, 3, 1);
 
-  _cBox2.pack_start(_leftBtn, Gtk::PACK_EXPAND_WIDGET);
-  _cBox2.pack_start(_rightBtn, Gtk::PACK_EXPAND_WIDGET);
+  line++;
+  _controlsGrid.attach(_rotateLeftBtn, 0, line, 2, 1);
+  _controlsGrid.attach(_downBtn, 2, line, 2, 1);
+  _controlsGrid.attach(_rotateRightBtn, 4, line, 2, 1);
 
-  _cBox3.pack_start(_rotateLeftBtn, Gtk::PACK_EXPAND_WIDGET);
-  _cBox3.pack_start(_downBtn, Gtk::PACK_EXPAND_WIDGET);
-  _cBox3.pack_start(_rotateRightBtn, Gtk::PACK_EXPAND_WIDGET);
+  line++;
+  _controlsGrid.attach(_bendForwardBtn, 0, line, 6, 1);
 
-  _controlFrame.show();
-  _controlBox.show();
-  _cBox1.show();
-  _cBox2.show();
-  _cBox3.show();
+  line++;
+  _controlsGrid.attach(_bendLeftBtn, 0, line, 3, 1);
+  _controlsGrid.attach(_bendRightBtn, 3, line, 3, 1);
+
+  line++;
+  _controlsGrid.attach(_bendBackwardBtn, 0, line, 6, 1);
+
   _zoomInBtn.show();
   _zoomOutBtn.show();
   _leftBtn.show();
@@ -87,6 +82,12 @@ void Toolbox::init_control_widgets() {
   _upBtn.show();
   _rotateLeftBtn.show();
   _rotateRightBtn.show();
+  _bendLeftBtn.show();
+  _bendRightBtn.show();
+  _bendForwardBtn.show();
+  _bendBackwardBtn.show();
+  _controlsGrid.show();
+  _controlFrame.show();
 }
 
 void Toolbox::init_object_list_widgets() {
