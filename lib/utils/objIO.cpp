@@ -35,7 +35,7 @@ void ObjReader::processVertex(std::stringstream& line){
 	if(!line){ std::cerr << "Invalid vertex format @line = " << line.str() << std::endl; return;}
 	if(!(line >> w))
 		w = 1.0;
-	_vertices.push_back(CG::Coordinate(x,y));
+	_vertices.push_back(CG::Coordinate(x,y,z));
 }
 
 void ObjReader::processTexture(std::stringstream& line){
