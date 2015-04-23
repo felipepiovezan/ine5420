@@ -28,8 +28,8 @@ class ObjectNameBox : public Gtk::Box {
 class CoordinateBox : public Gtk::Box {
   public:
     CoordinateBox();
-    Gtk::Label labelX, labelY;
-    Gtk::Entry entryX, entryY;
+    Gtk::Label labelX, labelY, labelZ;
+    Gtk::Entry entryX, entryY, entryZ;
 
     CG::Coordinate getCoordinate();
 };

@@ -82,7 +82,7 @@ void ObjectsTreeView::on_menu_popup_translate() {
   TranslateDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate c = dialog.getCoordinate();
-		_world->translateObject(name, c.x, c.y, 0); //TODO: update this dialog
+		_world->translateObject(name, c.x, c.y, c.z);
   }
 }
 
@@ -91,7 +91,7 @@ void ObjectsTreeView::on_menu_popup_scale() {
   ScaleDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     CG::Coordinate scale = dialog.getCoordinate();
-		_world->scaleObject(name, scale.x, scale.y, 1); //TODO: update this dialog
+		_world->scaleObject(name, scale.x, scale.y, scale.z);
   }
 }
 

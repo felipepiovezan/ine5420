@@ -27,7 +27,7 @@ void CoordinatesPanel::addCoordinate(CG::Coordinate c) {
   Gtk::TreeModel::Row row = *(pointsModel->append());
   row[pointsColumns.x] = c.x;
   row[pointsColumns.y] = c.y;
-  row[pointsColumns.z] = 0;  // TODO: change for c.z after created
+  row[pointsColumns.z] = c.z;
 }
 
 void CoordinatesPanel::on_addCord_clicked() {

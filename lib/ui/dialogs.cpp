@@ -38,20 +38,29 @@ CoordinateBox::CoordinateBox() {
 
   labelX.set_label("X");
   labelY.set_label("Y");
+  labelZ.set_label("Z");
+
+  entryX.set_width_chars(10);
+  entryY.set_width_chars(10);
+  entryZ.set_width_chars(10);
 
   pack_start(labelX, Gtk::PACK_SHRINK);
   pack_start(entryX, Gtk::PACK_SHRINK);
   pack_start(labelY, Gtk::PACK_SHRINK);
   pack_start(entryY, Gtk::PACK_SHRINK);
+  pack_start(labelZ, Gtk::PACK_SHRINK);
+  pack_start(entryZ, Gtk::PACK_SHRINK);
 
   labelX.show();
   entryX.show();
   labelY.show();
   entryY.show();
+  labelZ.show();
+  entryZ.show();
 }
 
 CG::Coordinate CoordinateBox::getCoordinate() {
-  double x, y = 0;
+  double x, y, z = 0;
   std::stringstream buffer;
 
   buffer << entryX.get_text().raw();
@@ -59,9 +68,12 @@ CG::Coordinate CoordinateBox::getCoordinate() {
 	buffer.clear();
   buffer << entryY.get_text().raw();
   buffer >> y;
+  buffer.clear();
+  buffer << entryZ.get_text().raw();
+  buffer >> z;
 	buffer.clear();
 
-  return CG::Coordinate(x, y);
+  return CG::Coordinate(x, y, z);
 }
 
 // ==========================================================
@@ -177,6 +189,7 @@ TranslateDialog::TranslateDialog() {
 
   coordBox.labelX.set_label("dx");
   coordBox.labelY.set_label("dy");
+  coordBox.labelZ.set_label("dz");
 
   coordBox.show();
 }
@@ -191,6 +204,7 @@ ScaleDialog::ScaleDialog() {
 
   coordBox.labelX.set_label("sx");
   coordBox.labelY.set_label("sy");
+  coordBox.labelZ.set_label("sz");
 
   coordBox.show();
 }
@@ -242,6 +256,7 @@ void RotateDialog::init_center_widgets() {
 
   centerCoordBox.labelX.set_label("cx");
   centerCoordBox.labelY.set_label("cy");
+  centerCoordBox.labelZ.set_label("cz");
   centerBox.pack_start(centerCoordBox);
 
   centerBox.show();
@@ -270,15 +285,18 @@ bool RotateDialog::isAroundObjectCenterSelected() {
 void RotateDialog::on_obj_rb_clicked() {
   centerCoordBox.entryX.set_text("");
   centerCoordBox.entryY.set_text("");
+  centerCoordBox.entryZ.set_text("");
 }
 
 void RotateDialog::on_world_rb_clicked() {
   centerCoordBox.entryX.set_text("0");
   centerCoordBox.entryY.set_text("0");
+  centerCoordBox.entryZ.set_text("0");
 }
 
 void RotateDialog::on_coord_rb_clicked() {
   centerCoordBox.entryX.set_text("0");
   centerCoordBox.entryY.set_text("0");
+  centerCoordBox.entryZ.set_text("0");
   centerCoordBox.entryX.grab_focus();
 }
