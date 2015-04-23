@@ -28,15 +28,20 @@ namespace CG {
       // Window manipulation
       void changeWindowZoom(double step);
       void changeWindowPosition(double sx, double sy, double sz);
-      void rotateWindow(double theta);
+      void rotateWindow(double thetaX, double thetaY, double thetaZ);
       void zoomIn()  { changeWindowZoom(-1); }
       void zoomOut() { changeWindowZoom(1); }
       void left()    { changeWindowPosition(1,0,0);}
       void right()   { changeWindowPosition(-1,0,0);}
       void up()      { changeWindowPosition(0,-1,0);}
       void down()    { changeWindowPosition(0,1,0);}
-      void rotateLeft()  { rotateWindow(-15);}
-      void rotateRight() { rotateWindow(+15);}
+      void rotateLeft()  { rotateWindow(0,0,-15);}
+      void rotateRight() { rotateWindow(0,0,+15);}
+      void bendForwards()  { rotateWindow(-15,0,0);}
+      void bendBackwards() { rotateWindow(+15,0,0);}
+      void turnLeft()	{ rotateWindow(0,+15,0);}
+      void turnRight()	{ rotateWindow(0,-15,0);}
+
 
       // World Listener methods
       void onObjectCreation(const std::string& name, ObjRef object);

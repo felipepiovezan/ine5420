@@ -5,8 +5,8 @@
 
 namespace CG {
 
-Window:: Window(double cx, double cy, double width, double height, double theta)
-        : _center(cx, cy), _width(width), _height(height), _theta(theta) {
+Window:: Window(double cx, double cy, double width, double height, double thetaZ, double thetaX, double thetaY)
+        : _center(cx, cy), _width(width), _height(height), _thetaZ(thetaZ), _thetaX(thetaX), _thetaY(thetaY) {
     updateMatrix();
 }
 
@@ -22,7 +22,7 @@ bool Window::zoom(double step) {
 
 void Window::move(double dx, double dy, double dz) {
     Coordinate c(dx, dy, dz);
-    c *= Transformation::newRotationAroundOrigin(-_theta);
+    c *= Transformation::newRotationAroundOrigin(-_thetaZ);
     _center.x -= c.x;
     _center.y -= c.y;
 }
@@ -30,7 +30,9 @@ void Window::move(double dx, double dy, double dz) {
 void Window::updateMatrix() {
     _wo2wiMatrix = Transformation();
     _wo2wiMatrix *= Transformation::newTranslation(-_center.x, -_center.y, 0);
-    _wo2wiMatrix *= Transformation::newRotationAroundOrigin(_theta);
+    _wo2wiMatrix *= Transformation::newRx(_thetaX);
+    _wo2wiMatrix *= Transformation::newRy(_thetaY);
+    _wo2wiMatrix *= Transformation::newRz(_thetaZ);
     _wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height, 1.0);
 }
 

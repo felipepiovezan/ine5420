@@ -42,14 +42,15 @@ namespace CG {
 
 	void Viewport::changeWindowPosition(double dx, double dy, double dz){
 		_window.move(dx, dy, dz);
-		std::cout << _window.wo2wiMatrix() <<std::endl;
 		_window.updateMatrix();
 		transformAndClipAll(_window.wo2wiMatrix());
 		redraw();
 	}
 
-	void Viewport::rotateWindow(double theta){
-		_window.rotate(Transformation::toRadians(theta));
+	void Viewport::rotateWindow(double thetaX, double thetaY, double thetaZ){
+		_window.rotateX(Transformation::toRadians(thetaX));
+		_window.rotateY(Transformation::toRadians(thetaY));
+		_window.rotateZ(Transformation::toRadians(thetaZ));
 		_window.updateMatrix();
 		transformAndClipAll(_window.wo2wiMatrix());
 		redraw();
@@ -122,9 +123,12 @@ namespace CG {
         break;
 	  }
 
+	  //case GObject::Type::_3D_OBJECT:
+
+
 	  if (!draw) {
 		  obj->coordinates().clear();
-    }
+	  }
   }
 
 	void Viewport::transformAndClipAll(const Transformation &t){
@@ -138,7 +142,8 @@ namespace CG {
 			}
 		}
 		time = clock() - time;
-		std::cout << "Took me " << time << " clock ticks ("<< ((float)time)/CLOCKS_PER_SEC << " seconds) at "
+		double s = ((double)time)/CLOCKS_PER_SEC;
+		std::cout << "Took me " << time << " clock ticks ("<< s << " seconds or " << 1/s << "draws/s) at "
 				<<  CLOCKS_PER_SEC << "Hz to transform and clip all objects" << std::endl;
 	}
 

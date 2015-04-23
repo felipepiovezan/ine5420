@@ -30,7 +30,7 @@ namespace CG {
 	class GObject {
 		public:
 			typedef std::vector<Coordinate> Coordinates;
-			enum Type { OBJECT, POINT, LINE, POLYGON, BEZIER_CURVE, SPLINE_CURVE };
+			enum Type { OBJECT, POINT, LINE, POLYGON, BEZIER_CURVE, SPLINE_CURVE, _3D_OBJECT};
 
 			const Coordinates& coordinates() const {return _coordinates;}
 			Coordinates& coordinates() {return _coordinates;}
@@ -159,11 +159,14 @@ namespace CG {
 		void differences(double, double, double, double, double, double, double, double&, double&, double&);
 	};
 
-	class General3dObject : public GObject{
+	class G3dObject : public GObject{
 	public:
 		typedef std::vector<std::pair<int, int>> EdgeList;
 
-		General3dObject(const Coordinates& coords, const EdgeList edgeList) : _edgeList(edgeList){}
+		G3dObject(const Coordinates& coords, const EdgeList edgeList) : GObject(coords), _edgeList(edgeList){}
+
+		ObjRef clone() const & {return ObjRef(new G3dObject(*this));}
+		ObjRef clone() && {return ObjRef(new G3dObject(std::move(*this)));}
 
 		const EdgeList& edgeList() const {return _edgeList;}
 		EdgeList& edgeList() {return _edgeList;}
