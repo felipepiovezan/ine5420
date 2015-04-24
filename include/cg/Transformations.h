@@ -49,9 +49,9 @@ namespace CG{
 
 			//member operators
 			Transformation& operator*=(const Transformation& rhs);
-
 	};
 
+	Transformation operator*(Transformation lhs, const Transformation& rhs);
 	std::ostream& operator<<(std::ostream& os, const Transformation& rhs);
 }
 

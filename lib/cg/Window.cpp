@@ -22,14 +22,14 @@ bool Window::zoom(double step) {
 
 void Window::move(double dx, double dy, double dz) {
     Coordinate c(dx, dy, dz);
-    c *= Transformation::newRotationAroundOrigin(-_thetaZ);
+    c *= Transformation::newRx(-_thetaX) * Transformation::newRy(-_thetaY) * Transformation::newRz(-_thetaZ);
     _center.x -= c.x;
     _center.y -= c.y;
 }
 
 void Window::updateMatrix() {
     _wo2wiMatrix = Transformation();
-    _wo2wiMatrix *= Transformation::newTranslation(-_center.x, -_center.y, 0);
+    _wo2wiMatrix *= Transformation::newTranslation(-_center.x, -_center.y, -_center.z);
     _wo2wiMatrix *= Transformation::newRx(_thetaX);
     _wo2wiMatrix *= Transformation::newRy(_thetaY);
     _wo2wiMatrix *= Transformation::newRz(_thetaZ);
