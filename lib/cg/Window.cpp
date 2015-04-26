@@ -32,7 +32,6 @@ void Window::updateMatrix() {
     _wo2wiMatrix *= Transformation::newTranslation(-_center.x, -_center.y, -_center.z);
     _wo2wiMatrix *= Transformation::newRx(_thetaX);
     _wo2wiMatrix *= Transformation::newRy(_thetaY);
-    _wo2wiMatrix *= Transformation::newRz(_thetaZ);
     _wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height, 1.0);
 }
 
