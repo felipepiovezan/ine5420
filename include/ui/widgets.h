@@ -15,6 +15,14 @@ class Grid : public Gtk::Grid {
 };
 
 /**
+ * A generic Entry box for numeric values
+ */
+class NumericEntry : public Gtk::Entry {
+ public:
+  double getValue();
+};
+
+/**
  * A panel for managing a collection of coordinates
  */
 class CoordinatesPanel : public Gtk::VBox {

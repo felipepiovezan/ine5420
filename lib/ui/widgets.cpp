@@ -10,6 +10,17 @@ Grid::Grid() {
   set_column_homogeneous(true);
 }
 
+double NumericEntry::getValue() {
+  double value = 0;
+  std::stringstream buffer;
+
+  buffer << get_text().raw();
+  buffer >> value;
+  buffer.clear();
+
+  return value;
+}
+
 CoordinatesPanel::CoordinatesPanel() {
   addCoordBtn.set_label("Add coordinate");
   addCoordBtn.signal_clicked().connect(

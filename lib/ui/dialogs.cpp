@@ -60,20 +60,7 @@ CoordinateBox::CoordinateBox() {
 }
 
 CG::Coordinate CoordinateBox::getCoordinate() {
-  double x, y, z = 0;
-  std::stringstream buffer;
-
-  buffer << entryX.get_text().raw();
-  buffer >> x;
-	buffer.clear();
-  buffer << entryY.get_text().raw();
-  buffer >> y;
-  buffer.clear();
-  buffer << entryZ.get_text().raw();
-  buffer >> z;
-	buffer.clear();
-
-  return CG::Coordinate(x, y, z);
+  return CG::Coordinate(entryX.getValue(), entryY.getValue(), entryZ.getValue());
 }
 
 // ==========================================================
@@ -265,17 +252,6 @@ void RotateDialog::init_center_widgets() {
   objRB.show();;
   worldRB.show();
   coordRB.show();
-}
-
-double RotateDialog::getRotation() {
-  double rotation = 0;
-  std::stringstream buffer;
-
-  buffer << degreesEntry.get_text().raw();
-  buffer >> rotation;
-  buffer.clear();
-
-  return rotation;
 }
 
 bool RotateDialog::isAroundObjectCenterSelected() {

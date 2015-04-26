@@ -29,7 +29,7 @@ class CoordinateBox : public Gtk::Box {
   public:
     CoordinateBox();
     Gtk::Label labelX, labelY, labelZ;
-    Gtk::Entry entryX, entryY, entryZ;
+    NumericEntry entryX, entryY, entryZ;
 
     CG::Coordinate getCoordinate();
 };
@@ -164,7 +164,7 @@ class RotateDialog : public Dialog {
   public:
     RotateDialog();
     CG::Coordinate getRotationCenter() { return centerCoordBox.getCoordinate(); }
-    double getRotation();
+    double getRotation() { return degreesEntry.getValue(); }
     bool isAroundObjectCenterSelected();
 
   protected:
@@ -177,7 +177,7 @@ class RotateDialog : public Dialog {
 
     Gtk::Box degreesBox;
     Gtk::Label degreesLabel;
-    Gtk::Entry degreesEntry;
+    NumericEntry degreesEntry;
 
     Gtk::Frame frame;
     CoordinateBox centerCoordBox;
