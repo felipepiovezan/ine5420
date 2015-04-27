@@ -71,20 +71,28 @@ namespace CG {
     notifyObjectChange(name, worldObject);
   }
 
-  void World::rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter) {
+  void World::rotateObject(const std::string &name, double thetaX, double thetaY, double thetaZ, const Coordinate& rotationCenter) {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
     auto &worldObject = itWorld->second;
-    worldObject->transform(Transformation::newRotationAroundPoint(Transformation::toRadians(theta), rotationCenter));
+
+    double radX = Transformation::toRadians(thetaX);
+    double radY = Transformation::toRadians(thetaY);
+    double radZ = Transformation::toRadians(thetaZ);
+    worldObject->transform(Transformation::newRotation(radX, radY, radZ, rotationCenter));
     notifyObjectChange(name, worldObject);
   }
 
-  void World::rotateObject(const std::string &name, double theta) {
+  void World::rotateObject(const std::string &name, double thetaX, double thetaY, double thetaZ) {
     // If no rotationCenter was provided, consider the center as the object center
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
-    worldObject->transform(Transformation::newRotationAroundObjCenter(Transformation::toRadians(theta), *worldObject));
+
+    double radX = Transformation::toRadians(thetaX);
+    double radY = Transformation::toRadians(thetaY);
+    double radZ = Transformation::toRadians(thetaZ);
+    worldObject->transform(Transformation::newRotation(radX, radY, radZ, worldObject->center()));
     notifyObjectChange(name, worldObject);
   }
 

@@ -164,7 +164,9 @@ class RotateDialog : public Dialog {
   public:
     RotateDialog();
     CG::Coordinate getRotationCenter() { return centerCoordBox.getCoordinate(); }
-    double getRotation() { return degreesEntry.getValue(); }
+    double getXRotation() { return xRotation.getValue(); }
+    double getYRotation() { return yRotation.getValue(); }
+    double getZRotation() { return zRotation.getValue(); }
     bool isAroundObjectCenterSelected();
 
   protected:
@@ -175,15 +177,14 @@ class RotateDialog : public Dialog {
     void on_world_rb_clicked();
     void on_coord_rb_clicked();
 
-    Gtk::Box degreesBox;
-    Gtk::Label degreesLabel;
-    NumericEntry degreesEntry;
+    Grid degreesGrid;
+    Gtk::Label xLabel, yLabel, zLabel;
+    NumericEntry xRotation, yRotation, zRotation;
 
     Gtk::Frame frame;
     CoordinateBox centerCoordBox;
     Gtk::Box centerBox;
     Gtk::RadioButton objRB, worldRB, coordRB;
 };
-
 
 #endif

@@ -206,17 +206,32 @@ RotateDialog::RotateDialog() {
 }
 
 void RotateDialog::init_degree_widgets() {
-  degreesBox.set_orientation(Gtk::ORIENTATION_HORIZONTAL);
-  degreesBox.set_spacing(5);
-  degreesLabel.set_label("Degrees: ");
-  get_vbox()->pack_start(degreesBox);
+  get_vbox()->pack_start(degreesGrid);
 
-  degreesBox.pack_start(degreesLabel, Gtk::PACK_SHRINK);
-  degreesBox.pack_start(degreesEntry, Gtk::PACK_EXPAND_WIDGET);
+  xLabel.set_label("x rotation (degrees): ");
+  yLabel.set_label("y rotation (degrees): ");
+  zLabel.set_label("z rotation (degrees): ");
 
-  degreesLabel.show();
-  degreesEntry.show();
-  degreesBox.show();
+  xRotation.set_text("0");
+  yRotation.set_text("0");
+  zRotation.set_text("0");
+
+  degreesGrid.attach(xLabel, 0, 0, 1, 1);
+  degreesGrid.attach(xRotation, 1, 0, 1, 1);
+
+  degreesGrid.attach(yLabel, 0, 1, 1, 1);
+  degreesGrid.attach(yRotation, 1, 1, 1, 1);
+
+  degreesGrid.attach(zLabel, 0, 2, 1, 1);
+  degreesGrid.attach(zRotation, 1, 2, 1, 1);
+
+  xLabel.show();
+  xRotation.show();
+  yLabel.show();
+  yRotation.show();
+  zLabel.show();
+  zRotation.show();
+  degreesGrid.show();
 }
 
 void RotateDialog::init_center_widgets() {

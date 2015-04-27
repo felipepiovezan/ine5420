@@ -36,12 +36,7 @@ namespace CG{
 			static Transformation newRx(double theta);
 			static Transformation newRy(double theta);
 			static Transformation newRz(double theta);
-			static Transformation newRotation(double thetaY, double thetaZ, const Coordinate& p, double theta);
-
-			//2d transformations. They assume a fixed z coordinate
-			static Transformation newRotationAroundOrigin(double theta);
-			static Transformation newRotationAroundPoint(double theta, const Coordinate& p);
-			static Transformation newRotationAroundObjCenter(double theta, const GObject& obj);
+			static Transformation newRotation(double thetaX, double thetaY, double thetaZ, const Coordinate& p);
 
 			//utils TODO: figure out where to put this
 			static constexpr double pi() { return std::atan(1)*4; }

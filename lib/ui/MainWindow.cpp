@@ -65,8 +65,8 @@ void MainWindow::init_examples() {
   decoration.setLineWidth(3.0);
   _world->createBezierCurve("curve3", decoration, c);
 
-//  // Leaf
-//  init_leaf();
+  // Leaf
+  init_leaf();
 //
 //  // Bezier example
 //  c.clear();
@@ -249,7 +249,7 @@ void MainWindow::init_leaf(){
   _world->createPolygon("leaf", decoration, c);
 	_world->scaleObject("leaf", 0.1,0.1, 1);
 	_world->translateObject("leaf", 4.3, 6, 0);
-	_world->rotateObject("leaf", 30);
+	_world->rotateObject("leaf", 0, 0, 30);
 }
 
 void MainWindow::on_action_file_open() {

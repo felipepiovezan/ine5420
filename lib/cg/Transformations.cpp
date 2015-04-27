@@ -52,28 +52,28 @@ namespace CG {
 				{0 , 0 , 0 , 1}}});
 	}
 
-	Transformation Transformation::newRz(double theta){
-			return Transformation
-				({{ {cos(theta), -sin(theta), 0, 0},
-					{sin(theta), cos(theta) , 0, 0},
-					{0         , 0          , 1, 0},
-					{0         , 0          , 0, 1}}});
-		}
-
 	Transformation Transformation::newRx(double theta){
 		return Transformation
 				({{ {1, 0         , 0          , 0},
-					{0, cos(theta), -sin(theta), 0},
-					{0, sin(theta), cos(theta) , 0},
+					{0, cos(theta), sin(theta), 0},
+					{0, -sin(theta), cos(theta) , 0},
 					{0, 0         , 0          , 1}}});
 	}
 
 	Transformation Transformation::newRy(double theta){
 			return Transformation
-				({{ {cos(theta) , 0, sin(theta), 0},
+				({{ {cos(theta) , 0, -sin(theta), 0},
 					{0          , 1, 0         , 0},
-					{-sin(theta), 0, cos(theta), 0},
+					{sin(theta), 0, cos(theta), 0},
 					{0          , 0, 0         , 1}}});
+	}
+
+	Transformation Transformation::newRz(double theta){
+			return Transformation
+				({{ {cos(theta), sin(theta), 0, 0},
+					{-sin(theta), cos(theta) , 0, 0},
+					{0         , 0          , 1, 0},
+					{0         , 0          , 0, 1}}});
 	}
 
 	Transformation Transformation::newScalingAroundObjCenter(double sx, double sy, double sz, const GObject& obj){
@@ -81,26 +81,12 @@ namespace CG {
 		return newTranslation(-center.x, -center.y, -center.z) * newScaling(sx, sy, sz) * newTranslation(center.x, center.y, center.z);
 	}
 
-	Transformation Transformation::newRotation(double thetaY, double thetaZ, const Coordinate& p, double theta){
-		return newTranslation(-p.x, -p.y, -p.z) *
-				newRx(thetaY) * newRz(thetaZ) *
-				newRy(theta) *
-				newRz(-thetaZ) * newRx(-thetaY) *
-				newTranslation(p.x, p.y, p.z);
-
+	Transformation Transformation::newRotation(double thetaX, double thetaY, double thetaZ, const Coordinate& p) {
+		return  newTranslation(-p.x, -p.y, -p.z) *
+						newRx(thetaX) *
+						newRy(thetaY) *
+						newRz(thetaZ) *
+						newTranslation(p.x, p.y, p.z);
 	}
-
-	Transformation Transformation::newRotationAroundOrigin(double theta){
-		return Transformation::newRz(theta);
-	}
-
-	Transformation Transformation::newRotationAroundPoint(double theta, const Coordinate &p){
-		return Transformation::newRotation(pi()/2, 0, p, theta);
-	}
-
-	Transformation Transformation::newRotationAroundObjCenter(double theta, const GObject& obj){
-		return newRotationAroundPoint(theta, obj.center());
-	}
-
 
 }

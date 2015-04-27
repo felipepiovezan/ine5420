@@ -101,13 +101,15 @@ void ObjectsTreeView::on_menu_popup_rotate() {
 	RotateDialog dialog;
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
-		double degrees = dialog.getRotation();
+    double xRotation = dialog.getXRotation();
+    double yRotation = dialog.getYRotation();
+		double zRotation = dialog.getZRotation();
 
 		if (dialog.isAroundObjectCenterSelected()) {
-			_world->rotateObject(name, degrees);
+			_world->rotateObject(name, xRotation, yRotation, zRotation);
 		} else {
 			CG::Coordinate rotationCenter = dialog.getRotationCenter();
-			_world->rotateObject(name, degrees, rotationCenter);
+			_world->rotateObject(name, xRotation, yRotation, zRotation, rotationCenter);
 		}
   }
 }

@@ -24,8 +24,8 @@ namespace CG {
       // Object manipulation
       void translateObject(const std::string &name, double dx, double dy, double dz);
       void scaleObject(const std::string &name, double sx, double sy, double sz);
-      void rotateObject(const std::string &name, double theta, const Coordinate& rotationCenter);
-      void rotateObject(const std::string &name, double theta);
+      void rotateObject(const std::string &name, double thetaX, double thetaY, double thetaZ, const Coordinate& rotationCenter);
+      void rotateObject(const std::string &name, double thetaX, double thetaY, double thetaZ);
 
       const mapGObjects& getObjects() const { return _worldObjects.objects(); }
 
