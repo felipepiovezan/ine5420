@@ -6,7 +6,8 @@ namespace CG {
 		double x = this->x, y = this->y, z = this->z, w = this->w;
 		this->x = x*m[0][0] + y*m[1][0] + z*m[2][0] + w*m[3][0];
 		this->y = x*m[0][1] + y*m[1][1] + z*m[2][1] + w*m[3][1];
-		this->w = x*m[0][2] + y*m[1][2] + z*m[2][2] + w*m[3][2];
+		this->z = x*m[0][2] + y*m[1][2] + z*m[2][2] + w*m[3][2];
+		this->w = x*m[0][3] + y*m[1][3] + z*m[2][3] + w*m[3][3];
 		return *this;
 	}
 
@@ -62,7 +63,7 @@ namespace CG {
 		int curves = ((coordinates().size() - 4) / 3) + 1;
 		const auto &coords = coordinates();
 		path.clear();
-		
+
 		for (int i = 0; i < curves; i++) {
 			/* calculate the polynomial coefficients */
 			double   ax, bx, cx, dx;
