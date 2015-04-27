@@ -30,6 +30,20 @@ public:
   bool clip(Curve& curve, const ClippingRect& rect) {
     return clipCurve(curve, rect);
   }
+  bool clip(G3dObject& obj, const ClippingRect& rect){
+	  obj._actualFaces.clear();
+	  bool clip = false;
+	  for(const auto& face : obj.faceList()){
+		  CG::GPolygon pol;
+		  for(int index : face)
+			  pol.addCoordinate(obj._coordinates[index]);
+		  if(clipPolygon(pol, rect)){
+			  obj._actualFaces.push_back(std::move(pol));
+			  clip = true;
+		  }
+	  }
+	  return clip;
+  }
 };
 
 class SimplePointClipping {

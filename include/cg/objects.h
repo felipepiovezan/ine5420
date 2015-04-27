@@ -28,6 +28,9 @@ namespace CG {
 	};
 
 	class GObject {
+		friend class ObjReader;
+		template <typename PointStrategy, typename LineStrategy, typename PolygonStrategy, typename CurveStrategy>
+		friend class ClippingStrategy;
 		public:
 			typedef std::vector<Coordinate> Coordinates;
 			enum Type { OBJECT, POINT, LINE, POLYGON, BEZIER_CURVE, SPLINE_CURVE, _3D_OBJECT};
@@ -160,18 +163,27 @@ namespace CG {
 	};
 
 	class G3dObject : public GObject{
+		friend class ObjReader;
+		template <typename PointStrategy, typename LineStrategy, typename PolygonStrategy, typename CurveStrategy>
+		friend class ClippingStrategy;
 	public:
-		typedef std::vector<std::pair<int, int>> EdgeList;
+		typedef std::vector<std::vector<int>> FaceList;
 
-		G3dObject(const Coordinates& coords, const EdgeList edgeList) : GObject(coords), _edgeList(edgeList){}
+		G3dObject() = default;
+		G3dObject(const Coordinates& coords, const FaceList edgeList) : GObject(coords), _faceList(edgeList){}
+
+		Type type() const { return Type::_3D_OBJECT; }
+		std::string typeName() const { return "3D Object"; }
 
 		ObjRef clone() const & {return ObjRef(new G3dObject(*this));}
 		ObjRef clone() && {return ObjRef(new G3dObject(std::move(*this)));}
 
-		const EdgeList& edgeList() const {return _edgeList;}
-		EdgeList& edgeList() {return _edgeList;}
+		const FaceList& faceList() const {return _faceList;}
+		FaceList& faceList() {return _faceList;}
+		const std::vector<CG::GPolygon>& actualFaces() const { return _actualFaces;}
 	private:
-		EdgeList _edgeList;
+		FaceList _faceList;
+		std::vector<CG::GPolygon> _actualFaces;
 	};
 
 }

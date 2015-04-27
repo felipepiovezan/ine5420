@@ -12,14 +12,13 @@ class ObjReader {
 	public:
 		ObjReader(const std::string& filename);
 
-		const std::vector<CG::ObjRef>& objects() {return _objects;}
+		std::shared_ptr<CG::G3dObject> object() {return _object;}
 	private:
 		typedef std::string string;
 
 		std::ifstream ifs;
 		bool good;
-		std::vector<CG::Coordinate> _vertices;
-		std::vector<CG::ObjRef> _objects;
+		std::shared_ptr<CG::G3dObject> _object;
 
 		void init();
 		void processComment(std::stringstream& line);

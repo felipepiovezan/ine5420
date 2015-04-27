@@ -1,7 +1,7 @@
 #include "utils/objIO.h"
 #include <iostream>
 
-ObjReader::ObjReader(const std::string &filename) : ifs(filename), good(true) {
+ObjReader::ObjReader(const std::string &filename) : ifs(filename), good(true), _object(new CG::G3dObject()) {
 	if(!ifs){
 		good = false;
 		std::cerr << "Failed to open file " << filename << std::endl;
@@ -10,9 +10,12 @@ ObjReader::ObjReader(const std::string &filename) : ifs(filename), good(true) {
 	init();
 }
 
+int linenum = 0;
 void ObjReader::init(){
 	string lineString, opCode;
 	while(std::getline(ifs, lineString)){
+		if(lineString.size() <= 1) continue;
+		linenum++;
 		std::stringstream line(lineString);
 		line >> opCode;
 		if(opCode == "#")	{ processComment(line); 		continue;}
@@ -32,10 +35,10 @@ void ObjReader::processComment(std::stringstream& line){
 void ObjReader::processVertex(std::stringstream& line){
 	double x,y,z,w;
 	line >> x >> y >> z;
-	if(!line){ std::cerr << "Invalid vertex format @line = " << line.str() << std::endl; return;}
+	if(!line){ std::cerr << "Invalid vertex format @line = " << linenum << " "<< line.str() << std::endl; return;}
 	if(!(line >> w))
 		w = 1.0;
-	_vertices.push_back(CG::Coordinate(x,y,z));
+	_object->coordinates().push_back(CG::Coordinate(x,y,z));
 }
 
 void ObjReader::processTexture(std::stringstream& line){
@@ -52,8 +55,8 @@ void ObjReader::processParaSpaceVertex(std::stringstream& line){
 
 void ObjReader::processFace(std::stringstream& line){
 	string pointString;
-	unsigned int vertexIndex, textureIndex = -1, normalIndex = -1;
-	std::vector<CG::Coordinate> coords;
+	int vertexIndex, textureIndex = -1, normalIndex = -1;
+	std::vector<int> face;
 
 	while(line >> pointString){
 		//First index (vertex) is mandatory
@@ -85,19 +88,19 @@ void ObjReader::processFace(std::stringstream& line){
 			}
 		}
 
-		if(vertexIndex > _vertices.size()) { std::cerr << "Vertex index (" << vertexIndex << ") out of bounds @line = " << line.str() << std::endl; return;}
-		coords.push_back(_vertices[vertexIndex-1]);
-	//	std::cout << "\tvertex, texture, normal = " << vertexIndex << ", " << textureIndex << ", " << normalIndex << std::endl;
+		if(vertexIndex > 0 && vertexIndex > _object->coordinates().size()){
+			std::cerr << "Vertex index (" << vertexIndex << ") out of bounds @line = " << line.str() << std::endl;
+			return;
+		}
+		else if (vertexIndex > 0 ){
+			face.push_back(vertexIndex - 1);
+		}
+		//relative indexing
+		if(vertexIndex < 0 && _object->coordinates().size() + vertexIndex >= 0){
+			face.push_back(_object->coordinates().size() + vertexIndex);
+		}
 	}
-
-	//TODO: this is ugly. We need an universal constructor for GObjects which receives a vector<Coords>.
-	// this can't be done right now thanks to the way the "object type" is instanciated.
-	if(coords.size() == 1)
-		_objects.push_back(CG::ObjRef(new CG::GPoint(coords[0])));
-	else if (coords.size() == 2)
-		_objects.push_back(CG::ObjRef(new CG::GLine(coords[0], coords[1])));
-	else if (coords.size() > 2)
-		_objects.push_back(CG::ObjRef(new CG::GPolygon(coords)));
+	_object->faceList().push_back(std::move(face));
 }
 
 ObjWriter::ObjWriter (const std::string &filename) : ofs(filename), good(true), end(1) {

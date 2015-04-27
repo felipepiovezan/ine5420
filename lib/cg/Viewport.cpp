@@ -114,6 +114,10 @@ namespace CG {
         draw = _clippingStrategy.clip(*static_cast<GPolygon*> (obj.get()), clippingRect);
         break;
 
+	  case GObject::Type::_3D_OBJECT:
+		  draw = _clippingStrategy.clip(*static_cast<G3dObject*> (obj.get()), clippingRect);
+		  break;
+
       case GObject::Type::BEZIER_CURVE:
       case GObject::Type::SPLINE_CURVE:
         Curve* curve = static_cast<Curve*> (obj.get());
@@ -122,9 +126,6 @@ namespace CG {
         draw = _clippingStrategy.clip(*curve, clippingRect);
         break;
 	  }
-
-	  //case GObject::Type::_3D_OBJECT:
-
 
 	  if (!draw) {
 		  obj->coordinates().clear();

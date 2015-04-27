@@ -27,6 +27,9 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
     case CG::GObject::Type::POLYGON:
       drawPolygon((const CG::GPolygon&) obj);
       break;
+    case CG::GObject::Type::_3D_OBJECT:
+      draw3dObj((const CG::G3dObject&) obj);
+      break;
 
     case CG::GObject::Type::BEZIER_CURVE:
     case CG::GObject::Type::SPLINE_CURVE:
@@ -84,6 +87,13 @@ void GtkUIViewport::drawCurve(const CG::Curve& curve) {
     cairoCtx->line_to(coords[i].x, coords[i].y);
   }
   cairoCtx->stroke();
+}
+
+void GtkUIViewport::draw3dObj(const CG::G3dObject& obj){
+	for(const auto& pol : obj.actualFaces()){
+		drawPolygon(pol);
+	}
+
 }
 
 void GtkUIViewport::prepareContext(const CG::Decoration& decoration) {

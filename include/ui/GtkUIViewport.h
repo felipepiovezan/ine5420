@@ -20,6 +20,7 @@ class GtkUIViewport : public CG::Viewport, public Gtk::DrawingArea {
     void drawLine(const CG::GLine& line);
     void drawPolygon(const CG::GPolygon& polygon);
     void drawCurve(const CG::Curve& curve);
+    void draw3dObj(const CG::G3dObject& obj);
 
   protected:
     double _width, _height;

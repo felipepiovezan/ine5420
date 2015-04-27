@@ -33,7 +33,7 @@ MainWindow::MainWindow() :
 		_mainBox.pack_start(_toolbox, Gtk::PACK_SHRINK);
 		_toolbox.set_size_request(200, 0);
 		_mainBox.pack_start(_viewport, Gtk::PACK_EXPAND_PADDING);
-		_viewport.set_size_request(600, 600);
+		_viewport.set_size_request(1000, 1000);
 
 		set_resizable(false);
 
@@ -259,10 +259,10 @@ void MainWindow::on_action_file_open() {
 
 	if (dialog.run() == Gtk::RESPONSE_OK) {
 		ObjReader r(dialog.get_filename());
-		std::cout << "read " << r.objects().size() << " objects from file" << std::endl;
+		std::cout << "read an object with " << r.object()->coordinates().size() << " points and "<< r.object()->faceList().size() << " faces" << std::endl;
     std::string basename = dialog.get_filename();
     basename.erase(0, basename.find_last_of("/") + 1); // get just the filename (erase the path)
-		_world->addObject(basename, r.objects());
+		_world->addObject(basename, r.object());
 	}
 }
 
