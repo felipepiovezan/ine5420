@@ -35,8 +35,8 @@ namespace CG {
       void right()   { changeWindowPosition(-1,0,0);}
       void up()      { changeWindowPosition(0,-1,0);}
       void down()    { changeWindowPosition(0,1,0);}
-      void rotateLeft()  { rotateWindow(0,0,-15);}
-      void rotateRight() { rotateWindow(0,0,+15);}
+      void rotateLeft()  { rotateWindow(0,0,+15);}
+      void rotateRight() { rotateWindow(0,0,-15);}
       void bendForwards()  { rotateWindow(-15,0,0);}
       void bendBackwards() { rotateWindow(+15,0,0);}
       void bendLeft()	{ rotateWindow(0,-15,0);}
