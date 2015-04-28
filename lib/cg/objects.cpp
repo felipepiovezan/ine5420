@@ -68,6 +68,7 @@ namespace CG {
 			/* calculate the polynomial coefficients */
 			double   ax, bx, cx, dx;
 			double   ay, by, cy, dy;
+			double   az, bz, cz, dz;
 			cx = 3.0 * (coords[i*3 + 1].x - coords[i*3 + 0].x);
 			bx = 3.0 * (coords[i*3 + 2].x - coords[i*3 + 1].x) - cx;
 			ax = coords[i*3 + 3].x - coords[i*3 + 0].x - cx - bx;
@@ -77,16 +78,22 @@ namespace CG {
 			by = 3.0 * (coords[i*3 + 2].y - coords[i*3 + 1].y) - cy;
 			ay = coords[i*3 + 3].y - coords[i*3 + 0].y - cy - by;
 			dy = coords[i*3 + 0].y;
+
+			cz = 3.0 * (coords[i*3 + 1].z - coords[i*3 + 0].z);
+			bz = 3.0 * (coords[i*3 + 2].z - coords[i*3 + 1].z) - cz;
+			az = coords[i*3 + 3].z - coords[i*3 + 0].z - cz - bz;
+			dz = coords[i*3 + 0].z;
 			/* calculate the curve point at parameter value t */
 			for (double t = 0; t < 1; t += step) {
-				double   tSquared, tCubed;
-				double x,y;
+				double tSquared, tCubed;
+				double x, y, z;
 				tSquared = t * t;
 				tCubed = tSquared * t;
 
 				x = (ax * tCubed) + (bx * tSquared) + (cx * t) + dx;
 				y = (ay * tCubed) + (by * tSquared) + (cy * t) + dy;
-				path.emplace_back(x,y);
+				z = (az * tCubed) + (bz * tSquared) + (cz * t) + dz;
+				path.emplace_back(x, y, z);
 			}
 		}
 
@@ -124,26 +131,27 @@ namespace CG {
 			coefficients(c1.y, c2.y, c3.y, c4.y, Ay, By, Cy, Dy);
 			differences(Ay, By, Cy, Dy, step, step2, step3, deltaY, delta2Y, delta3Y);
 
-			// double Az, Bz, Cz, Dz, deltaZ, delta2Z, delta3Z;
-			// coefficients(c1.z, c2.z, c3.z, c4.z, Az, Bz, Cz, Dz);
-			// differences(Az, Bz, Cz, Dz, step, step2, step3, deltaZ, delta2Z, delta3Z);
+			double Az, Bz, Cz, Dz, deltaZ, delta2Z, delta3Z;
+			coefficients(c1.z, c2.z, c3.z, c4.z, Az, Bz, Cz, Dz);
+			differences(Az, Bz, Cz, Dz, step, step2, step3, deltaZ, delta2Z, delta3Z);
 
-			Coordinate oldCoord(Dx, Dy);
+			Coordinate oldCoord(Dx, Dy, Dz);
 			path.push_back(oldCoord);
 
 			for (double t = 0.0; t <= 1; t += step) {
 				Coordinate newCoord = oldCoord;
 				newCoord.x += deltaX;
 				newCoord.y += deltaY;
-				//newCoord.z += deltaZ;
+				newCoord.z += deltaZ;
+
 				deltaX += delta2X;
 				delta2X += delta3X;
 
 				deltaY += delta2Y;
 				delta2Y += delta3Y;
 
-				//deltaZ += delta2Z;
-				//delta2Z += delta3Z;
+				deltaZ += delta2Z;
+				delta2Z += delta3Z;
 
 				path.push_back(newCoord);
 				oldCoord = newCoord;
