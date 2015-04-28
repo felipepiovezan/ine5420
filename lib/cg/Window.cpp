@@ -25,6 +25,7 @@ void Window::move(double dx, double dy, double dz) {
     c *= Transformation::newRx(-_thetaX) * Transformation::newRy(-_thetaY) * Transformation::newRz(-_thetaZ);
     _center.x -= c.x;
     _center.y -= c.y;
+    _center.z -= c.z;
 }
 
 void Window::updateMatrix() {
