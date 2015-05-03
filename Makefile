@@ -21,10 +21,6 @@ prepare:
 	mkdir -p build/ui
 	mkdir -p build/utils
 
-test:
-	echo $(OBJ_FILES)
-	echo "Nothing yet to do"
-
 clean:
 	rm cg -f
 	rm build/* -rf
