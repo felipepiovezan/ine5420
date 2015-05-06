@@ -17,11 +17,11 @@ namespace CG {
 	}
 
 	Coordinate operator+(const Coordinate &c1, const Coordinate &c2) {
-		return Coordinate(c1.x + c2.x, c1.y + c2.y);
+		return Coordinate(c1.x + c2.x, c1.y + c2.y, c1.z + c2.z);
 	}
 
 	Coordinate operator-(const Coordinate &c1, const Coordinate &c2) {
-		return Coordinate(c1.x - c2.x, c1.y - c2.y);
+		return Coordinate(c1.x - c2.x, c1.y - c2.y, c1.z - c2.z);
 	}
 
 	Coordinate GObject::center() const {

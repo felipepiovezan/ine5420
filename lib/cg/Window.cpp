@@ -6,7 +6,7 @@
 namespace CG {
 
 Window:: Window(double cx, double cy, double width, double height, double thetaZ, double thetaX, double thetaY)
-        : _center(cx, cy), _width(width), _height(height), _thetaZ(thetaZ), _thetaX(thetaX), _thetaY(thetaY) {
+        : _center(cx, cy, -1), _width(width), _height(height), _thetaZ(thetaZ), _thetaX(thetaX), _thetaY(thetaY) {
     updateMatrix();
 }
 
