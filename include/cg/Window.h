@@ -7,7 +7,7 @@ namespace CG {
 
 class Window {
 public:
-    Window(double cx, double cy, double width, double height, double thetaZ = 0, double thetaX = 0, double thetaY = 0);
+    Window(double cx, double cy, double cz, double width, double height, double thetaX = 0, double thetaY = 0, double thetaZ = 0);
 
     double width() const {return _width;}
     double height() const {return _height;}
@@ -30,7 +30,7 @@ public:
 
 private:
     Coordinate _center;
-    double _width, _height, _thetaZ, _thetaX, _thetaY;
+    double _width, _height, _thetaX, _thetaY, _thetaZ;
     Transformation _wo2wiMatrix;
 };
 

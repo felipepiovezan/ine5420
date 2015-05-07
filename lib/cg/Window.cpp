@@ -5,8 +5,8 @@
 
 namespace CG {
 
-Window:: Window(double cx, double cy, double width, double height, double thetaZ, double thetaX, double thetaY)
-        : _center(cx, cy, -1), _width(width), _height(height), _thetaZ(thetaZ), _thetaX(thetaX), _thetaY(thetaY) {
+Window:: Window(double cx, double cy, double cz, double width, double height, double thetaX, double thetaY, double thetaZ)
+        : _center(cx, cy, cz), _width(width), _height(height), _thetaX(thetaX), _thetaY(thetaY), _thetaZ(thetaZ) {
     updateMatrix();
 }
 
@@ -15,8 +15,9 @@ bool Window::zoom(double step) {
     if (_width + step <= 0 ||  _height + step <= 0)
         return false;
 
-    _width += step;
-    _height += step;
+    //_width += step;
+    //_height += step;
+    _center.z -= step;
     return true;
 }
 
@@ -34,7 +35,8 @@ void Window::updateMatrix() {
     _wo2wiMatrix *= Transformation::newRx(_thetaX);
     _wo2wiMatrix *= Transformation::newRy(_thetaY);
     _wo2wiMatrix *= Transformation::newRz(_thetaZ);
-    _wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height, 1.0);
+    // TODO perspective: width and height now have no effect to the system
+    //_wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height, 1.0/(_width + _height));
 }
 
 }

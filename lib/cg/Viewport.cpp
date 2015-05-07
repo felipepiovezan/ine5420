@@ -94,9 +94,15 @@ namespace CG {
 	  return os;
   }
 
-  void Viewport::transformAndClip(ObjRef obj, const Transformation &t){
+  void Viewport::transformAndClip(ObjRef obj, const Transformation &t) {
+    bool draw = true;
 	  obj->transform(t);
-	  bool draw = true;
+
+    // Apply perspective:
+    for(auto &c : obj->coordinates()) {
+      c.x /= c.z;
+      c.y /= c.z;
+    }
 
 	  switch (obj->type()) {
       case GObject::Type::OBJECT:
