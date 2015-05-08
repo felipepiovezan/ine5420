@@ -31,7 +31,7 @@ void Window::move(double dx, double dy, double dz) {
 
 void Window::updateMatrix() {
     _wo2wiMatrix = Transformation();
-    _wo2wiMatrix *= Transformation::newTranslation(-_center.x, -_center.y, -_center.z);
+    _wo2wiMatrix *= Transformation::newTranslation(-_center.x + _d, -_center.y + _d, -_center.z + _d);
     _wo2wiMatrix *= Transformation::newRx(_thetaX);
     _wo2wiMatrix *= Transformation::newRy(_thetaY);
     _wo2wiMatrix *= Transformation::newRz(_thetaZ);

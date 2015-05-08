@@ -99,10 +99,10 @@ namespace CG {
 	  obj->transform(t);
 
     // Apply perspective:
-    for(auto &c : obj->coordinates()) {
-      c.x /= c.z;
-      c.y /= c.z;
-    }
+	for(auto &c : obj->coordinates()) {
+	   c.x = _window.d() * c.x / c.z;
+	   c.y = _window.d() * c.y / c.z;
+	}
 
 	  switch (obj->type()) {
       case GObject::Type::OBJECT:

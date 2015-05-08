@@ -14,6 +14,7 @@ public:
     double thetaX() const {return _thetaX;}
     double thetaY() const {return _thetaY;}
     double thetaZ() const {return _thetaZ;}
+    double d() const {return _d;}
     int xmin() const {return -1;}
     int xmax() const {return  1;}
     int ymin() const {return -1;}
@@ -32,6 +33,7 @@ private:
     Coordinate _center;
     double _width, _height, _thetaX, _thetaY, _thetaZ;
     Transformation _wo2wiMatrix;
+    double _d = 2.0; //center of projection
 };
 
 }
