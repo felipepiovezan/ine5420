@@ -4,7 +4,7 @@
 
 MainWindow::MainWindow() :
 	_world(new CG::World()),
-	_window(0, 0, -10, 30, 30),
+	_window(0, 0, -5, 30, 30),
 	_viewport(_window, _world),
 	_toolbox(_world) {
 		_world->addListener(_viewport);

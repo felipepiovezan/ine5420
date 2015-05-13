@@ -98,11 +98,12 @@ namespace CG {
     bool draw = true;
 	  obj->transform(t);
 
-    // Apply perspective:
-	for(auto &c : obj->coordinates()) {
-	   c.x = _window.d() * c.x / c.z;
-	   c.y = _window.d() * c.y / c.z;
-	}
+    if (behindCamera(obj)) {
+      obj->coordinates().clear();
+      return;
+    }
+
+    applyPerspective(obj);
 
 	  switch (obj->type()) {
       case GObject::Type::OBJECT:
@@ -120,9 +121,9 @@ namespace CG {
         draw = _clippingStrategy.clip(*static_cast<GPolygon*> (obj.get()), clippingRect);
         break;
 
-	  case GObject::Type::_3D_OBJECT:
-		  draw = _clippingStrategy.clip(*static_cast<G3dObject*> (obj.get()), clippingRect);
-		  break;
+      case GObject::Type::_3D_OBJECT:
+		    draw = _clippingStrategy.clip(*static_cast<G3dObject*> (obj.get()), clippingRect);
+		    break;
 
       case GObject::Type::BEZIER_CURVE:
       case GObject::Type::SPLINE_CURVE:
@@ -153,6 +154,28 @@ namespace CG {
 		std::cout << "Took me " << time << " clock ticks ("<< s << " seconds or " << 1/s << "draws/s) at "
 				<<  CLOCKS_PER_SEC << "Hz to transform and clip all objects" << std::endl;
 	}
+
+  void Viewport::applyPerspective(ObjRef obj) {
+    for(auto &c : obj->coordinates()) {
+      if (c.z <= 0) {
+        // TODO: clip entire object face if one of face's coordinate is z <= 0
+      }
+
+      c.x = _window.d() * c.x / c.z;
+      c.y = _window.d() * c.y / c.z;
+    }
+  }
+
+  bool Viewport::behindCamera(ObjRef obj) {
+    unsigned int frontCamera = 0; // Number of points in front of camera
+    for(auto &c : obj->coordinates()) {
+      if (c.z >= 0) {
+        frontCamera++;
+      }
+    }
+
+    return frontCamera == 0;
+  }
 
   Viewport::Border::Border(const ClippingRect& rect) {
     addCoordinate(Coordinate(rect.minX, rect.minY));

@@ -35,8 +35,7 @@ void Window::updateMatrix() {
     _wo2wiMatrix *= Transformation::newRx(_thetaX);
     _wo2wiMatrix *= Transformation::newRy(_thetaY);
     _wo2wiMatrix *= Transformation::newRz(_thetaZ);
-    // TODO perspective: width and height now have no effect to the system
-    //_wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height, 1.0/(_width + _height));
+    _wo2wiMatrix *= Transformation::newScaling(1.0/_width, 1.0/_height, 2.0/(_width + _height));
 }
 
 }
