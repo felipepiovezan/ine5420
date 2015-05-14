@@ -103,7 +103,7 @@ namespace CG {
       return;
     }
 
-    applyPerspective(obj);
+    obj->applyPerspective(_window.d());
 
 	  switch (obj->type()) {
       case GObject::Type::OBJECT:
@@ -154,17 +154,6 @@ namespace CG {
 		std::cout << "Took me " << time << " clock ticks ("<< s << " seconds or " << 1/s << "draws/s) at "
 				<<  CLOCKS_PER_SEC << "Hz to transform and clip all objects" << std::endl;
 	}
-
-  void Viewport::applyPerspective(ObjRef obj) {
-    for(auto &c : obj->coordinates()) {
-      if (c.z <= 0) {
-        // TODO: clip entire object face if one of face's coordinate is z <= 0
-      }
-
-      c.x = _window.d() * c.x / c.z;
-      c.y = _window.d() * c.y / c.z;
-    }
-  }
 
   bool Viewport::behindCamera(ObjRef obj) {
     unsigned int frontCamera = 0; // Number of points in front of camera

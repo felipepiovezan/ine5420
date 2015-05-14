@@ -46,6 +46,13 @@ namespace CG {
 		}
 	}
 
+	void GObject::applyPerspective(double dop) {
+		for(auto &c : _coordinates) {
+      c.x = dop * c.x / c.z;
+      c.y = dop * c.y / c.z;
+    }
+	}
+
 	BezierCurve::BezierCurve(const Coordinates& coords) {
 		if (coords.size() < 4 || (coords.size() - 4) % 3 != 0) {
 			throw CGException("A bezier curve must be defined with 4, 7, 10, 13, 16, ... coordinates");

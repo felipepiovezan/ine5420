@@ -49,6 +49,8 @@ namespace CG {
 			virtual Type type() const { return Type::OBJECT; }
 			virtual std::string typeName() const { return "Object"; }
 
+			virtual void applyPerspective(double dop);
+
 			Decoration decoration;
 
 			virtual ~GObject(){}

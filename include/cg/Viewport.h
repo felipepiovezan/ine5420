@@ -58,7 +58,6 @@ namespace CG {
 
       void transformAndClipAll(const Transformation &t);
       inline void transformAndClip(ObjRef, const Transformation &t);
-      void applyPerspective(ObjRef obj);
       bool behindCamera(ObjRef obj);
 
       class Border : public GPolygon {

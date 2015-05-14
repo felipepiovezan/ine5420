@@ -35,9 +35,17 @@ public:
 	  bool clip = false;
 	  for(const auto& face : obj.faceList()){
 		  CG::GPolygon pol;
-		  for(int index : face)
+      bool addFace = true;
+		  for(int index : face) {
+        // Do not add the face if some of its coordinates is partially behind camera
+        if (obj._coordinates[index].z <= 0) {
+          addFace = false;
+        }
+
 			  pol.addCoordinate(obj._coordinates[index]);
-		  if(clipPolygon(pol, rect)){
+      }
+
+		  if(clipPolygon(pol, rect) && addFace){
 			  obj._actualFaces.push_back(std::move(pol));
 			  clip = true;
 		  }
