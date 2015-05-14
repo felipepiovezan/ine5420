@@ -186,4 +186,63 @@ namespace CG {
 		delta3 = 6 * A * step3;
 		delta2 = delta3 + 2 * B * step2;
 	}
+
+
+	void GSurface::createDeltaMatrices(double delta_s, double delta_t){
+		 _es[0][0] = 0;
+		  _es[0][1] = 0;
+		  _es[0][2] = 0;
+		  _es[0][3] = 1;
+
+		  _es[1][0] = delta_s * delta_s * delta_s;
+		  _es[1][1] = delta_s * delta_s;
+		  _es[1][2] = delta_s;
+		  _es[1][3] = 0;
+
+		  _es[2][0] = 6 * delta_s * delta_s * delta_s;
+		  _es[2][1] = 2 * delta_s * delta_s;
+		  _es[2][2] = 0;
+		  _es[2][3] = 0;
+
+		  _es[3][0] = 6 * delta_s * delta_s * delta_s;
+		  _es[3][1] = 0;
+		  _es[3][2] = 0;
+		  _es[3][3] = 0;
+
+		  // Delta t
+		  _et[0][0] = 0;
+		  _et[0][1] = 0;
+		  _et[0][2] = 0;
+		  _et[0][3] = 1;
+
+		  _et[1][0] = delta_t * delta_t * delta_t;
+		  _et[1][1] = delta_t * delta_t;
+		  _et[1][2] = delta_t;
+		  _et[1][3] = 0;
+
+		  _et[2][0] = 6 * delta_t * delta_t * delta_t;
+		  _et[2][1] = 2 * delta_t * delta_t;
+		  _et[2][2] = 0;
+		  _et[2][3] = 0;
+
+		  _et[3][0] = 6 * delta_t * delta_t * delta_t;
+		  _et[3][1] = 0;
+		  _et[3][2] = 0;
+		  _et[3][3] = 0;
+
+		  //transpose(_et);
+	}
+
+	void GSurface::createForwardDiffMatrices(){
+	  double buffer[4][4];
+	  // DD(x)
+//	  multMatrix4x4(Es, Cx, buffer);
+//	  multMatrix4x4(buffer, Et, DDx);
+	  // DD(y)
+//	  multMatrix4x4(Es, Cy, buffer);
+//	  multMatrix4x4(buffer, Et, DDy);
+	  // DD(z)
+//	  multMatrix4x4(Es, Cz, buffer);
+//	  multMatrix4x4(buffer, Et, DDz);
+	}
 }

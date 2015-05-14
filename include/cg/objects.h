@@ -188,6 +188,40 @@ namespace CG {
 		std::vector<CG::GPolygon> _actualFaces;
 	};
 
+
+	/*The GSurface implementation is largely based on the implementation suggested by the professor:
+	 * https://gist.github.com/awangenh/73983b81541abf2c71cc#file-forwarddiff_foley_vandam-pde-L66
+	 * */
+	class GSurface : public GObject{
+		enum SurfaceType{BEZIER, B_SPLINE};
+
+		GSurface(SurfaceType type, Coordinates (&coords)[4][4]) : GObject(), _controlPoints(coords),
+				_geometry_matrix(type == SurfaceType::BEZIER? bezier_matrix : spline_matrix){}
+
+	private:
+		Coordinates _controlPoints[4][4];
+		const double (&_geometry_matrix)[4][4];
+		/* Parameter Matrices*/
+		double _et[4][4];
+		double _es[4][4];
+
+
+		/* Constants for each surface type*/
+		constexpr static double bezier_matrix[4][4] =  { {-1,  3, -3,  1},
+														{ 3, -6,  3,  0},
+														{-3,  3,  0,  0},
+														{ 1,  0,  0,  0} };
+		constexpr static double spline_matrix[4][4] =  { {-1,  3, -3,  1},
+														{ 3, -6,  3,  0},
+														{-3,  3,  0,  0},
+														{ 1,  0,  0,  0} };
+
+		/*Methods used by the Draw Surface function*/
+		void createDeltaMatrices(double delta_s, double delta_t);
+		void createForwardDiffMatrices();
+
+	};
+
 }
 
 #endif
