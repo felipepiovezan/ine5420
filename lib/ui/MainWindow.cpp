@@ -126,6 +126,7 @@ void MainWindow::init_handlers() {
   _toolbox._newLine.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newLine));
   _toolbox._newPolygon.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newPolygon));
   _toolbox._newCurve.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newCurve));
+  _toolbox._newSurface.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_newSurface));
 
   _toolbox._zoomInBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::zoomIn));
   _toolbox._zoomOutBtn.signal_clicked().connect(sigc::mem_fun(_viewport, &CG::Viewport::zoomOut));
@@ -196,6 +197,17 @@ void MainWindow::on_newCurve() {
     } else {
       _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
     }
+  }
+}
+
+void MainWindow::on_newSurface() {
+  SurfaceDialog dialog;
+  if (dialog.run() == Gtk::RESPONSE_OK) {
+    // if (dialog.getType() == CG::GObject::BEZIER_CURVE) {
+    //   _world->createBezierCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+    // } else {
+    //   _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+    // }
   }
 }
 

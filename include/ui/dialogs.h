@@ -134,6 +134,20 @@ class CurveDialog : public ObjectDialog {
 };
 
 /**
+ * Dialog window to request data for a surface
+ */
+class SurfaceDialog : public ObjectDialog {
+  public:
+    SurfaceDialog();
+    CG::GObject::Coordinates getCoordinates() { return coordPanel.getCoordinates(); }
+    CG::GObject::Type getType() const;
+
+  protected:
+    CoordinatesPanel coordPanel;
+    Gtk::RadioButton bezierRB, splineRB;
+};
+
+/**
  * Dialog Window for Object Translation
  */
 class TranslateDialog : public Dialog {

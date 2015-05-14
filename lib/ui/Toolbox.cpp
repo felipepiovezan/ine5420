@@ -15,6 +15,7 @@ void Toolbox::init_create_widgets() {
   _newLine.set_label("Line");
   _newPolygon.set_label("Polygon");
   _newCurve.set_label("Curve");
+  _newSurface.set_label("Surface");
 
   pack_start(_createFrame, Gtk::PACK_SHRINK);
   _createFrame.add(_createGrid);
@@ -23,11 +24,13 @@ void Toolbox::init_create_widgets() {
   _createGrid.attach(_newLine, 1, 0, 1, 1);
   _createGrid.attach(_newPolygon, 0, 1, 1, 1);
   _createGrid.attach(_newCurve, 1, 1, 1, 1);
+  _createGrid.attach(_newSurface, 0, 2, 2, 1);
 
   _newPoint.show();
   _newLine.show();
   _newPolygon.show();
   _newCurve.show();
+  _newSurface.show();
   _createGrid.show();
   _createFrame.show();
 }

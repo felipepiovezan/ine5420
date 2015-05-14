@@ -20,7 +20,7 @@ class Toolbox : public Gtk::VBox {
     // Create widgets
     Gtk::Frame _createFrame;
     Grid _createGrid;
-    Gtk::Button _newPoint, _newLine, _newPolygon, _newCurve;
+    Gtk::Button _newPoint, _newLine, _newPolygon, _newCurve, _newSurface;
 
     // Control widgets
     Gtk::Frame _controlFrame;

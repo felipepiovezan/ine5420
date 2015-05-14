@@ -167,6 +167,36 @@ CG::GObject::Type CurveDialog::getCurveType() const {
 }
 
 // ==========================================================
+// SurfaceDialog
+
+SurfaceDialog::SurfaceDialog() {
+  set_title("Surface");
+
+  Gtk::RadioButton::Group group = bezierRB.get_group();
+  splineRB.set_group(group);
+  bezierRB.set_label("Bezier surface");
+  splineRB.set_label("Spline surface");
+
+  get_vbox()->pack_start(nameBox);
+  get_vbox()->pack_start(bezierRB);
+  get_vbox()->pack_start(splineRB);
+  get_vbox()->pack_start(coordPanel);
+
+  nameBox.show();
+  bezierRB.show();
+  splineRB.show();
+  coordPanel.show();
+}
+
+CG::GObject::Type SurfaceDialog::getType() const {
+  if (bezierRB.get_active()) {
+    return CG::GObject::Type::_3D_OBJECT; // TODO: changed to BEZIER_SURFACE type
+  } else {
+    return CG::GObject::Type::_3D_OBJECT; // TODO: changed to SPLINE_SURFACE type
+  }
+}
+
+// ==========================================================
 // TranslateDialog
 
 TranslateDialog::TranslateDialog() {
