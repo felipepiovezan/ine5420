@@ -187,9 +187,22 @@ namespace CG {
 		delta2 = delta3 + 2 * B * step2;
 	}
 
+	void GSurface::calculateCoefficients(){
+		Transformation geometry(_geometry_matrix);
+		Transformation geometryTransposed = geometry.transpose();
+
+		Transformation coords_x(_coords_x);
+		_cx = (geometry * coords_x * geometryTransposed).m();
+
+		Transformation coords_y(_coords_y);
+		_cy = (geometry * coords_y  * geometryTransposed).m();
+
+		Transformation coords_z(_coords_z);
+		_cz = (geometry * coords_z  * geometryTransposed).m();
+	}
 
 	void GSurface::createDeltaMatrices(double delta_s, double delta_t){
-		 _es[0][0] = 0;
+		  _es[0][0] = 0;
 		  _es[0][1] = 0;
 		  _es[0][2] = 0;
 		  _es[0][3] = 1;
@@ -211,38 +224,87 @@ namespace CG {
 
 		  // Delta t
 		  _et[0][0] = 0;
-		  _et[0][1] = 0;
-		  _et[0][2] = 0;
-		  _et[0][3] = 1;
+		  _et[1][0] = 0;
+		  _et[2][0] = 0;
+		  _et[3][0] = 1;
 
-		  _et[1][0] = delta_t * delta_t * delta_t;
+		  _et[0][1] = delta_t * delta_t * delta_t;
 		  _et[1][1] = delta_t * delta_t;
-		  _et[1][2] = delta_t;
-		  _et[1][3] = 0;
-
-		  _et[2][0] = 6 * delta_t * delta_t * delta_t;
-		  _et[2][1] = 2 * delta_t * delta_t;
-		  _et[2][2] = 0;
-		  _et[2][3] = 0;
-
-		  _et[3][0] = 6 * delta_t * delta_t * delta_t;
+		  _et[2][1] = delta_t;
 		  _et[3][1] = 0;
-		  _et[3][2] = 0;
-		  _et[3][3] = 0;
 
-		  //transpose(_et);
+		  _et[0][2] = 6 * delta_t * delta_t * delta_t;
+		  _et[1][2] = 2 * delta_t * delta_t;
+		  _et[2][2] = 0;
+		  _et[3][2] = 0;
+
+		  _et[0][3] = 6 * delta_t * delta_t * delta_t;
+		  _et[1][3] = 0;
+		  _et[2][3] = 0;
+		  _et[3][3] = 0;
+		  //transpose(_et); fiz isso mudando as atribuicoes acima...
 	}
 
 	void GSurface::createForwardDiffMatrices(){
-	  double buffer[4][4];
-	  // DD(x)
-//	  multMatrix4x4(Es, Cx, buffer);
-//	  multMatrix4x4(buffer, Et, DDx);
-	  // DD(y)
-//	  multMatrix4x4(Es, Cy, buffer);
-//	  multMatrix4x4(buffer, Et, DDy);
-	  // DD(z)
-//	  multMatrix4x4(Es, Cz, buffer);
-//	  multMatrix4x4(buffer, Et, DDz);
+	  Transformation es(_es), et(_et);
+	  _DDx = (es * _cx * et).m();
+	  _DDy = (es * _cy * et).m();
+	  _DDz = (es * _cz * et).m();
 	}
+
+	void GSurface::makeCurve( int n,
+	                      double x, double Dx, double D2x, double D3x,
+	                      double y, double Dy, double D2y, double D3y,
+	                      double z, double Dz, double D2z, double D3z){
+	  int i = 0;
+	  Coordinates coords;
+	  coords.push_back(Coordinate(x,y,z));
+	  for (i=1; i < n; i++) {
+	    x = x + Dx;  Dx = Dx + D2x;  D2x = D2x + D3x;
+	    y = y + Dy;  Dy = Dy + D2y;  D2y = D2y + D3y;
+	    z = z + Dz;  Dz = Dz + D2z;  D2z = D2z + D3z;
+		coords.push_back(Coordinate(x,y,z));
+	  }
+	  Curve c; c.setPath(coords);
+	  _curves.push_back(std::move(c));
+	}
+
+	void GSurface::UpdateForwardDiffMatrices(){
+	  _DDx[0][0] =  _DDx[0][0]+_DDx[1][0]; _DDx[0][1] = _DDx[0][1]+_DDx[1][1]; _DDx[0][2] = _DDx[0][2]+_DDx[1][2]; _DDx[0][3] = _DDx[0][3]+_DDx[1][3];
+	  _DDy[0][0] =  _DDy[0][0]+_DDy[1][0]; _DDy[0][1] = _DDy[0][1]+_DDy[1][1]; _DDy[0][2] = _DDy[0][2]+_DDy[1][2]; _DDy[0][3] = _DDy[0][3]+_DDy[1][3];
+	  _DDz[0][0] =  _DDz[0][0]+_DDz[1][0]; _DDz[0][1] = _DDz[0][1]+_DDz[1][1]; _DDz[0][2] = _DDz[0][2]+_DDz[1][2]; _DDz[0][3] = _DDz[0][3]+_DDz[1][3];
+	  _DDx[1][0] =  _DDx[1][0]+_DDx[2][0]; _DDx[1][1] = _DDx[1][1]+_DDx[2][1]; _DDx[1][2] = _DDx[1][2]+_DDx[2][2]; _DDx[1][3] = _DDx[1][3]+_DDx[2][3];
+	  _DDy[1][0] =  _DDy[1][0]+_DDy[2][0]; _DDy[1][1] = _DDy[1][1]+_DDy[2][1]; _DDy[1][2] = _DDy[1][2]+_DDy[2][2]; _DDy[1][3] = _DDy[1][3]+_DDy[2][3];
+	  _DDz[1][0] =  _DDz[1][0]+_DDz[2][0]; _DDz[1][1] = _DDz[1][1]+_DDz[2][1]; _DDz[1][2] = _DDz[1][2]+_DDz[2][2]; _DDz[1][3] = _DDz[1][3]+_DDz[2][3];
+	  _DDx[2][0] =  _DDx[2][0]+_DDx[3][0]; _DDx[2][1] = _DDx[2][1]+_DDx[3][1]; _DDx[2][2] = _DDx[2][2]+_DDx[3][2]; _DDx[2][3] = _DDx[2][3]+_DDx[3][3];
+	  _DDy[2][0] =  _DDy[2][0]+_DDy[3][0]; _DDy[2][1] = _DDy[2][1]+_DDy[3][1]; _DDy[2][2] = _DDy[2][2]+_DDy[3][2]; _DDy[2][3] = _DDy[2][3]+_DDy[3][3];
+	  _DDz[2][0] =  _DDz[2][0]+_DDz[3][0]; _DDz[2][1] = _DDz[2][1]+_DDz[3][1]; _DDz[2][2] = _DDz[2][2]+_DDz[3][2]; _DDz[2][3] = _DDz[2][3]+_DDz[3][3];
+	}
+
+	void GSurface::regeneratePath(int ns, int nt){
+		  double delta_s = 1.0 / (ns - 1);
+		  double delta_t = 1.0 / (nt - 1);
+		  createDeltaMatrices(delta_s, delta_t);
+		  createForwardDiffMatrices();
+		  for (int i = 0; i < ns; i++) {
+			  makeCurve(nt,
+		                     _DDx[0][0], _DDx[0][1], _DDx[0][2], _DDx[0][3],
+		                     _DDy[0][0], _DDy[0][1], _DDy[0][2], _DDy[0][3],
+		                     _DDz[0][0], _DDz[0][1], _DDz[0][2], _DDz[0][3] );
+		    UpdateForwardDiffMatrices();
+		  }
+
+		  createForwardDiffMatrices();
+		  _DDx = Transformation(_DDx).transpose().m();
+		  _DDy = Transformation(_DDy).transpose().m();
+		  _DDz = Transformation(_DDz).transpose().m();
+		  for (int i = 0; i < nt; i++) {
+			  makeCurve(nt,
+			  		                     _DDx[0][0], _DDx[0][1], _DDx[0][2], _DDx[0][3],
+			  		                     _DDy[0][0], _DDy[0][1], _DDy[0][2], _DDy[0][3],
+			  		                     _DDz[0][0], _DDz[0][1], _DDz[0][2], _DDz[0][3] );
+		    UpdateForwardDiffMatrices();
+		  }
+	}
+
 }

@@ -31,6 +31,15 @@ namespace CG {
 		return *this;
 	}
 
+	Transformation Transformation::transpose(){
+		TransformationMatrix mat;
+		for(int i = 0; i < 4; i++)
+			for(int j = 0; j < 4; j++)
+				mat[i][j] = _m[j][i];
+		return Transformation(std::move(mat));
+
+	}
+
 	Transformation operator*(Transformation lhs, const Transformation& rhs){
 		lhs *= rhs;
 		return lhs;
@@ -76,8 +85,7 @@ namespace CG {
 					{0         , 0          , 0, 1}}});
 	}
 
-	Transformation Transformation::newScalingAroundObjCenter(double sx, double sy, double sz, const GObject& obj){
-		const Coordinate center = obj.center();
+	Transformation Transformation::newScalingAroundObjCenter(double sx, double sy, double sz, const Coordinate& center){
 		return newTranslation(-center.x, -center.y, -center.z) * newScaling(sx, sy, sz) * newTranslation(center.x, center.y, center.z);
 	}
 

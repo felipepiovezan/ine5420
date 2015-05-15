@@ -33,7 +33,7 @@ namespace CG {
 		friend class ClippingStrategy;
 		public:
 			typedef std::vector<Coordinate> Coordinates;
-			enum Type { OBJECT, POINT, LINE, POLYGON, BEZIER_CURVE, SPLINE_CURVE, _3D_OBJECT};
+			enum Type { OBJECT, POINT, LINE, POLYGON, BEZIER_CURVE, SPLINE_CURVE, _3D_OBJECT, SURFACE};
 
 			const Coordinates& coordinates() const {return _coordinates;}
 			Coordinates& coordinates() {return _coordinates;}
@@ -126,10 +126,12 @@ namespace CG {
 		const GObject::Coordinates& getPath() const { return path; }
 		void setPath(GObject::Coordinates& newPath) { path = newPath; }
 
+		ObjRef clone() const & {return ObjRef(new Curve(*this));}
+		ObjRef clone() && {return ObjRef(new Curve(std::move(*this)));}
 		/**
 		 * Must regenerate the parametric curve with t varying between 0 and 1 with defined step (for each sub-curve)
 		 */
-		virtual void regeneratePath(double step) = 0;
+		virtual void regeneratePath(double step) {};
 
 	 protected:
 	 	GObject::Coordinates path; // Holds generated coordinates of curve with specified precision
@@ -193,19 +195,39 @@ namespace CG {
 	 * https://gist.github.com/awangenh/73983b81541abf2c71cc#file-forwarddiff_foley_vandam-pde-L66
 	 * */
 	class GSurface : public GObject{
+	public:
 		enum SurfaceType{BEZIER, B_SPLINE};
 
-		GSurface(SurfaceType type, Coordinates (&coords)[4][4]) : GObject(), _controlPoints(coords),
-				_geometry_matrix(type == SurfaceType::BEZIER? bezier_matrix : spline_matrix){}
+		GSurface(SurfaceType type, const Coordinate (&coords)[4][4]) : GObject(),
+				_geometry_matrix(type == SurfaceType::BEZIER? bezier_matrix : spline_matrix){
+			for(int i = 0; i< 4; i++)
+				for(int j = 0; j<4 ; j++){
+					_coords_x[i][j] = coords[i][j].x;
+					_coords_y[i][j] = coords[i][j].y;
+					_coords_z[i][j] = coords[i][j].z;
+				}
+		}
+		void regeneratePath( int ns, int nt);
+		std::vector<Curve>& curves(){return _curves;}
+
+		ObjRef clone() const & {return ObjRef(new GSurface(*this));}
+		ObjRef clone() && {return ObjRef(new GSurface(std::move(*this)));}
 
 	private:
-		Coordinates _controlPoints[4][4];
+		std::vector<Curve> _curves;
+
 		const double (&_geometry_matrix)[4][4];
-		/* Parameter Matrices*/
-		double _et[4][4];
-		double _es[4][4];
-
-
+		std::array<std::array<double, 4>, 4> _coords_x;
+		std::array<std::array<double, 4>, 4> _coords_y;
+		std::array<std::array<double, 4>, 4> _coords_z;
+		std::array<std::array<double, 4>, 4> _cx;
+		std::array<std::array<double, 4>, 4> _cy;
+		std::array<std::array<double, 4>, 4> _cz;
+		std::array<std::array<double, 4>, 4> _et;
+		std::array<std::array<double, 4>, 4> _es;
+		std::array<std::array<double, 4>, 4> _DDx;
+		std::array<std::array<double, 4>, 4> _DDy;
+		std::array<std::array<double, 4>, 4> _DDz;
 		/* Constants for each surface type*/
 		constexpr static double bezier_matrix[4][4] =  { {-1,  3, -3,  1},
 														{ 3, -6,  3,  0},
@@ -215,10 +237,15 @@ namespace CG {
 														{ 3, -6,  3,  0},
 														{-3,  3,  0,  0},
 														{ 1,  0,  0,  0} };
-
 		/*Methods used by the Draw Surface function*/
+		void calculateCoefficients();
 		void createDeltaMatrices(double delta_s, double delta_t);
 		void createForwardDiffMatrices();
+		void UpdateForwardDiffMatrices();
+		void makeCurve( int n,
+			                      double x, double Dx, double D2x, double D3x,
+			                      double y, double Dy, double D2y, double D3y,
+			                      double z, double Dz, double D2z, double D3z);
 
 	};
 

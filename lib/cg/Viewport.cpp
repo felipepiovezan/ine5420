@@ -132,6 +132,16 @@ namespace CG {
         curve->regeneratePath(step);
         draw = _clippingStrategy.clip(*curve, clippingRect);
         break;
+
+      case GObject::Type::SURFACE:
+    	GSurface &surface = *static_cast<GSurface*>(obj.get());
+        double step = _window.width() / 1000.0;
+    	surface.regeneratePath(step, step);
+    	bool any = false;
+    	for(auto& curve : surface.curves())
+    		any |= _clippingStrategy.clip(curve, clippingRect);
+    	draw = any;
+        break;
 	  }
 
 	  if (!draw) {

@@ -6,9 +6,9 @@
 #include <ctgmath>
 #include "cg/objects.h"
 
+
 namespace CG{
 	class Coordinate;
-	class GObject;
 
 	/*
 	 * Class represents a transformation matrix.
@@ -21,18 +21,21 @@ namespace CG{
 		private:
 			TransformationMatrix _m;
 
-			Transformation(TransformationMatrix&& m) : _m(m) {}
 		public:
 			//default constructor builds an identity matrix;
 			Transformation();
+			Transformation(const double x[4][4]) {for(int i=0; i<4; i++) for(int j=0; j<4; j++)	_m[i][j]=x[i][j];}
+			Transformation(TransformationMatrix&& m) : _m(m) {}
+			Transformation(const TransformationMatrix& m) : _m(m) {}
 
 			//getters
 			const TransformationMatrix& m() const {return _m;}
+			TransformationMatrix& m() {return _m;}
 
 			//new transformations
 			static Transformation newTranslation(double dx, double dy, double dz);
 			static Transformation newScaling(double sx, double sy, double xz);
-			static Transformation newScalingAroundObjCenter(double sx, double sy, double sz, const GObject& obj);
+			static Transformation newScalingAroundObjCenter(double sx, double sy, double sz, const Coordinate& center);
 			static Transformation newRx(double theta);
 			static Transformation newRy(double theta);
 			static Transformation newRz(double theta);
@@ -44,6 +47,7 @@ namespace CG{
 
 			//member operators
 			Transformation& operator*=(const Transformation& rhs);
+			Transformation transpose();
 	};
 
 	Transformation operator*(Transformation lhs, const Transformation& rhs);

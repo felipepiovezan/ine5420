@@ -67,7 +67,7 @@ namespace CG {
   	auto itWorld = _worldObjects.findObject(name);
   	assert(_worldObjects.isValidIterator(itWorld));
   	auto &worldObject = itWorld->second;
-    worldObject->transform(Transformation::newScalingAroundObjCenter(sx, sy, sz, *worldObject));
+    worldObject->transform(Transformation::newScalingAroundObjCenter(sx, sy, sz, worldObject->center()));
     notifyObjectChange(name, worldObject);
   }
 
