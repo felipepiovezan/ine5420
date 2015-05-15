@@ -1,5 +1,6 @@
 #include "ui/widgets.h"
 
+#include <ctime>
 #include "ui/dialogs.h"
 
 Grid::Grid() {
@@ -28,21 +29,22 @@ CoordinatesPanel::CoordinatesPanel() {
 
   pointsModel = Gtk::ListStore::create(pointsColumns);
   pointsTree.set_model(pointsModel);
-  pointsTree.append_column("x", pointsColumns.x);
-  pointsTree.append_column("y", pointsColumns.y);
-  pointsTree.append_column("z", pointsColumns.z);
-  // TODO: try this: append_column_editable (https://developer.gnome.org/gtkmm-tutorial/stable/sec-treeview-examples.html.en#sec-editable-cells-example)
-  pointsTree.set_size_request(0, 150);
+  pointsTree.append_column_numeric_editable("x", pointsColumns.x, "%f");
+  pointsTree.append_column_numeric_editable("y", pointsColumns.y, "%f");
+  pointsTree.append_column_numeric_editable("z", pointsColumns.z, "%f");
 
-  pack_start(pointsTree);
+  scrolledWindow.set_size_request(0, 300);
+  scrolledWindow.add(pointsTree);
+
+  pack_start(scrolledWindow);
   pack_start(addCoordBtn);
 
   pointsTree.show();
   addCoordBtn.show();
+  scrolledWindow.show();
 }
 
 void CoordinatesPanel::addCoordinate(CG::Coordinate c) {
-  coordinates.push_back(c);
   Gtk::TreeModel::Row row = *(pointsModel->append());
   row[pointsColumns.x] = c.x;
   row[pointsColumns.y] = c.y;
@@ -50,8 +52,19 @@ void CoordinatesPanel::addCoordinate(CG::Coordinate c) {
 }
 
 void CoordinatesPanel::on_addCord_clicked() {
-  PointDialog dialog;
-  if (dialog.run()) {
-    addCoordinate(dialog.getCoordinate());
+  addCoordinate(CG::Coordinate((clock() % 20) - 10, (clock() % 20) - 10, (clock() % 10) - 3));
+}
+
+std::vector<CG::Coordinate> CoordinatesPanel::getCoordinates() {
+  std::vector<CG::Coordinate> coordinates;
+
+  for (auto iter : pointsModel->children()) {
+    Gtk::TreeModel::Row row = *iter;
+    double x = row[pointsColumns.x];
+    double y = row[pointsColumns.y];
+    double z = row[pointsColumns.z];
+    coordinates.emplace_back(x, y, z);
   }
+
+  return coordinates;
 }

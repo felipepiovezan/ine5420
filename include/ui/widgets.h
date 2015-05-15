@@ -28,6 +28,7 @@ class NumericEntry : public Gtk::Entry {
 class CoordinatesPanel : public Gtk::VBox {
  public:
   Gtk::Button addCoordBtn;
+  Gtk::ScrolledWindow scrolledWindow;
 
   class PointsColumns : public Gtk::TreeModel::ColumnRecord {
    public:
@@ -43,10 +44,9 @@ class CoordinatesPanel : public Gtk::VBox {
 
   CoordinatesPanel();
   void addCoordinate(CG::Coordinate c);
-  std::vector<CG::Coordinate> getCoordinates() { return coordinates; }
+  std::vector<CG::Coordinate> getCoordinates();
 
  protected:
-  std::vector<CG::Coordinate> coordinates;
   void on_addCord_clicked();
 };
 
