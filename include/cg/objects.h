@@ -198,17 +198,10 @@ namespace CG {
 	public:
 		enum SurfaceType{BEZIER, B_SPLINE};
 
-		GSurface(SurfaceType type, const Coordinate (&coords)[4][4]) : GObject(),
-				_geometry_matrix(type == SurfaceType::BEZIER? bezier_matrix : spline_matrix){
-			for(int i = 0; i< 4; i++)
-				for(int j = 0; j<4 ; j++){
-					_coords_x[i][j] = coords[i][j].x;
-					_coords_y[i][j] = coords[i][j].y;
-					_coords_z[i][j] = coords[i][j].z;
-				}
-		}
+		GSurface(SurfaceType type, const Coordinates& coords);
 		void regeneratePath( int ns, int nt);
 		std::vector<Curve>& curves(){return _curves;}
+		const std::vector<Curve>& curves() const {return _curves;}
 
 		ObjRef clone() const & {return ObjRef(new GSurface(*this));}
 		ObjRef clone() && {return ObjRef(new GSurface(std::move(*this)));}
@@ -238,6 +231,7 @@ namespace CG {
 														{-3,  3,  0,  0},
 														{ 1,  0,  0,  0} };
 		/*Methods used by the Draw Surface function*/
+		void updateCoords();
 		void calculateCoefficients();
 		void createDeltaMatrices(double delta_s, double delta_t);
 		void createForwardDiffMatrices();

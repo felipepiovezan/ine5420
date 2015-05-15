@@ -187,6 +187,37 @@ namespace CG {
 		delta2 = delta3 + 2 * B * step2;
 	}
 
+
+	constexpr double GSurface::bezier_matrix[4][4];
+	constexpr double GSurface::spline_matrix[4][4];
+
+	GSurface::GSurface(SurfaceType type, const Coordinates& coords) : GObject(coords),
+			_geometry_matrix(type == SurfaceType::BEZIER? GSurface::bezier_matrix : GSurface::spline_matrix){
+	}
+
+	void GSurface::updateCoords(){
+		for(int i = 0; i< 4; i++){
+			_coords_x[0][i] = _coordinates[i].x;
+			_coords_y[0][i] = _coordinates[i].y;
+			_coords_z[0][i] = _coordinates[i].z;
+		}
+		for(int i = 0; i< 4; i++){
+			_coords_x[1][i] = _coordinates[i+4].x;
+			_coords_y[1][i] = _coordinates[i+4].y;
+			_coords_z[1][i] = _coordinates[i+4].z;
+		}
+		for(int i = 0; i< 4; i++){
+			_coords_x[2][i] = _coordinates[i+8].x;
+			_coords_y[2][i] = _coordinates[i+8].y;
+			_coords_z[2][i] = _coordinates[i+8].z;
+		}
+		for(int i = 0; i< 4; i++){
+			_coords_x[3][i] = _coordinates[i+12].x;
+			_coords_y[3][i] = _coordinates[i+12].y;
+			_coords_z[3][i] = _coordinates[i+12].z;
+		}
+	}
+
 	void GSurface::calculateCoefficients(){
 		Transformation geometry(_geometry_matrix);
 		Transformation geometryTransposed = geometry.transpose();
@@ -282,6 +313,7 @@ namespace CG {
 	}
 
 	void GSurface::regeneratePath(int ns, int nt){
+		  updateCoords();
 		  double delta_s = 1.0 / (ns - 1);
 		  double delta_t = 1.0 / (nt - 1);
 		  createDeltaMatrices(delta_s, delta_t);

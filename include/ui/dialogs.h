@@ -140,7 +140,7 @@ class SurfaceDialog : public ObjectDialog {
   public:
     SurfaceDialog();
     CG::GObject::Coordinates getCoordinates() { return coordPanel.getCoordinates(); }
-    CG::GObject::Type getType() const;
+    CG::GSurface::SurfaceType getType() const;
 
   protected:
     CoordinatesPanel coordPanel;

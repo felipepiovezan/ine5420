@@ -127,21 +127,25 @@ namespace CG {
 
       case GObject::Type::BEZIER_CURVE:
       case GObject::Type::SPLINE_CURVE:
+      {
         Curve* curve = static_cast<Curve*> (obj.get());
         double step = _window.width() / 1000.0;
         curve->regeneratePath(step);
         draw = _clippingStrategy.clip(*curve, clippingRect);
         break;
+      }
 
       case GObject::Type::SURFACE:
+      {
     	GSurface &surface = *static_cast<GSurface*>(obj.get());
-        double step = _window.width() / 1000.0;
-    	surface.regeneratePath(step, step);
+        double steps = _window.width() / 1000.0;
+    	surface.regeneratePath(steps, steps);
     	bool any = false;
     	for(auto& curve : surface.curves())
     		any |= _clippingStrategy.clip(curve, clippingRect);
     	draw = any;
         break;
+      }
 	  }
 
 	  if (!draw) {

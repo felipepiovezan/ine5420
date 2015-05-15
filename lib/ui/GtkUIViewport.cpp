@@ -35,6 +35,11 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
     case CG::GObject::Type::SPLINE_CURVE:
       drawCurve((const CG::Curve&) obj);
       break;
+
+    case CG::GObject::Type::SURFACE:
+    	for(const CG::Curve& curve: ((const CG::GSurface&) obj).curves())
+    		drawCurve(curve);
+    	break;
   }
 }
 

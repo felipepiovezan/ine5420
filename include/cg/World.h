@@ -18,6 +18,8 @@ namespace CG {
       void createPolygon(std::string name, Decoration decoration, GObject::Coordinates coordinates);
       void createBezierCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates);
       void createSplineCurve(std::string name, Decoration decoration, GObject::Coordinates coordinates);
+      void createBezierSurface(std::string name, Decoration decoration, GObject::Coordinates coordinates);
+      void createSplineSurface(std::string name, Decoration decoration, GObject::Coordinates coordinates);
 
       void removeObject(const std::string &name);
 

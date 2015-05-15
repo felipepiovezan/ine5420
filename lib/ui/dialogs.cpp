@@ -188,11 +188,11 @@ SurfaceDialog::SurfaceDialog() {
   coordPanel.show();
 }
 
-CG::GObject::Type SurfaceDialog::getType() const {
+CG::GSurface::SurfaceType SurfaceDialog::getType() const {
   if (bezierRB.get_active()) {
-    return CG::GObject::Type::_3D_OBJECT; // TODO: changed to BEZIER_SURFACE type
+    return CG::GSurface::BEZIER; // TODO: changed to BEZIER_SURFACE type
   } else {
-    return CG::GObject::Type::_3D_OBJECT; // TODO: changed to SPLINE_SURFACE type
+    return CG::GSurface::B_SPLINE; // TODO: changed to SPLINE_SURFACE type
   }
 }
 

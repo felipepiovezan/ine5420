@@ -208,11 +208,11 @@ void MainWindow::on_newSurface() {
   SurfaceDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
     try {
-      // if (dialog.getType() == CG::GObject::BEZIER_CURVE) {
-      //   _world->createBezierCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
-      // } else {
-      //   _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
-      // }
+        if (dialog.getType() == CG::GSurface::BEZIER) {
+        _world->createBezierSurface(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+        } else {
+          _world->createSplineSurface(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+        }
     } catch(CGException& e) {
       alert(e);
     }

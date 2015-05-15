@@ -49,6 +49,18 @@ namespace CG {
     addObject(name, curve);
   }
 
+  void World::createBezierSurface(std::string name, Decoration decoration, GObject::Coordinates coordinates){
+	  ObjRef surface(new GSurface(GSurface::BEZIER, coordinates));
+	  surface->decoration = decoration;
+	  addObject(name, surface);
+  }
+
+  void World::createSplineSurface(std::string name, Decoration decoration, GObject::Coordinates coordinates){
+  	  ObjRef surface(new GSurface(GSurface::B_SPLINE, coordinates));
+  	  surface->decoration = decoration;
+  	  addObject(name, surface);
+    }
+
   void World::removeObject(const std::string &name) {
     assert(_worldObjects.exists(name));
     _worldObjects.remove(name);
