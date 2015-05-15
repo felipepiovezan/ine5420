@@ -27,6 +27,7 @@ class MainWindow : public Gtk::Window {
 
 	public:
 		MainWindow();
+    void alert(CGException& e);
 
 	protected:
 		void init_examples();

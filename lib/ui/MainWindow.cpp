@@ -192,10 +192,14 @@ void MainWindow::on_newPolygon() {
 void MainWindow::on_newCurve() {
   CurveDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
-    if (dialog.getCurveType() == CG::GObject::BEZIER_CURVE) {
+    try {
+      if (dialog.getCurveType() == CG::GObject::BEZIER_CURVE) {
       _world->createBezierCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
-    } else {
-      _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+      } else {
+        _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+      }
+    } catch(CGException& e) {
+      alert(e);
     }
   }
 }
@@ -203,11 +207,15 @@ void MainWindow::on_newCurve() {
 void MainWindow::on_newSurface() {
   SurfaceDialog dialog;
   if (dialog.run() == Gtk::RESPONSE_OK) {
-    // if (dialog.getType() == CG::GObject::BEZIER_CURVE) {
-    //   _world->createBezierCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
-    // } else {
-    //   _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
-    // }
+    try {
+      // if (dialog.getType() == CG::GObject::BEZIER_CURVE) {
+      //   _world->createBezierCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+      // } else {
+      //   _world->createSplineCurve(dialog.getName(), dialog.getDecoration(), dialog.getCoordinates());
+      // }
+    } catch(CGException& e) {
+      alert(e);
+    }
   }
 }
 
@@ -366,4 +374,9 @@ bool MainWindow::on_motion_notify_event(GdkEventMotion* event) {
     tool->update(event->x, event->y);
   }
   return false;
+}
+
+void MainWindow::alert(CGException& e) {
+  Gtk::MessageDialog alert(e.what());
+  alert.run();
 }
