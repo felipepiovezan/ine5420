@@ -67,6 +67,29 @@ void MainWindow::init_examples() {
 
   // Leaf
   init_leaf();
+
+  //surface exmaple:
+  c.clear();
+  c.emplace_back(-1, 3, 1);
+  c.emplace_back(0, 3, 1);
+  c.emplace_back(1, 3, 1);
+  c.emplace_back(2, 3, 1);
+
+  c.emplace_back(-1, 3, 2);
+  c.emplace_back(0, -2, 2);
+  c.emplace_back(1, -2, 2);
+  c.emplace_back(2, 3, 2);
+
+  c.emplace_back(-1, 3, 3);
+  c.emplace_back(0, -2, 3);
+  c.emplace_back(1, -2, 3);
+  c.emplace_back(2, 3, 3);
+
+  c.emplace_back(-1, 3, 4);
+  c.emplace_back(0, 3, 4);
+  c.emplace_back(1, 3, 4);
+  c.emplace_back(2, 3, 4);
+  _world->createBezierSurface("surfaceProfessor", decoration, c);
 //
 //  // Bezier example
 //  c.clear();
