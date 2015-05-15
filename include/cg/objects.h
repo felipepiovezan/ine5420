@@ -203,6 +203,9 @@ namespace CG {
 		std::vector<Curve>& curves(){return _curves;}
 		const std::vector<Curve>& curves() const {return _curves;}
 
+		Type type() const { return Type::SURFACE; }
+		std::string typeName() const { return "Surface"; }
+
 		ObjRef clone() const & {return ObjRef(new GSurface(*this));}
 		ObjRef clone() && {return ObjRef(new GSurface(std::move(*this)));}
 

@@ -138,12 +138,13 @@ namespace CG {
       case GObject::Type::SURFACE:
       {
     	GSurface &surface = *static_cast<GSurface*>(obj.get());
-        double steps = _window.width() / 1000.0;
-    	surface.regeneratePath(steps, steps);
+    	surface.regeneratePath(10, 10);
     	bool any = false;
-    	for(auto& curve : surface.curves())
+    	std::cout << "num curves = " << surface.curves().size() << std::endl;
+    	for(auto& curve : surface.curves()){
     		any |= _clippingStrategy.clip(curve, clippingRect);
-    	draw = any;
+    	}
+    //	draw = any;
         break;
       }
 	  }
