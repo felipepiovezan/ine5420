@@ -193,6 +193,7 @@ namespace CG {
 
 	GSurface::GSurface(SurfaceType type, const Coordinates& coords) : GObject(coords),
 			_geometry_matrix(type == SurfaceType::BEZIER? GSurface::bezier_matrix : GSurface::spline_matrix){
+		regeneratePath(10,10);
 	}
 
 	void GSurface::updateCoords(){
@@ -313,6 +314,7 @@ namespace CG {
 	}
 
 	void GSurface::regeneratePath(int ns, int nt){
+		  _curves.clear();
 		  updateCoords();
 		  double delta_s = 1.0 / (ns - 1);
 		  double delta_t = 1.0 / (nt - 1);
