@@ -103,8 +103,7 @@ namespace CG {
       return;
     }
 
-//    if(obj->type() != GObject::SURFACE)
-    	obj->applyPerspective(_window.d());
+  	obj->applyPerspective(_window.d());
 
 	  switch (obj->type()) {
       case GObject::Type::OBJECT:
@@ -129,29 +128,23 @@ namespace CG {
       case GObject::Type::BEZIER_CURVE:
       case GObject::Type::SPLINE_CURVE:
 		  {
-			Curve* curve = static_cast<Curve*> (obj.get());
-			double step = _window.width() / 1000.0;
-			curve->regeneratePath(step);
-			draw = _clippingStrategy.clip(*curve, clippingRect);
-			break;
+  			Curve* curve = static_cast<Curve*> (obj.get());
+  			double step = _window.width() / 1000.0;
+  			curve->regeneratePath(step);
+  			draw = _clippingStrategy.clip(*curve, clippingRect);
+  			break;
 		  }
 
       case GObject::Type::SURFACE:
 		  {
-			GSurface *surface = static_cast<GSurface*>(obj.get());
-			surface->regeneratePath(10, 10);
-			bool any = false;
-			for(auto& curve : surface->curves()){
-				std::cout << "before clipping \n";
-				for(const auto &coordinate : curve.getPath())
-					std::cout <<  coordinate.x << " " << coordinate.y << "  " << coordinate.z << std::endl;
-				any |= _clippingStrategy.clip(curve, clippingRect);
-				std::cout << "after clipping \n";
-				for(const auto &coordinate : curve.getPath())
-					std::cout <<  coordinate.x << " " << coordinate.y << "  " << coordinate.z << std::endl;
-			}
-			draw = any;
-			break;
+  			GSurface *surface = static_cast<GSurface*>(obj.get());
+  			surface->regeneratePath(50, 50);
+  			bool any = false;
+  			for(auto& curve : surface->curves()){
+  				any |= _clippingStrategy.clip(curve, clippingRect);
+  			}
+  			draw = any;
+  			break;
 		  }
 	  }
 

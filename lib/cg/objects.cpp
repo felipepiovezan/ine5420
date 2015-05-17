@@ -193,7 +193,7 @@ namespace CG {
 
 	GSurface::GSurface(SurfaceType type, const Coordinates& coords) : GObject(coords),
 			_geometry_matrix(type == SurfaceType::BEZIER? GSurface::bezier_matrix : GSurface::spline_matrix){
-		regeneratePath(10,10);
+		regeneratePath(10, 10);
 	}
 
 	void GSurface::updateCoords(){
@@ -295,9 +295,10 @@ namespace CG {
 	    x = x + Dx;  Dx = Dx + D2x;  D2x = D2x + D3x;
 	    y = y + Dy;  Dy = Dy + D2y;  D2y = D2y + D3y;
 	    z = z + Dz;  Dz = Dz + D2z;  D2z = D2z + D3z;
-		coords.push_back(Coordinate(x,y,z));
+			coords.push_back(Coordinate(x,y,z));
 	  }
-	  Curve c; c.setPath(coords);
+	  Curve c;
+	  c.setPath(coords);
 	  _curves.push_back(c);
 	}
 
@@ -314,12 +315,13 @@ namespace CG {
 	}
 
 	void GSurface::regeneratePath(int ns, int nt){
-		  _curves.clear();
 		  updateCoords();
+		  calculateCoefficients();
 		  double delta_s = 1.0 / (ns - 1);
 		  double delta_t = 1.0 / (nt - 1);
 		  createDeltaMatrices(delta_s, delta_t);
 		  createForwardDiffMatrices();
+		  _curves.clear();
 		  for (int i = 0; i < ns; i++) {
 			  makeCurve(nt,
 		                     _DDx[0][0], _DDx[0][1], _DDx[0][2], _DDx[0][3],
