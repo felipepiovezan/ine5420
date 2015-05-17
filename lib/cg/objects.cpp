@@ -337,9 +337,6 @@ namespace CG {
 			  		                     _DDz[0][0], _DDz[0][1], _DDz[0][2], _DDz[0][3] );
 		    UpdateForwardDiffMatrices();
 		  }
-
-		  std::cout << "num curves = " << _curves.size();
-		  std::cout << "num points on first curve = " << _curves[0].path.size();
 	}
 
 }
