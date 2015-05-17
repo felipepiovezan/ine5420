@@ -52,7 +52,7 @@ void CoordinatesPanel::addCoordinate(CG::Coordinate c) {
 }
 
 void CoordinatesPanel::on_addCord_clicked() {
-  addCoordinate(CG::Coordinate((clock() % 20) - 10, (clock() % 20) - 10, (clock() % 10) - 3));
+  addCoordinate(CG::Coordinate((clock() % 10), (clock() % 10), (clock() % 10)));
 }
 
 std::vector<CG::Coordinate> CoordinatesPanel::getCoordinates() {
