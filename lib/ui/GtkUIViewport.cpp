@@ -37,8 +37,15 @@ void GtkUIViewport::drawObject(const CG::GObject &obj) {
       break;
 
     case CG::GObject::Type::SURFACE:
-    	for(const CG::Curve& curve: ((const CG::GSurface&) obj).curves())
+    	const CG::GSurface& surface = (CG::GSurface&) obj;
+    	for(const CG::Curve& curve: surface.curves()){
+    		std::cout<< "draw begin" << std::endl;
+    		for(const auto &coordinate : curve.getPath()){
+    			std::cout <<  coordinate.x << " " << coordinate.y << "  " << coordinate.z << std::endl;
+    		}
+    		std::cout << "draw end " << curve.coordinates().size() << std::endl;
     		drawCurve(curve);
+    	}
     	break;
   }
 }

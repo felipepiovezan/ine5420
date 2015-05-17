@@ -297,7 +297,7 @@ namespace CG {
 		coords.push_back(Coordinate(x,y,z));
 	  }
 	  Curve c; c.setPath(coords);
-	  _curves.push_back(std::move(c));
+	  _curves.push_back(c);
 	}
 
 	void GSurface::UpdateForwardDiffMatrices(){
@@ -331,12 +331,15 @@ namespace CG {
 		  _DDy = Transformation(_DDy).transpose().m();
 		  _DDz = Transformation(_DDz).transpose().m();
 		  for (int i = 0; i < nt; i++) {
-			  makeCurve(nt,
+			  makeCurve(ns,
 			  		                     _DDx[0][0], _DDx[0][1], _DDx[0][2], _DDx[0][3],
 			  		                     _DDy[0][0], _DDy[0][1], _DDy[0][2], _DDy[0][3],
 			  		                     _DDz[0][0], _DDz[0][1], _DDz[0][2], _DDz[0][3] );
 		    UpdateForwardDiffMatrices();
 		  }
+
+		  std::cout << "num curves = " << _curves.size();
+		  std::cout << "num points on first curve = " << _curves[0].path.size();
 	}
 
 }

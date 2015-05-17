@@ -131,9 +131,10 @@ namespace CG {
 		/**
 		 * Must regenerate the parametric curve with t varying between 0 and 1 with defined step (for each sub-curve)
 		 */
-		virtual void regeneratePath(double step) {};
+		virtual void regeneratePath(double step) {std::cerr << "THIS METHOD SHOULD NEVER BE CALLED" << std::endl;};
 
-	 protected:
+
+	 public:
 	 	GObject::Coordinates path; // Holds generated coordinates of curve with specified precision
 	};
 

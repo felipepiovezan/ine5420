@@ -90,6 +90,7 @@ void MainWindow::init_examples() {
   c.emplace_back(1, 3, 4);
   c.emplace_back(2, 3, 4);
   _world->createBezierSurface("surfaceProfessor", decoration, c);
+
 //
 //  // Bezier example
 //  c.clear();
