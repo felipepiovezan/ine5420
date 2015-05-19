@@ -207,9 +207,7 @@ namespace CG {
 		Type type() const { return Type::SURFACE; }
 		std::string typeName() const { return "Surface"; }
 
-		ObjRef clone() const & {
-			std::cout<< " I have " << _curves.size() << "curves.\n My clone has " << (new GSurface(*this))->curves().size() << std::endl;
-			return ObjRef(new GSurface(*this));}
+		ObjRef clone() const & {return ObjRef(new GSurface(*this));}
 		ObjRef clone() && {return ObjRef(new GSurface(std::move(*this)));}
 
 	private:
